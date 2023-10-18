@@ -17,11 +17,12 @@ The course is being developed throughout the semester. Please check back for upd
 *Unfinished slides
 
 ## Setup
-
+Please see ["Setting-up-Python-environment.md"](https://github.com/christianvedels/News_and_Market_Sentiment_Analytics/blob/main/Setting-up-Python-environment.md)
 
 
 ## Contact information
 **The course is taught by:**  
 *Christian Vedel,*  
+*christian@sam.sdu.dk,*  
 *Assistant Proffessor of Economic History,*  
 *Department of Economics*  
