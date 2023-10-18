@@ -220,7 +220,7 @@ Reichenbach, Wittgenstein [(Wikipedia)](https://en.wikipedia.org/wiki/Vienna_Cir
 - A rule-based trick: **Word embeddings:** Queens, Kings, men, women (Firth, .red[1957] - But applied from .red[2000/2010s]; Roweis & Saul, .red[2000])
 - **Tranformers**: 'Attention Is All You Need' (Vaswani, .red[2017])
 - **Masked models**: E.g. BERT (Devlin et al, .red[2019])
-  + "He is a [MASK]" $\rightarrow$  "He is a [dog]"
+  + "He is a [MASK] dog." $\rightarrow$  "He is a [smelly] dog."
 - **GPT**: Radford & Narasimhan (.red[2018]): What if we make models really large? E.g. 175 billion parameters and train it on 499 Billion tokens (GPT-3)
 - **What is a good answer?**: ChatGPT etc. (.red[2022]) trains a sepperate neural network to tell good from bad answers - reinforcement learning.
 - **Hugginface**: Sharing of various transformer models.
@@ -254,35 +254,41 @@ Reichenbach, Wittgenstein [(Wikipedia)](https://en.wikipedia.org/wiki/Vienna_Cir
 ## References (1/2)
 
 .small123[
-Pearl, J. (2019). The seven tools of causal inference, with reflections on machine learning. Communications of the ACM, 62(3), 54–60. https://doi.org/10.1145/3241036
+Andersen, H. C. (1844). The Nightingale. https://www.hcandersen-homepage.dk/?page_id=2257
 
-Rosenblatt, F. (1958). The perceptron: A probabilistic model for information storage and organization in the brain. Psychological Review, 65(6), 386–408. https://doi.org/10.1037/h0042519
+Devlin, J., Chang, M.-W., Lee, K., & Toutanova, K. (2019). BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding. In Proceedings of the 2019 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies, Volume 1 (Long and Short Papers), pages 4171–4186, Minneapolis, Minnesota. Association for Computational Linguistics.
 
-Sepp Hochreiter; Jürgen Schmidhuber (1997). "Long short-term memory". Neural Computation. 9 (8): 1735–1780. doi:10.1162/neco.1997.9.8.1735.
+Descartes, R. (1637). Discourse on the Method of Rightly Conducting One's Reason and of Seeking Truth in the Sciences (J. Veitch, Trans.). EBook-No. 59. https://www.gutenberg.org/ebooks/59
 
 Firth, J.R. (1957). "A synopsis of linguistic theory 1930–1955". Studies in Linguistic Analysis: 1–32. Reprinted in F.R. Palmer, ed. (1968). Selected Papers of J.R. Firth 1952–1959. London: Longman.
 
-Jacob Devlin, Ming-Wei Chang, Kenton Lee, and Kristina Toutanova (2019) BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding. In Proceedings of the 2019 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies, Volume 1 (Long and Short Papers), pages 4171–4186, Minneapolis, Minnesota. Association for Computational Linguistics.
+Gurnee, W., & Tegmark, M. (2023). Language Models Represent Space and Time. https://arxiv.org/abs/2310.02207
 
-Ashish Vaswani, Noam Shazeer, Niki Parmar, Jakob Uszkoreit, Llion Jones, Aidan N. Gomez, Lukasz Kaiser, & Illia Polosukhin. (2023). Attention Is All You Need. https://arxiv.org/abs/1706.03762
+Pearl, J. (2019). The seven tools of causal inference, with reflections on machine learning. Communications of the ACM, 62(3), 54–60. https://doi.org/10.1145/3241036
 
-Roweis, Sam T., Saul, Lawrence K. (2000). "Nonlinear Dimensionality Reduction by Locally Linear Embedding". Science. 290 (5500): 2323–6. Bibcode:2000Sci...290.2323R. CiteSeerX 10.1.1.111.3313. doi:10.1126/science.290.5500.2323. PMID 11125150. S2CID 5987139.
+Radford, A., & Narasimhan, K. (2018). Improving Language Understanding by Generative Pre-Training. https://api.semanticscholar.org/CorpusID:49313245
 
-Searle, John (1980), "Minds, Brains and Programs", Behavioral and Brain Sciences, 3 (3): 417–457, doi:10.1017/S0140525X00005756
+Rosenblatt, F. (1958). The perceptron: A probabilistic model for information storage and organization in the brain. Psychological Review, 65(6), 386–408. https://doi.org/10.1037/h0042519
 ]
 
 
 ---
 ## References (2/2)
 .small123[
+Roweis, S. T., Saul, L. K. (2000). "Nonlinear Dimensionality Reduction by Locally Linear Embedding". Science, 290(5500), 2323–6. https://doi.org/10.1126/science.290.5500.2323
+
+Searle, J. (1980), "Minds, Brains and Programs", Behavioral and Brain Sciences, 3(3), 417–457. https://doi.org/10.1017/S0140525X00005756
+
+Vaswani, A., Shazeer, N., Parmar, N., Uszkoreit, J., Jones, L., Gomez, A. N., Kaiser, L., & Polosukhin, I. (2023). Attention Is All You Need. https://arxiv.org/abs/1706.03762
+
 Weizenbaum, J. (1966). ELIZA—a Computer Program for the Study of Natural Language Communication between Man and Machine. Commun. ACM, 9(1), 36–45. https://doi.org/10.1145/365153.365168
-
-Andersen, H. C. (1844). The Nightingale. https://www.hcandersen-homepage.dk/?page_id=2257
-
-Descartes, R. (1637). Discourse on the Method of Rightly Conducting One's Reason and of Seeking Truth in the Sciences (J. Veitch, Trans.). EBook-No. 59. https://www.gutenberg.org/ebooks/59
-
-Radford, A., & Narasimhan, K. (2018). Improving Language Understanding by Generative Pre-Training. https://api.semanticscholar.org/CorpusID:49313245
-
-Wes Gurnee, & Max Tegmark. (2023). Language Models Represent Space and Time. https://arxiv.org/abs/2310.02207
 ]
+
+
+
+
+
+
+
+
 
