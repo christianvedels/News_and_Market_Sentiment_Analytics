@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>News and Market Sentiment Analytics</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Christian Vedel,  Department of Economics   Email: christian-vs@sam.sdu.dk" />
+    <script src="libs/header-attrs-2.18/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+.title[
+# News and Market Sentiment Analytics
+]
+.subtitle[
+## Lecture 1: Context and setup
+]
+.author[
+### Christian Vedel,<br> Department of Economics<br><br> Email: <a href="mailto:christian-vs@sam.sdu.dk" class="email">christian-vs@sam.sdu.dk</a>
+]
+.date[
+### Updated 2023-10-18
+]
+
+---
+
+
+&lt;style type="text/css"&gt;
+.pull-left {
+  float: left;
+  width: 44%;
+}
+.pull-right {
+  float: right;
+  width: 44%;
+}
+.pull-right ~ p {
+  clear: both;
+}
+
+
+.pull-left-wide {
+  float: left;
+  width: 66%;
+}
+.pull-right-wide {
+  float: right;
+  width: 66%;
+}
+.pull-right-wide ~ p {
+  clear: both;
+}
+
+.pull-left-narrow {
+  float: left;
+  width: 30%;
+}
+.pull-right-narrow {
+  float: right;
+  width: 30%;
+}
+
+.small123 {
+  font-size: 0.80em;
+}
+
+.large123 {
+  font-size: 2em;
+}
+
+.red {
+  color: red
+}
+&lt;/style&gt;
+
+# Today's lecture
+.pull-left[
+- Course overview
+- How did we get to ChatGPT? (And what are the implications)
+- An example of some research I do using the techniques of the course
+]
+
+.pull-right[
+![Illustration](Figures/Chearth.jpg)
+]
+
+---
+# About me - Christian Vedel
+.pull-left[
+- Economic Historian - freshly minted PhD 
+- Research at the intersection between machine learning and economic history 
+- A genuine interest in language, linguistics and etymology  
+  + All though you will find my texts riddled with typos and grammatical errors 
+- Write me emails
+  + .red[christian-vs@sam.sdu.dk]
+- We can make office hours if you want it. 
+
+]
+
+.pull-right[
+![Thesis](Figures/Defence.jpeg)
+.small123[*PhD defence, 2023-09-25*]
+]
+
+---
+# Motivaiton for the course 
+
+.pull-left[
+- *It's all about information*
+- Text is data 
+- Applications: Business, Finance, Research, Software Development, Psychology, Linguistics, Business Intelligence, Policy Evaluation 
+- In a world of LLMs you want to understand what is happening behind the fancy interface 
+]
+
+.pull-right[
+![Counterexample](Figures/machine_learning.png)
+*Counter-example to what we will be doing*
+*(xkcd.com/1838)*
+]
+
+---
+# What to expect
+- **Structure of the lectures**
+  + 2x45 min. of lecture 
+  + 45 min. of coding challenge (or exercises) - *what do you prefer?*
+- **Book:**
+  + We will use NLTK Natural Language Processing with Python by Ewan Klein, Steven Bird and Edward Loper https://www.nltk.org/book/
+- **Exam:**
+  + One week project in January (intended to be challenging) 
+- **Course content:**
+  + Low level NLP tools + applications 
+  + Transformers `\(\rightarrow\)` Basics `\(\rightarrow\)` Transformers
+- **Course plan:**
+  + Continously updated on itslearning 
+- **Slides:**
+  + The night before the lecture 
+  + Will not cover everything I say. Please bring a notepad and a pen.
+- **Course description:**
+  + https://odin.sdu.dk/sitecore/index.php?a=searchfagbesk&amp;bbcourseid=N340076101-f-E23&amp;lang=en
+  
+---
+# The promise of AI
+.pull-left[
+- The idea of the mechanic 'nightingale' ([HC] Andersen, 1844)
+  + **Idea:** The mechanic version can never be as good because it is mechanic 
+  + Reaches far back e.g. Descartes (1637) writes about automata in 'Discourse and Methods' 
+- Can machines things? The idea of the Turing test (1950/60s)
+  + If machines can think, they will respond convincingly in conversation 
+
+]
+
+.pull-right[
+![Nightingale](Figures/The_mechanic_nightingale.png)
+*Generated in beta.dreamstudio.ai*
+]
+
+---
+# Early rule-based systems
+.pull-left[
+- We can model behaviour by *if then* statements 
+- ELIZA (Weizenbaum, 1966):
+  + The earliest convincing chatbot
+  + Looks for keywords and otherwise writes something generic or repeats something from earlier
+- 1980's was the peak of rule based systems 
+  + Based on linguistic theory
+  + Grammar 
+  + Morphology
+  + Semantics
+]
+
+.pull-right[
+![ELIZA](Figures/ELIZA_conversation.png)
+*ELIZA Conversation (Wikimedia Commons)* 
+![Semantic](Figures/Semantic_Net.svg)
+*Semantic net*
+]
+
+---
+# The philosophical/linguistic problem
+.pull-left[
+- Can we distinguish reasoning from immitation? 
+  + Chinese room problem (Seale, 1980) 
+- What is the nature of language? 
+  + Innateness vs. Empiricism (Chomsky vs. Vienna circle*)
+  + Innateness `\(\rightarrow\)` rule-based NLP 
+  + Empiricism `\(\rightarrow\)` 'empirical' (learning) methods 
+- ChatGPT is a big score for the Empiricist hypothesis
+]
+
+.footnote[
+\* E.g. (of names you might know) Gödel, Popper, 
+Reichenbach, Wittgenstein [(Wikipedia)](https://en.wikipedia.org/wiki/Vienna_Circle#Overview_of_the_members_of_the_Vienna_Circle)
+]
+
+.pull-right[
+![Lightbulb](Figures/Light_bulb.jpg)
+]
+
+---
+# 90s computer power - 60s maths
+.pull-left[
+- **Empiricist problem**: Statistics alone can only predict - not understand structure. Mathematical limitation (Pearl, 2019)
+- But we can phrase language problems as predictions problems 
+- Black box circumvents innateness 
+- We just need to estimate: `$$P(word|\{text\},\theta)$$`
+- E.g. "He is a [word]"
+- Choose `\(\theta\)` to minimize predicition errors
+- Could be based on e.g. a [universal function approximator](https://en.wikipedia.org/wiki/Universal_approximation_theorem) like a neural network
+
+]
+
+.pull-right[
+![DancingBaby](Figures/giphy.gif)   
+.small123[*Crazy realistic 90s dancing baby*]
+
+![NN](Figures/Architecture_small.png)
+.small123[*Neural network*]
+
+]
+
+
+---
+# History of Neural Networks for NLP 
+.pull-left-wide[
+- **'Perceptron'** neural network (Rosenblatt, .red[1958])
+- **Long-Short-term memory** remembers and forgets previous words and letters (Hochreiter, Schmidhuber, .red[1997]) 
+- A rule-based trick: **Word embeddings:** Queens, Kings, men, women (Firth, .red[1957] - But applied from .red[2000/2010s]; Roweis &amp; Saul, .red[2000])
+- **Tranformers**: 'Attention Is All You Need' (Vaswani, .red[2017])
+- **Masked models**: E.g. BERT (Devlin et al, .red[2019])
+  + "He is a [MASK]" `\(\rightarrow\)`  "He is a [dog]"
+- **GPT**: Radford &amp; Narasimhan (.red[2018]): What if we make models really large? E.g. 175 billion parameters and train it on 499 Billion tokens (GPT-3)
+- **What is a good answer?**: ChatGPT etc. (.red[2022]) trains a sepperate neural network to tell good from bad answers - reinforcement learning.
+- **Hugginface**: Sharing of various transformer models.
+]
+
+.pull-right-narrow[
+![Trees](Figures/Trees.jpg)
+]
+
+---
+# Open questions
+.pull-left[
+- Do language models think? 
+- What is consciousness? 
+- Should LLMs be allowed for exams?
+  + (Please do!) 
+
+**What do you think?**
+]
+
+.pull-right[
+**Evidence of structural learning**
+![GT2023_1](Figures/Gurnee_Tegmark_2023_1.PNG)
+![GT2023_2](Figures/Gurnee_Tegmark_2023_2.PNG)
+.small123[
+*Figure 1 from Gurnee &amp; Tegmark (2023)*
+]
+]
+
+---
+## References (1/2)
+
+.small123[
+Pearl, J. (2019). The seven tools of causal inference, with reflections on machine learning. Communications of the ACM, 62(3), 54–60. https://doi.org/10.1145/3241036
+
+Rosenblatt, F. (1958). The perceptron: A probabilistic model for information storage and organization in the brain. Psychological Review, 65(6), 386–408. https://doi.org/10.1037/h0042519
+
+Sepp Hochreiter; Jürgen Schmidhuber (1997). "Long short-term memory". Neural Computation. 9 (8): 1735–1780. doi:10.1162/neco.1997.9.8.1735.
+
+Firth, J.R. (1957). "A synopsis of linguistic theory 1930–1955". Studies in Linguistic Analysis: 1–32. Reprinted in F.R. Palmer, ed. (1968). Selected Papers of J.R. Firth 1952–1959. London: Longman.
+
+Jacob Devlin, Ming-Wei Chang, Kenton Lee, and Kristina Toutanova (2019) BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding. In Proceedings of the 2019 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies, Volume 1 (Long and Short Papers), pages 4171–4186, Minneapolis, Minnesota. Association for Computational Linguistics.
+
+Ashish Vaswani, Noam Shazeer, Niki Parmar, Jakob Uszkoreit, Llion Jones, Aidan N. Gomez, Lukasz Kaiser, &amp; Illia Polosukhin. (2023). Attention Is All You Need. https://arxiv.org/abs/1706.03762
+
+Roweis, Sam T., Saul, Lawrence K. (2000). "Nonlinear Dimensionality Reduction by Locally Linear Embedding". Science. 290 (5500): 2323–6. Bibcode:2000Sci...290.2323R. CiteSeerX 10.1.1.111.3313. doi:10.1126/science.290.5500.2323. PMID 11125150. S2CID 5987139.
+
+Searle, John (1980), "Minds, Brains and Programs", Behavioral and Brain Sciences, 3 (3): 417–457, doi:10.1017/S0140525X00005756
+]
+
+
+---
+## References (2/2)
+.small123[
+Weizenbaum, J. (1966). ELIZA—a Computer Program for the Study of Natural Language Communication between Man and Machine. Commun. ACM, 9(1), 36–45. https://doi.org/10.1145/365153.365168
+
+Andersen, H. C. (1844). The Nightingale. https://www.hcandersen-homepage.dk/?page_id=2257
+
+Descartes, R. (1637). Discourse on the Method of Rightly Conducting One's Reason and of Seeking Truth in the Sciences (J. Veitch, Trans.). EBook-No. 59. https://www.gutenberg.org/ebooks/59
+
+Radford, A., &amp; Narasimhan, K. (2018). Improving Language Understanding by Generative Pre-Training. https://api.semanticscholar.org/CorpusID:49313245
+
+Wes Gurnee, &amp; Max Tegmark. (2023). Language Models Represent Space and Time. https://arxiv.org/abs/2310.02207
+]
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+<style>
+.logo {
+  background-image: url(SDU_logo.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+  position: absolute;
+  top: 1em;
+  right: 1em;
+  width: 125px;
+  height: 60px;
+  z-index: 0;
+}
+</style>
+
+<script>
+document
+  .querySelectorAll(
+    '.remark-slide-content' +
+    ':not(.title-slide)' +
+    // insert more to hide here
+    ':not(.inverse)' +
+    ':not(.hide-logo)'
+  )
+  .forEach(el => {
+    el.innerHTML += '<div class="logo"></div>';
+  });
+</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
