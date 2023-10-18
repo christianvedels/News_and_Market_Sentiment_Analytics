@@ -129,7 +129,9 @@ editor_options:
   + The night before the lecture 
   + Will not cover everything I say. Please bring a notepad and a pen.
 - **Course description:**
-  + https://odin.sdu.dk/sitecore/index.php?a=searchfagbesk&bbcourseid=N340076101-f-E23&lang=en
+  + https://odin.sdu.dk/sitecore/index.php?a=searchfagbesk&bbcourseid=N340076101-f-E23&lang=en 
+  + Course plan on itslearning
+  + [GitHub](https://github.com/christianvedels/News_and_Market_Sentiment_Analytics)
   
 ---
 # The promise of AI
