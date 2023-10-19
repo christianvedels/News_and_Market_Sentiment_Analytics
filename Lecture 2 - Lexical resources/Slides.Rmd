@@ -18,6 +18,18 @@ editor_options:
   chunk_output_type: console
 ---
 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(eval=TRUE, include=TRUE, cache=TRUE)
+library(reticulate)
+use_condaenv("sentimentF23")
+```
+
+```{python include=FALSE}
+import nltk
+```
+
+
+
 ```{css echo=FALSE}
 .pull-left {
   float: left;
@@ -66,6 +78,9 @@ editor_options:
 }
 ```
 
+.large123[.red[THESE SLIDES ARE UNFINISHED]]
+---
+
 # Last time
 .pull-left[
 - Course overview
@@ -80,14 +95,69 @@ editor_options:
 ---
 # Today's lecture
 .pull-left[
-- Course overview
-- How did we get to ChatGPT? (And what are the implications)
-- An example of some research I do using the techniques of the course
+- Basic workings of NLTK
+- Lexical Resources
+- Finn Årup Nielsen 
+- Coding challenge: Working with Text Data
 ]
+
+---
+# A basic problem
+Consider the headline 
+
+> "Novo Nordisk reported a modest increase in earnings, but analysts remain cautious."
+
+- "the," "a," and "in" are stopwords that don't provide financial context
+- "earnings" and "cautious" are important terms for stock prediction 
+- Removing stopwords helps focus on the financially relevant content
+
+Noise in $\rightarrow$ noise out  
+Clean data in $\rightarrow$ clean results out
+
+
+---
+# Lexical resources
+.pull-left-narrow[
+- Why do we have to do the work, if someone has already done it? 
+
+]
+
+.pull-right-wide[
+#### Stopwords
+```{python}
+from nltk.corpus import stopwords
+stopwords.words('english')
+```
+
+#### Computing conent fraction
+
+```{python}
+from nltk.corpus import gutenberg
+def content_fraction(text):
+  stopwords = nltk.corpus.stopwords.words('english')
+  content = [w for w in text if w.lower() not in stopwords]
+  return len(content) / len(text)
+emma = gutenberg.words("austen-emma.txt")
+content_fraction(emma)
+```
+
+
+]
+
+---
+# Understanding how lexical resources can be used for text data transformation
+
+---
+# AFINN package
+https://github.com/fnielsen/afinn
 
 .pull-right[
-
+![Finn](https://avatars.githubusercontent.com/u/484028?v=4)
+*https://github.com/fnielsen*
 ]
+
+---
+# Applications
 
 ---
 ## References (1/2)

@@ -22,10 +22,16 @@ class: center, middle, inverse, title-slide
 ### Christian Vedel,<br> Department of Economics<br><br> Email: <a href="mailto:christian-vs@sam.sdu.dk" class="email">christian-vs@sam.sdu.dk</a>
 ]
 .date[
-### Updated 2023-10-18
+### Updated 2023-10-19
 ]
 
 ---
+
+
+
+
+
+
 
 
 &lt;style type="text/css"&gt;
@@ -76,6 +82,9 @@ class: center, middle, inverse, title-slide
 }
 &lt;/style&gt;
 
+.large123[.red[THESE SLIDES ARE UNFINISHED]]
+---
+
 # Last time
 .pull-left[
 - Course overview
@@ -90,14 +99,79 @@ class: center, middle, inverse, title-slide
 ---
 # Today's lecture
 .pull-left[
-- Course overview
-- How did we get to ChatGPT? (And what are the implications)
-- An example of some research I do using the techniques of the course
+- Basic workings of NLTK
+- Lexical Resources
+- Finn Årup Nielsen 
+- Coding challenge: Working with Text Data
 ]
+
+---
+# A basic problem
+Consider the headline 
+
+&gt; "Novo Nordisk reported a modest increase in earnings, but analysts remain cautious."
+
+- "the," "a," and "in" are stopwords that don't provide financial context
+- "earnings" and "cautious" are important terms for stock prediction 
+- Removing stopwords helps focus on the financially relevant content
+
+Noise in `\(\rightarrow\)` noise out  
+Clean data in `\(\rightarrow\)` clean results out
+
+
+---
+# Lexical resources
+.pull-left-narrow[
+- Why do we have to do the work, if someone has already done it? 
+
+]
+
+.pull-right-wide[
+#### Stopwords
+
+```python
+from nltk.corpus import stopwords
+stopwords.words('english')
+```
+
+```
+## ['i', 'me', 'my', 'myself', 'we', 'our', 'ours', 'ourselves', 'you', "you're", "you've", "you'll", "you'd", 'your', 'yours', 'yourself', 'yourselves', 'he', 'him', 'his', 'himself', 'she', "she's", 'her', 'hers', 'herself', 'it', "it's", 'its', 'itself', 'they', 'them', 'their', 'theirs', 'themselves', 'what', 'which', 'who', 'whom', 'this', 'that', "that'll", 'these', 'those', 'am', 'is', 'are', 'was', 'were', 'be', 'been', 'being', 'have', 'has', 'had', 'having', 'do', 'does', 'did', 'doing', 'a', 'an', 'the', 'and', 'but', 'if', 'or', 'because', 'as', 'until', 'while', 'of', 'at', 'by', 'for', 'with', 'about', 'against', 'between', 'into', 'through', 'during', 'before', 'after', 'above', 'below', 'to', 'from', 'up', 'down', 'in', 'out', 'on', 'off', 'over', 'under', 'again', 'further', 'then', 'once', 'here', 'there', 'when', 'where', 'why', 'how', 'all', 'any', 'both', 'each', 'few', 'more', 'most', 'other', 'some', 'such', 'no', 'nor', 'not', 'only', 'own', 'same', 'so', 'than', 'too', 'very', 's', 't', 'can', 'will', 'just', 'don', "don't", 'should', "should've", 'now', 'd', 'll', 'm', 'o', 're', 've', 'y', 'ain', 'aren', "aren't", 'couldn', "couldn't", 'didn', "didn't", 'doesn', "doesn't", 'hadn', "hadn't", 'hasn', "hasn't", 'haven', "haven't", 'isn', "isn't", 'ma', 'mightn', "mightn't", 'mustn', "mustn't", 'needn', "needn't", 'shan', "shan't", 'shouldn', "shouldn't", 'wasn', "wasn't", 'weren', "weren't", 'won', "won't", 'wouldn', "wouldn't"]
+```
+
+#### Computing conent fraction
+
+
+```python
+from nltk.corpus import gutenberg
+def content_fraction(text):
+  stopwords = nltk.corpus.stopwords.words('english')
+  content = [w for w in text if w.lower() not in stopwords]
+  return len(content) / len(text)
+emma = gutenberg.words("austen-emma.txt")
+content_fraction(emma)
+```
+
+```
+## 0.5403399730807007
+```
+
+
+]
+
+---
+# Understanding how lexical resources can be used for text data transformation
+
+---
+# AFINN package
+https://github.com/fnielsen/afinn
 
 .pull-right[
-
+![Finn](https://avatars.githubusercontent.com/u/484028?v=4)
+*https://github.com/fnielsen*
 ]
+
+---
+# Applications
 
 ---
 ## References (1/2)
