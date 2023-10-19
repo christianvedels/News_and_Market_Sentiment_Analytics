@@ -305,6 +305,10 @@ Reichenbach, Wittgenstein [(Wikipedia)](https://en.wikipedia.org/wiki/Vienna_Cir
 ---
 # Setup
 .pull-left[
+- A lot of nltk 
+- Also spaCy and transformers 
+- Resource: [Natural Language Processing with spaCy & Python - Course for Beginners](https://www.youtube.com/watch?v=dIUTsFT2MeQ) + [spacy.io/usage](https://spacy.io/usage)
+
 #### Conda environment
 
 ```{r eval=FALSE, include=TRUE}
@@ -315,20 +319,21 @@ conda install nltk
 conda install numpy matplotlib pandas seaborn requests
 ```
 
+]
+
+.pull-right[
+
+#### NLTK data
+Download everything with the following python code    
+```{r eval=FALSE, include=TRUE}
+import nltk
+nltk.download()
+```
+
 #### Install pytorch to run on cuda 11.8
 ```{r eval=FALSE, include=TRUE}
 pip install transformers
 conda install pytorch torchvision torchaudio pytorch-cuda=11.8 -c pytorch -c nvidia
-```
-
-]
-
-.pull-right[
-#### NLTK data
-We will use nltk data extensively. Download everything with the following python code    
-```{r eval=FALSE, include=TRUE}
-import nltk
-nltk.download()
 ```
  
 ]
