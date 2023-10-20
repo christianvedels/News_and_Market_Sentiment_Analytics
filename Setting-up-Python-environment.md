@@ -13,7 +13,7 @@ There are plenty of guides online for how to install this: https://youtu.be/-sNX
 `conda activate sentimentF23`  
 `conda install spyder`  
 `conda install nltk`  
-`conda install numpy matplotlib pandas seaborn requests`
+`conda install numpy matplotlib pandas seaborn requests scikit-learn statsmodels`
 `pip install yfinance`
 `pip install afinn`
 `pip install newsapi-python`
