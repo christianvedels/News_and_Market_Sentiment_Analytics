@@ -366,7 +366,9 @@ conda install pytorch torchvision torchaudio pytorch-cuda=11.8 -c pytorch -c nvi
 # Resources
 - [Natural Language Processing with spaCy & Python - Course for Beginners](https://www.youtube.com/watch?v=dIUTsFT2MeQ)
 
-- [Natural Language Processing With Python and NLTK](https://youtu.be/FLZvOKSCkxY?si=6ZgFsh3P551EWVRC)
+- [Natural Language Processing With Python and **NLTK**](https://youtu.be/FLZvOKSCkxY?si=6ZgFsh3P551EWVRC)
+
+- [Complete Natural Language Processing (NLP) Tutorial in Python! (with examples)](https://youtu.be/M7SWr5xObkA?si=b40Uw97oX5Epy6vf)
 
 ---
 ## References (1/2)
