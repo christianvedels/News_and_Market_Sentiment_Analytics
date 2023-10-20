@@ -37,11 +37,11 @@ class: center, middle, inverse, title-slide
 &lt;style type="text/css"&gt;
 .pull-left {
   float: left;
-  width: 44%;
+  width: 48%;
 }
 .pull-right {
   float: right;
-  width: 44%;
+  width: 48%;
 }
 .pull-right ~ p {
   clear: both;
@@ -233,6 +233,25 @@ for original, stemmed in zip(words, stemmed_words):
 
 ---
 # Lemmatization
+
+```python
+from nltk.stem import WordNetLemmatizer
+lemmatizer = WordNetLemmatizer()
+lemmatizer.lemmatize("rocks")
+```
+
+```
+## 'rock'
+```
+
+```python
+lemmatizer.lemmatize("corpora")
+```
+
+```
+## 'corpus'
+```
+
 
 ---
 ## References (1/2)

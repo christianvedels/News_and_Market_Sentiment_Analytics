@@ -74,8 +74,11 @@ y = df["log_Frequency"]
 # Add a constant (intercept) to the X variable
 X = sm.add_constant(X)
 
-# Create and fit the OLS (Ordinary Least Squares) regression model
-model = sm.OLS(y, X).fit()
+# Calculate the weights as the inverse of rank (more information)
+weights = 1.0 / (df.index+1)
+
+# Create and fit the WLS (Weighted Least Squares) regression
+model = sm.WLS(y, X, weights).fit()
 
 # Print the regression summary table
 print(model.summary())
@@ -94,6 +97,27 @@ plt.scatter(X[:, 1], residuals)  # X[:, 1] contains the original X values (exclu
 plt.xlabel("log(Rank)")
 plt.ylabel("Residuals")
 plt.title("log(Rank) versus Residuals")
+plt.show()
+
+# %% Plot
+# Create a scatter plot
+sns.scatterplot(x='log_Index', y='log_Frequency', data=df, label='Data Points')
+
+# Calculate the regression line using the estimated coefficients
+X_values = df['log_Index']
+y_pred = model.params['const'] + model.params['x1'] * X_values
+data0 = pd.DataFrame({"X_values": X_values, "y_pred": y_pred})
+
+# Plot the regression line
+sns.lineplot(data = data0, x = "X_values", y = "y_pred", label='Regression Line')
+
+# Add labels and a title
+plt.xlabel('X (log_Index)')
+plt.ylabel('Y (log_Frequency)')
+plt.title('Seaborn Regression Plot')
+
+# Show the plot
+plt.legend()
 plt.show()
 
 
