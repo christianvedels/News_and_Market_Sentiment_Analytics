@@ -157,7 +157,58 @@ https://github.com/fnielsen/afinn
 ]
 
 ---
-# Applications
+# A very simple sentiment analysis
+.pull-left[
+- What if we just count positive/negative words? 
+
+### Advatages 
+- You can explain this to anyone 
+- Works supprisingly well 
+
+### Disadvantages 
+- Cannot understand context 
+  + "Bull" is positive in finance
+  + "Bull" is neutral/negative in everyday conversation
+- Typos and spelling mistakes are unhandled 
+]
+
+.pull-left[
+
+]
+
+---
+# Trick 1: Stopwords 
+
+---
+# Tricks 1: Stemming 
+.small123[
+.pull-left[
+```{python}
+import nltk
+from nltk.stem import PorterStemmer
+
+# Initialize the Porter Stemmer
+stemmer = PorterStemmer()
+
+# Example words for stemming
+words = ["jumping", "jumps", "jumped", "jumper", "jumpingly"]
+
+ # Stem the words
+stemmed_words = [stemmer.stem(word) for word in words]
+```
+]
+
+.pull-right[
+```{python}
+# Print the stemmed words
+for original, stemmed in zip(words, stemmed_words):
+    print(f"{original} -> {stemmed}")
+```
+]
+]
+
+---
+# Lemmatization
 
 ---
 ## References (1/2)
