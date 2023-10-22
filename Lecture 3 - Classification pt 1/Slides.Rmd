@@ -66,6 +66,8 @@ editor_options:
 }
 ```
 
+.large123[.red[THESE SLIDES ARE UNFINISHED]]
+---
 # Last time
 .pull-left[
 - Course overview
@@ -86,6 +88,11 @@ editor_options:
 .pull-right[
 
 ]
+
+---
+# Classification of text
+Spacy named entity recognition
+https://youtu.be/dIUTsFT2MeQ?si=LHpFH3-eWAa2VupT&t=2704
 
 ---
 ## References (1/2)
