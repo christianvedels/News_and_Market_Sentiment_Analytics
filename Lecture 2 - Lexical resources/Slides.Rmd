@@ -216,6 +216,31 @@ lemmatizer.lemmatize("rocks")
 lemmatizer.lemmatize("corpora")
 ```
 
+---
+class: inverse, middle
+# Coding challenge: 
+## The Zipf Mystery
+[Click here to submit](https://forms.gle/WmSEkZn8WH1fiDjE6 )
+
+```{r echo=FALSE}
+library(countdown)
+source("../000_Misc_functions_for_slides.R")
+vertical = 0.35
+dist = 0.15
+
+countdown(
+  minutes = 10,
+  seconds = 0,
+  right = 0,
+  top = ToPct(vertical)
+)
+countdown(
+  minutes = 25,
+  seconds = 0,
+  right = 0,
+  top = ToPct(vertical + dist)
+)
+```
 
 ---
 ## References (1/2)
