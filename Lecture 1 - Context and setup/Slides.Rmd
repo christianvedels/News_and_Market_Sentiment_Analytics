@@ -72,6 +72,10 @@ editor_options:
 .orange {
   color: orange
 }
+
+.green {
+  color: green
+}
 ```
 
 # Today's lecture
@@ -365,6 +369,53 @@ conda install pytorch torchvision torchaudio pytorch-cuda=11.8 -c pytorch -c nvi
 ]
 
 ---
+# How to deal with paths
+
+.pull-left-narrow[
+- We want to write code which runs out of the box on any system
+- We don't want to edit long paths. We want it to work.  
+
+]
+
+--
+
+.pull-right-wide[
+.small123[
+.red[**Bad:**] 
+```{python eval=FALSE}
+pd.read_csv('C:/Users/Christian/Dropbox/Teaching/F23_News_and_Market_Sentiment_Analytics/2023/News_and_Market_Sentiment_Analytics/Lecture_2_-_Lexical_resources/Data/Novo_Nordisk_News.csv')
+``` 
+
+.green[**Good:**]
+```{python eval=FALSE}
+pd.read_csv('Data/Novo_Nordisk_News.csv')
+``` 
+
+]
+]
+
+--
+
+### Solution?
+
+--
+
+- Make everything relative to where your code is by including this in the beginning of all scripts*:
+.small123[
+```{python eval=FALSE}
+import os
+script_directory = os.path.dirname(os.path.abspath(__file__))
+os.chdir(script_directory)
+``` 
+
+
+]
+
+.footnote[
+\* Please share a more elegant solution if you have one
+]
+
+---
 # Before next time
 .pull-left[
 - Read chapter 2 and 3
@@ -390,6 +441,14 @@ conda install pytorch torchvision torchaudio pytorch-cuda=11.8 -c pytorch -c nvi
 - [Natural Language Processing With Python and **NLTK**](https://youtu.be/FLZvOKSCkxY?si=6ZgFsh3P551EWVRC)
 
 - [Complete Natural Language Processing (NLP) Tutorial in Python! (with examples)](https://youtu.be/M7SWr5xObkA?si=b40Uw97oX5Epy6vf)
+
+### Project directory
+- Think about how you structure your directory for this course (and in general)
+- Examples: [A perfect storm](https://github.com/christianvedels/A_perfect_storm_replication), [This course](https://github.com/christianvedels/News_and_Market_Sentiment_Analytics/)
+
+- *More advanced approaches*  
++ [Microsoft Team Data Science Project](https://learn.microsoft.com/en-us/azure/architecture/data-science-process/overview),  [Cookiecutter](https://drivendata.github.io/cookiecutter-data-science/), [Cookiecutter youtube video](https://youtu.be/5VjuG5lliYU?si=oci0h0gNiTWciQ_I)
+
 
 ---
 class: inverse, middle
