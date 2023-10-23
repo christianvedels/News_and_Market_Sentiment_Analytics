@@ -103,7 +103,7 @@ editor_options:
 .pull-right[
 ![Counterexample](Figures/machine_learning.png)
 *Counter-example to what we will be doing*
-*(xkcd.com/1838)*
+*[[xkcd.com/1838]](xkcd.com/1838)*
 ]
 
 ---
