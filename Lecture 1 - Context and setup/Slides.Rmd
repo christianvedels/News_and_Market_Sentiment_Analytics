@@ -308,7 +308,7 @@ Reichenbach, Wittgenstein [(Wikipedia)](https://en.wikipedia.org/wiki/Vienna_Cir
 ![GT2023_1](Figures/Gurnee_Tegmark_2023_1.PNG)
 ![GT2023_2](Figures/Gurnee_Tegmark_2023_2.PNG)
 .small123[
-*Figure 1 from Gurnee & Tegmark (2023)*
+*Figure 1 from [Gurnee & Tegmark (2023)](https://arxiv.org/abs/2310.02207)*
 ]
 ]
 
