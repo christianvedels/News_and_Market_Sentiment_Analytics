@@ -447,7 +447,7 @@ os.chdir(script_directory)
 - Examples: [A perfect storm](https://github.com/christianvedels/A_perfect_storm_replication), [This course](https://github.com/christianvedels/News_and_Market_Sentiment_Analytics/)
 
 - *More advanced approaches*  
-+ [Microsoft Team Data Science Project](https://learn.microsoft.com/en-us/azure/architecture/data-science-process/overview),  [Cookiecutter](https://drivendata.github.io/cookiecutter-data-science/), [Cookiecutter youtube video](https://youtu.be/5VjuG5lliYU?si=oci0h0gNiTWciQ_I)
+  + [Microsoft Team Data Science Project](https://learn.microsoft.com/en-us/azure/architecture/data-science-process/overview),  [Cookiecutter](https://drivendata.github.io/cookiecutter-data-science/), [Cookiecutter youtube video](https://youtu.be/5VjuG5lliYU?si=oci0h0gNiTWciQ_I)
 
 
 ---
