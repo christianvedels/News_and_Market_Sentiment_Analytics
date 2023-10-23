@@ -68,6 +68,10 @@ editor_options:
 .red {
   color: red
 }
+
+.orange {
+  color: orange
+}
 ```
 
 # Today's lecture
@@ -106,7 +110,7 @@ editor_options:
 - A genuine interest in language, linguistics and etymology  
   + All though you will find my texts riddled with typos and grammatical errors 
 - Write me emails
-  + .red[christian-vs@sam.sdu.dk]
+  + .orange[christian-vs@sam.sdu.dk]
 - We can make office hours if you want it. 
 
 [Who are you? https://forms.gle/4T3Cjr42jwbx6vHHA](https://forms.gle/4T3Cjr42jwbx6vHHA)
@@ -268,14 +272,14 @@ Reichenbach, Wittgenstein [(Wikipedia)](https://en.wikipedia.org/wiki/Vienna_Cir
 ---
 # History of Neural Networks for NLP 
 .pull-left-wide[
-- **'Perceptron'** neural network (Rosenblatt, .red[1958])
-- **Long-Short-term memory** remembers and forgets previous words and letters (Hochreiter, Schmidhuber, .red[1997]) 
-- A rule-based trick: **Word embeddings:** Queens, Kings, men, women (Firth, .red[1957] - But applied from .red[2000/2010s]; Roweis & Saul, .red[2000])
-- **Tranformers**: 'Attention Is All You Need' (Vaswani, .red[2017])
-- **Masked models**: E.g. BERT (Devlin et al, .red[2019])
+- **'Perceptron'** neural network (Rosenblatt, .orange[1958])
+- **Long-Short-term memory** remembers and forgets previous words and letters (Hochreiter, Schmidhuber, .orange[1997]) 
+- A rule-based trick: **Word embeddings:** Queens, Kings, men, women (Firth, .orange[1957] - But applied from .orange[2000/2010s]; Roweis & Saul, .orange[2000])
+- **Tranformers**: 'Attention Is All You Need' (Vaswani, .orange[2017])
+- **Masked models**: E.g. BERT (Devlin et al, .orange[2019])
   + "He is a [MASK] dog." $\rightarrow$  "He is a [smelly] dog."
-- **GPT**: Radford & Narasimhan (.red[2018]): What if we make models really large? E.g. 175 billion parameters and train it on 499 Billion tokens (GPT-3)
-- **What is a good answer?**: ChatGPT etc. (.red[2022]) trains a sepperate neural network to tell good from bad answers - reinforcement learning.
+- **GPT**: Radford & Narasimhan (.orange[2018]): What if we make models really large? E.g. 175 billion parameters and train it on 499 Billion tokens (GPT-3)
+- **What is a good answer?**: ChatGPT etc. (.orange[2022]) trains a sepperate neural network to tell good from bad answers - reinforcement learning.
 - **Hugginface**: Sharing of various transformer models.
 ]
 
@@ -303,6 +307,21 @@ Reichenbach, Wittgenstein [(Wikipedia)](https://en.wikipedia.org/wiki/Vienna_Cir
 *Figure 1 from Gurnee & Tegmark (2023)*
 ]
 ]
+
+---
+class: inverse, middle
+# [Breaking the HISCO Barrier: AI and Occupational Data Standardization*](https://raw.githack.com/christianvedels/HISCO_Slides/main/230908-Slides-HISCO.html) 
+### *An example of the kind of research I do with things you learn about in this course*
+
+.footnote[
+\* *it's a link, that you can click!*
+]
+
+
+---
+class: inverse, middle, center
+
+# Miscellaneous 
 
 ---
 # Setup
