@@ -90,10 +90,10 @@ editor_options:
 
 .pull-left[
 - *It's all about information*
-- Text is data 
+- Text is data. Data is text. 
 - Applications: Business, Finance, Research, Software Development, Psychology, Linguistics, Business Intelligence, Policy Evaluation 
 - In a world of LLMs you want to understand what is happening behind the fancy interface 
-- https://www.nature.com/articles/s41593-023-01304-9
+- The techniques live inside crazy sci-fi technologies, that you can learn. E.g. [literal mind reading](https://www.nature.com/articles/s41593-023-01304-9)
 ]
 
 .pull-right[
