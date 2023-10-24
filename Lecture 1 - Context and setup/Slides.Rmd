@@ -151,6 +151,7 @@ editor_options:
 ---
 # Preperation
 .pull-left[
+- Read other literature assigned. 
 - Read assigned NLTK chapter. 
 - Run code line by line while doing so.
 - Make sure you understand what is happening. 
@@ -418,7 +419,7 @@ os.chdir(script_directory)
 ---
 # Before next time
 .pull-left[
-- Read chapter 2 and 3
+- Read [chapter 2 and 3](https://www.nltk.org/book/)
 
 
 - Run code from the chapters
