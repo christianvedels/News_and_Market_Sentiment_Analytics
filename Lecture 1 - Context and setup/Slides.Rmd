@@ -139,13 +139,13 @@ editor_options:
   + Low level NLP tools + applications 
   + Transformers $\rightarrow$ Basics $\rightarrow$ Transformers
 - **Course plan:**
-  + Continously updated on itslearning 
+  + Continously updated
 - **Slides:**
   + The night before the lecture 
   + Will not cover everything I say. Please bring a notepad and a pen.
 - **Course description:**
   + https://odin.sdu.dk/sitecore/index.php?a=searchfagbesk&bbcourseid=N340076101-f-E23&lang=en 
-  + Course plan on itslearning
+  + Course plan
   + [GitHub](https://github.com/christianvedels/News_and_Market_Sentiment_Analytics)
   
 ---
@@ -199,7 +199,7 @@ class: inverse, middle, center
 - The idea of the mechanic 'nightingale' ([HC] Andersen, 1844)
   + **Idea:** The mechanic version can never be as good because it is mechanic 
   + Reaches far back e.g. Descartes (1637) writes about automata in 'Discourse and Methods' 
-- Can machines things? The idea of the Turing test (1950/60s)
+- Can machines think? The idea of the Turing test (1950/60s)
   + If machines can think, they will respond convincingly in conversation 
 
 ]
