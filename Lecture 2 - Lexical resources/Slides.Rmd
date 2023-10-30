@@ -78,8 +78,6 @@ import nltk
 }
 ```
 
-.large123[.red[THESE SLIDES ARE UNFINISHED]]
----
 
 # Last time
 .pull-left[
@@ -95,9 +93,9 @@ import nltk
 ---
 # Today's lecture
 .pull-left[
-- Basic workings of NLTK
 - Lexical Resources
 - Finn Årup Nielsen 
+- Basic workings of NLTK
 - Coding challenge: Working with Text Data
 ]
 
@@ -145,11 +143,14 @@ content_fraction(emma)
 ]
 
 ---
-# Understanding how lexical resources can be used for text data transformation
-
----
 # AFINN package
-https://github.com/fnielsen/afinn
+.pull-left[
+- Afinn github: https://github.com/fnielsen/afinn
+- Live Afinn: https://darenr.github.io/afinn/
+> "That would have been splendid. It would have been absolutely amazing. The best there ever was. But it was not."
+- 'best': 3, 'amazing': 4, 'splendid': 3
+
+]
 
 .pull-right[
 ![Finn](https://avatars.githubusercontent.com/u/484028?v=4)
@@ -178,9 +179,10 @@ https://github.com/fnielsen/afinn
 
 ---
 # Trick 1: Stopwords 
+Already covered
 
 ---
-# Tricks 1: Stemming 
+# Tricks 2: Stemming 
 .small123[
 .pull-left[
 ```{python}
@@ -208,13 +210,75 @@ for original, stemmed in zip(words, stemmed_words):
 ]
 
 ---
-# Lemmatization
+# Tricks 3: Lemmatization
+.pull-left[
+- Relies on the idea of a semantic net 
+- Each word with same meaning should be encoded the same 
+- "car", "automobile", "automotive vehicle"
+]
 ```{python}
 from nltk.stem import WordNetLemmatizer
 lemmatizer = WordNetLemmatizer()
 lemmatizer.lemmatize("rocks")
 lemmatizer.lemmatize("corpora")
 ```
+
+---
+# A look insight WordNet
+
+.pull-left[
+```{python}
+from nltk.corpus import wordnet as wn
+
+# Synonomym names
+wn.synsets('motorcar')
+
+# Synonyms
+wn.synset('car.n.01').lemma_names()
+```
+]
+
+
+.pull-right[
+![Wordnet](https://www.nltk.org/images/wordnet-hierarchy.png)
+]
+#### Example
+> the boy's cars are different colors 
+> $\Rightarrow$ the boy car be differ color
+
+
+---
+# More lexical relations
+- Hypernyms and Hyponyms: 
+  + 'Hypo': Below, 'Hyper': 
+  + Above ('is a' relationship)
+- Meronym and holonym: 
+  + 'Mero': Parts, 
+  + 'Holo': Whole (what it is part of)
+  
+Meronym of a 'tree': Trunk, Crown, Leaves 
+Holonym of a 'tree': Forest 
+
+Homonyms: 'saw', 'saw' 
+ + Either *honomgraphs* or *homophones* (above is both)
+ + Homophones: 'bow' (ship), 'bow' (act of politeness), 'bow' (pretty thing)
+ + Homophones: 'cell', 'sell'
+
+---
+# Simple(st) sentiment analysis
+*I will demonstrate a simple sentiment analysis in Python*
+
+*See under '[Lecture 2 - Lexical resources/Code/](https://github.com/christianvedels/News_and_Market_Sentiment_Analytics/tree/main/Lecture%202%20-%20Lexical%20resources/Code)' '01_Get_stock_data.py', '02_Get_news_sentiment.py', '03_Stock_prices_and_sentiment'*
+
+---
+# The Zipf Mystery
+*We will use basic NLP tools to investigate Zipfs law in the Gutenberg Corpus*
+
+*See under '[Lecture 2 - Lexical resources/Code/](https://github.com/christianvedels/News_and_Market_Sentiment_Analytics/tree/main/Lecture%202%20-%20Lexical%20resources/Code)' '11_Zipf'*
+
+**Zipf's law:**  
+
+$$F_n = \frac{F_1}{n}$$
 
 ---
 class: inverse, middle
@@ -229,52 +293,29 @@ vertical = 0.35
 dist = 0.15
 
 countdown(
-  minutes = 10,
+  minutes = 35,
   seconds = 0,
   right = 0,
   top = ToPct(vertical)
 )
-countdown(
-  minutes = 25,
-  seconds = 0,
-  right = 0,
-  top = ToPct(vertical + dist)
-)
+# countdown(
+#   minutes = 25,
+#   seconds = 0,
+#   right = 0,
+#   top = ToPct(vertical + dist)
+# )
 ```
 
 ---
-## References (1/2)
-
-.small123[
-Pearl, J. (2019). The seven tools of causal inference, with reflections on machine learning. Communications of the ACM, 62(3), 54–60. https://doi.org/10.1145/3241036
-
-Rosenblatt, F. (1958). The perceptron: A probabilistic model for information storage and organization in the brain. Psychological Review, 65(6), 386–408. https://doi.org/10.1037/h0042519
-
-Sepp Hochreiter; Jürgen Schmidhuber (1997). "Long short-term memory". Neural Computation. 9 (8): 1735–1780. doi:10.1162/neco.1997.9.8.1735.
-
-Firth, J.R. (1957). "A synopsis of linguistic theory 1930–1955". Studies in Linguistic Analysis: 1–32. Reprinted in F.R. Palmer, ed. (1968). Selected Papers of J.R. Firth 1952–1959. London: Longman.
-
-Jacob Devlin, Ming-Wei Chang, Kenton Lee, and Kristina Toutanova (2019) BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding. In Proceedings of the 2019 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies, Volume 1 (Long and Short Papers), pages 4171–4186, Minneapolis, Minnesota. Association for Computational Linguistics.
-
-Ashish Vaswani, Noam Shazeer, Niki Parmar, Jakob Uszkoreit, Llion Jones, Aidan N. Gomez, Lukasz Kaiser, & Illia Polosukhin. (2023). Attention Is All You Need. https://arxiv.org/abs/1706.03762
-
-Roweis, Sam T., Saul, Lawrence K. (2000). "Nonlinear Dimensionality Reduction by Locally Linear Embedding". Science. 290 (5500): 2323–6. Bibcode:2000Sci...290.2323R. CiteSeerX 10.1.1.111.3313. doi:10.1126/science.290.5500.2323. PMID 11125150. S2CID 5987139.
-
-Searle, John (1980), "Minds, Brains and Programs", Behavioral and Brain Sciences, 3 (3): 417–457, doi:10.1017/S0140525X00005756
+# Next time
+.pull-left[
+- 'Structural' classification 
+- Word tagging 
+ 
 ]
 
-
----
-## References (2/2)
-.small123[
-Weizenbaum, J. (1966). ELIZA—a Computer Program for the Study of Natural Language Communication between Man and Machine. Commun. ACM, 9(1), 36–45. https://doi.org/10.1145/365153.365168
-
-Andersen, H. C. (1844). The Nightingale. https://www.hcandersen-homepage.dk/?page_id=2257
-
-Descartes, R. (1637). Discourse on the Method of Rightly Conducting One's Reason and of Seeking Truth in the Sciences (J. Veitch, Trans.). EBook-No. 59. https://www.gutenberg.org/ebooks/59
-
-Radford, A., & Narasimhan, K. (2018). Improving Language Understanding by Generative Pre-Training. https://api.semanticscholar.org/CorpusID:49313245
-
-Wes Gurnee, & Max Tegmark. (2023). Language Models Represent Space and Time. https://arxiv.org/abs/2310.02207
+.pull-right[
+![Trees](Figures/Trees.jpg)
 ]
+
 
