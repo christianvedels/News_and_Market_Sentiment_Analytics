@@ -35,6 +35,8 @@ lemmatizer = WordNetLemmatizer()
 
 # %% Lowercase, remove stopwords, lemmatize
 words_doc = [word.lower() for word in words_doc if word.isalpha()]
+
+# We could also consider running it without this
 words_doc = [word for word in words_doc if word not in stop_words]
 words_doc = [lemmatizer.lemmatize(word) for word in words_doc]
 
