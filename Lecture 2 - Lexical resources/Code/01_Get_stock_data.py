@@ -63,7 +63,7 @@ news = newsapi.get_everything(
     )
 
 articles = news["articles"]
-articles[0]
+articles[1]
 
 # %% Structure data
 news_data = []
