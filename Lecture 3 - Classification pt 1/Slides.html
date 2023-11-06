@@ -4,7 +4,7 @@
     <title>News and Market Sentiment Analytics</title>
     <meta charset="utf-8" />
     <meta name="author" content="Christian Vedel,  Department of Economics   Email: christian-vs@sam.sdu.dk" />
-    <script src="libs/header-attrs-2.18/header-attrs.js"></script>
+    <script src="libs/header-attrs-2.25/header-attrs.js"></script>
     <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
     <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
   </head>
@@ -22,10 +22,15 @@ class: center, middle, inverse, title-slide
 ### Christian Vedel,<br> Department of Economics<br><br> Email: <a href="mailto:christian-vs@sam.sdu.dk" class="email">christian-vs@sam.sdu.dk</a>
 ]
 .date[
-### Updated 2023-10-22
+### Updated 2023-11-06
 ]
 
 ---
+
+
+
+
+
 
 
 &lt;style type="text/css"&gt;
@@ -76,13 +81,12 @@ class: center, middle, inverse, title-slide
 }
 &lt;/style&gt;
 
-.large123[.red[THESE SLIDES ARE UNFINISHED]]
----
 # Last time
 .pull-left[
-- Course overview
-- How did we get to ChatGPT? (And what are the implications)
-- An example of some research I do using the techniques of the course
+- Lexical Resources
+- Finn Årup Nielsen 
+- Basic workings of NLTK
+- Coding challenge: Working with Text Data
 ]
 
 .pull-right[
@@ -92,17 +96,195 @@ class: center, middle, inverse, title-slide
 ---
 # Today's lecture
 .pull-left[
-- .red[**Slides are not yet ready**]
+- We can understand many NLP tasks as classification tasks
+- Today mainly 'structural' classification 
+- Based on understanding structure of language
+- spaCy library 
+- Zero-shot classificaiton using Transformers
 ]
 
 .pull-right[
-
+![Trees](Figures/Trees.jpg)
 ]
 
 ---
-# Classification of text
-Spacy named entity recognition
-https://youtu.be/dIUTsFT2MeQ?si=LHpFH3-eWAa2VupT&amp;t=2704
+# A look insight WordNet
+
+.pull-left[
+
+```python
+from nltk.corpus import wordnet as wn
+
+# Synonomym names
+wn.synsets('motorcar')
+```
+
+```
+## [Synset('car.n.01')]
+```
+
+```python
+# Synonyms
+wn.synset('car.n.01').lemma_names()
+```
+
+```
+## ['car', 'auto', 'automobile', 'machine', 'motorcar']
+```
+]
+
+
+.pull-right[
+![Wordnet](https://www.nltk.org/images/wordnet-hierarchy.png)
+]
+
+#### Example
+&gt; the boy's cars are different colors 
+&gt; `\(\Rightarrow\)` the boy car be differ color
+
+---
+# spaCy
+
+.red[### Why is it we don't just stick to NLTK?]
+
+.pull-left[
+
+1. spaCy is a streamlined NLP library
+  
+2. Language Models: spaCy vs. NLTK:
+  + spaCy provides pre-trained language models
+  + NLTK is more flexible
+  
+3. Efficiency and Ease of Use: spaCy vs. NLTK:
+
+]
+
+
+.pull-right[
+![spaCy](Figures/spaCy.png)
+]
+
+---
+# Tokenization in NLTK
+
+```python
+# Import NLTK and download relevant resources (if not already done in previous lectures)
+import nltk
+
+# Download the NLTK stopwords corpus
+nltk.download("stopwords")
+```
+
+```
+## True
+## 
+## [nltk_data] Downloading package stopwords to
+## [nltk_data]     C:\Users\chris\AppData\Roaming\nltk_data...
+## [nltk_data]   Unzipping corpora\stopwords.zip.
+```
+
+```python
+# Example: Tokenization using NLTK (recap)
+from nltk.tokenize import word_tokenize
+
+text = "Natural language processing is a subfield of artificial intelligence."
+tokens = word_tokenize(text)
+print(tokens)
+```
+
+```
+## ['Natural', 'language', 'processing', 'is', 'a', 'subfield', 'of', 'artificial', 'intelligence', '.']
+```
+
+---
+# Tokenizaiton in spaCy
+
+```python
+# Import spaCy and load the English language model
+import spacy
+
+nlp = spacy.load("en_core_web_sm")
+
+# Tokenization using spaCy
+text = "spaCy is a powerful NLP library."
+doc = nlp(text)
+
+# Extract tokens using spaCy
+tokens = [token.text for token in doc]
+print(tokens)
+```
+
+```
+## ['spaCy', 'is', 'a', 'powerful', 'NLP', 'library', '.']
+```
+
+
+---
+# The OG NLP classification problem
+
+.pull-left[
+- We want to identify parts of speach
+- One simple apporach is ***Part of Speach***-tagging (*POS*) 
+- spaCy does this at a high level based on an underlying model. Here [*en_core_web_sm*](https://spacy.io/models/en)
+]
+
+.pull-right[
+.small123[
+
+
+
+
+```python
+text = "The quick brown fox jumps over the lazy dog."
+doc = nlp(text)
+
+# Extract tokens and their part-of-speech tags using spaCy
+pos_tags = [(token.text, token.pos_) for token in doc]
+```
+
+
+|Token |Tag   |
+|:-----|:-----|
+|The   |DET   |
+|quick |ADJ   |
+|brown |ADJ   |
+|fox   |NOUN  |
+|jumps |VERB  |
+|over  |ADP   |
+|the   |DET   |
+|lazy  |ADJ   |
+|dog   |NOUN  |
+|.     |PUNCT |
+
+]
+]
+
+---
+# NLTK solution
+
+
+
+
+```python
+from nltk import word_tokenize, pos_tag
+
+# Sample sentence
+sentence = "NLTK is a leading platform for building Python programs."
+
+# Tokenize the sentence
+words = word_tokenize(sentence)
+
+# Perform PoS tagging
+tags = pos_tag(words)
+
+# Print the PoS tags
+print(tags)
+```
+
+```
+## [('NLTK', 'NNP'), ('is', 'VBZ'), ('a', 'DT'), ('leading', 'VBG'), ('platform', 'NN'), ('for', 'IN'), ('building', 'VBG'), ('Python', 'NNP'), ('programs', 'NNS'), ('.', '.')]
+```
+
 
 ---
 ## References (1/2)

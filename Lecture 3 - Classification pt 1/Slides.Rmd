@@ -18,6 +18,17 @@ editor_options:
   chunk_output_type: console
 ---
 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(eval=TRUE, include=TRUE, cache=TRUE)
+library(reticulate)
+use_condaenv("sentimentF23")
+```
+
+```{python include=FALSE}
+import nltk
+```
+
+
 ```{css echo=FALSE}
 .pull-left {
   float: left;
@@ -66,13 +77,12 @@ editor_options:
 }
 ```
 
-.large123[.red[THESE SLIDES ARE UNFINISHED]]
----
 # Last time
 .pull-left[
-- Course overview
-- How did we get to ChatGPT? (And what are the implications)
-- An example of some research I do using the techniques of the course
+- Lexical Resources
+- Finn Årup Nielsen 
+- Basic workings of NLTK
+- Coding challenge: Working with Text Data
 ]
 
 .pull-right[
@@ -82,17 +92,163 @@ editor_options:
 ---
 # Today's lecture
 .pull-left[
-- .red[**Slides are not yet ready**]
+- We can understand many NLP tasks as classification tasks
+- Today mainly 'structural' classification 
+- Based on understanding structure of language
+- spaCy library 
+- Zero-shot classificaiton using Transformers
 ]
 
 .pull-right[
-
+![Trees](Figures/Trees.jpg)
 ]
 
 ---
-# Classification of text
-Spacy named entity recognition
-https://youtu.be/dIUTsFT2MeQ?si=LHpFH3-eWAa2VupT&t=2704
+# A look insight WordNet
+
+.pull-left[
+```{python}
+from nltk.corpus import wordnet as wn
+
+# Synonomym names
+wn.synsets('motorcar')
+
+# Synonyms
+wn.synset('car.n.01').lemma_names()
+```
+]
+
+
+.pull-right[
+![Wordnet](https://www.nltk.org/images/wordnet-hierarchy.png)
+]
+
+#### Example
+> the boy's cars are different colors 
+> $\Rightarrow$ the boy car be differ color
+
+---
+# spaCy
+
+.red[### Why is it we don't just stick to NLTK?]
+
+.pull-left[
+
+1. spaCy is a streamlined NLP library
+  
+2. Language Models: spaCy vs. NLTK:
+  + spaCy provides pre-trained language models
+  + NLTK is more flexible
+  
+3. Efficiency and Ease of Use: spaCy vs. NLTK:
+
+]
+
+
+.pull-right[
+![spaCy](Figures/spaCy.png)
+]
+
+---
+# Tokenization in NLTK
+```{python}
+# Import NLTK and download relevant resources (if not already done in previous lectures)
+import nltk
+
+# Download the NLTK stopwords corpus
+nltk.download("stopwords")
+
+# Example: Tokenization using NLTK (recap)
+from nltk.tokenize import word_tokenize
+
+text = "Natural language processing is a subfield of artificial intelligence."
+tokens = word_tokenize(text)
+print(tokens)
+
+```
+
+---
+# Tokenizaiton in spaCy
+```{python}
+# Import spaCy and load the English language model
+import spacy
+
+nlp = spacy.load("en_core_web_sm")
+
+# Tokenization using spaCy
+text = "spaCy is a powerful NLP library."
+doc = nlp(text)
+
+# Extract tokens using spaCy
+tokens = [token.text for token in doc]
+print(tokens)
+
+```
+
+
+---
+# The OG NLP classification problem
+
+.pull-left[
+- We want to identify parts of speach
+- One simple apporach is ***Part of Speach***-tagging (*POS*) 
+- spaCy does this at a high level based on an underlying model. Here [*en_core_web_sm*](https://spacy.io/models/en)
+]
+
+.pull-right[
+.small123[
+```{python echo=FALSE}
+# Import spaCy and load the English language model
+import spacy
+nlp = spacy.load("en_core_web_sm")
+```
+
+
+```{python}
+text = "The quick brown fox jumps over the lazy dog."
+doc = nlp(text)
+
+# Extract tokens and their part-of-speech tags using spaCy
+pos_tags = [(token.text, token.pos_) for token in doc]
+
+```
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+library(foreach)
+library(tidyverse)
+foreach(i = py$pos_tags, .combine = "rbind") %do% {
+  x = unlist(i)
+  names(x) = c("Token", "Tag")
+  x
+} %>% 
+  data.frame() %>%
+  remove_rownames() %>% 
+  knitr::kable()
+```
+
+]
+]
+
+---
+# NLTK solution
+
+```{python}
+from nltk import word_tokenize, pos_tag
+
+# Sample sentence
+sentence = "NLTK is a leading platform for building Python programs."
+
+# Tokenize the sentence
+words = word_tokenize(sentence)
+
+# Perform PoS tagging
+tags = pos_tag(words)
+
+# Print the PoS tags
+print(tags)
+
+```
+
 
 ---
 ## References (1/2)
