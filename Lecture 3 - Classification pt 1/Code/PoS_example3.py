@@ -10,8 +10,11 @@ import spacy
 from collections import defaultdict
 import nltk
 from nltk.corpus import twitter_samples
-import pandas as pd
 import random as r
+
+# %% Parameters
+tweet_sentiment = "positive"
+tweet_sentiment = "negative"
 
 # %% Load
 # Load spaCy language model
@@ -19,7 +22,7 @@ nlp = spacy.load("en_core_web_sm")
 
 # Load the NLTK Twitter dataset
 nltk.download("twitter_samples")
-tweets = twitter_samples.strings("positive_tweets.json")
+tweets = twitter_samples.strings(f"{tweet_sentiment}_tweets.json")
 
 # Randomly select a subset of tweets
 r.seed(20)
@@ -36,7 +39,7 @@ def summarize_tweet(text, summary_length=2):
     content_words = defaultdict(int)
 
     # Define a set of allowed PoS tags for content words (nouns, adjectives)
-    allowed_pos_tags = {"NOUN", "PROPN", "ADJ"}
+    allowed_pos_tags = {"NOUN", "ADJ"}
 
     # Extract content words and their frequencies
     for token in doc:
@@ -56,7 +59,6 @@ def summarize_tweet(text, summary_length=2):
 tweet_summaries = [summarize_tweet(tweet, summary_length=2) for tweet in tweets]
 
 # %%
-x = pd.DataFrame(tweets, tweet_summaries)
-print(x)
-# But this method also applies to longer texts :-)
+res = ', '.join(tweet_summaries)
+print(res)
 
