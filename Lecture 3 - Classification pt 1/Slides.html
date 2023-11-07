@@ -7,6 +7,8 @@
     <script src="libs/header-attrs-2.25/header-attrs.js"></script>
     <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
     <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+    <link href="libs/countdown-0.4.0/countdown.css" rel="stylesheet" />
+    <script src="libs/countdown-0.4.0/countdown.js"></script>
   </head>
   <body>
     <textarea id="source">
@@ -22,7 +24,7 @@ class: center, middle, inverse, title-slide
 ### Christian Vedel,<br> Department of Economics<br><br> Email: <a href="mailto:christian-vs@sam.sdu.dk" class="email">christian-vs@sam.sdu.dk</a>
 ]
 .date[
-### Updated 2023-11-06
+### Updated 2023-11-07
 ]
 
 ---
@@ -263,8 +265,6 @@ pos_tags = [(token.text, token.pos_) for token in doc]
 # NLTK solution
 
 
-
-
 ```python
 from nltk import word_tokenize, pos_tag
 
@@ -287,38 +287,32 @@ print(tags)
 
 
 ---
-## References (1/2)
+# PoS tagging coding examples
+[PoS example 1: Simple PoS summaries](https://github.com/christianvedels/News_and_Market_Sentiment_Analytics/blob/main/Lecture%203%20-%20Classification%20pt%201/Code/PoS_example1.py)  
 
-.small123[
-Andersen, H. C. (1844). The Nightingale. https://www.hcandersen-homepage.dk/?page_id=2257
+[PoS example 2: News summary PoS](https://github.com/christianvedels/News_and_Market_Sentiment_Analytics/blob/main/Lecture%203%20-%20Classification%20pt%201/Code/PoS_example2.py)
 
-Devlin, J., Chang, M.-W., Lee, K., &amp; Toutanova, K. (2019). BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding. In Proceedings of the 2019 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies, Volume 1 (Long and Short Papers), pages 4171–4186, Minneapolis, Minnesota. Association for Computational Linguistics.
-
-Descartes, R. (1637). Discourse on the Method of Rightly Conducting One's Reason and of Seeking Truth in the Sciences (J. Veitch, Trans.). EBook-No. 59. https://www.gutenberg.org/ebooks/59
-
-Firth, J.R. (1957). "A synopsis of linguistic theory 1930–1955". Studies in Linguistic Analysis: 1–32. Reprinted in F.R. Palmer, ed. (1968). Selected Papers of J.R. Firth 1952–1959. London: Longman.
-
-Gurnee, W., &amp; Tegmark, M. (2023). Language Models Represent Space and Time. https://arxiv.org/abs/2310.02207
-
-Pearl, J. (2019). The seven tools of causal inference, with reflections on machine learning. Communications of the ACM, 62(3), 54–60. https://doi.org/10.1145/3241036
-
-Radford, A., &amp; Narasimhan, K. (2018). Improving Language Understanding by Generative Pre-Training. https://api.semanticscholar.org/CorpusID:49313245
-
-Rosenblatt, F. (1958). The perceptron: A probabilistic model for information storage and organization in the brain. Psychological Review, 65(6), 386–408. https://doi.org/10.1037/h0042519
-]
-
+[PoS example 3: Tweet sentiments](https://github.com/christianvedels/News_and_Market_Sentiment_Analytics/blob/main/Lecture%203%20-%20Classification%20pt%201/Code/PoS_example3.py)
 
 ---
-## References (2/2)
-.small123[
-Roweis, S. T., Saul, L. K. (2000). "Nonlinear Dimensionality Reduction by Locally Linear Embedding". Science, 290(5500), 2323–6. https://doi.org/10.1126/science.290.5500.2323
+# One shot classificaiton
+#### Once again:
+- What we learn here is useful 
+- But we can do some things much more efficiently 
+- While loosing our understanding of what is happening 
 
-Searle, J. (1980), "Minds, Brains and Programs", Behavioral and Brain Sciences, 3(3), 417–457. https://doi.org/10.1017/S0140525X00005756
+---
+class: inverse, middle
+# Coding challenge: 
+## Detecting emotions with zero shot classification
+[Click here to submit](https://forms.gle/WmSEkZn8WH1fiDjE6 )
 
-Vaswani, A., Shazeer, N., Parmar, N., Uszkoreit, J., Jones, L., Gomez, A. N., Kaiser, L., &amp; Polosukhin, I. (2023). Attention Is All You Need. https://arxiv.org/abs/1706.03762
+<div class="countdown" id="timer_a71feed4" data-update-every="1" tabindex="0" style="top:25%;right:0;">
+<div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
+<code class="countdown-time"><span class="countdown-digits minutes">35</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
 
-Weizenbaum, J. (1966). ELIZA—a Computer Program for the Study of Natural Language Communication between Man and Machine. Commun. ACM, 9(1), 36–45. https://doi.org/10.1145/365153.365168
-]
+
 
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
