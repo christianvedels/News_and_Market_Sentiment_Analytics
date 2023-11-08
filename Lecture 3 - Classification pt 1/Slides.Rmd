@@ -97,6 +97,10 @@ import nltk
 - Based on understanding structure of language
 - spaCy library 
 - Zero-shot classificaiton using Transformers
+
+- **Focus:** 
+  + How much should we focus on financial applications? 
+  + Low level versus high level?
 ]
 
 .pull-right[
@@ -271,7 +275,7 @@ class: inverse, middle
 ## Detecting emotions with zero shot classification
 [Click here to submit](https://forms.gle/WmSEkZn8WH1fiDjE6 )
 
-```{r echo=FALSE}
+```{r echo=FALSE, cache=FALSE}
 library(countdown)
 source("../000_Misc_functions_for_slides.R")
 vertical = 0.25

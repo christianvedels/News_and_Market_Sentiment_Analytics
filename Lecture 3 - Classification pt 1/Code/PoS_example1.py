@@ -36,7 +36,7 @@ for token in doc:
 sorted_content_words = sorted(content_words.items(), key=lambda x: x[1], reverse=True)
 
 # Create a summary by selecting the top content words
-summary_length = 3  # Number of content words to include in the summary
+summary_length = 10  # Number of content words to include in the summary
 summary = " ".join(word for word, _ in sorted_content_words[:summary_length])
 
 # Print the summary

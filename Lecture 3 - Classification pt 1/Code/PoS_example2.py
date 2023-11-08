@@ -15,6 +15,7 @@ nlp = spacy.load("en_core_web_sm")
 
 # Define a function to scrape and summarize a news article
 def summarize_news_article(url, summary_length=10):
+    breakpoint()
     # Make a request to the URL and parse the HTML content
     response = requests.get(url)
     soup = BeautifulSoup(response.text, 'html.parser')
