@@ -187,7 +187,8 @@ plt.title('Confusion Matrix')
 plt.show()
 
 # Normalize the confusion matrix to percentages
-conf_matrix_pct = conf_matrix.astype('float') / conf_matrix.sum(axis=1)[:, np.newaxis]
+row_sums = conf_matrix.sum(axis=1)[:, np.newaxis]
+conf_matrix_pct = conf_matrix.astype('float') / row_sums
 print('Normalized Confusion Matrix:')
 print(conf_matrix_pct)
 

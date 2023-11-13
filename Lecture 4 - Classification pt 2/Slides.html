@@ -4,7 +4,7 @@
     <title>News and Market Sentiment Analytics</title>
     <meta charset="utf-8" />
     <meta name="author" content="Christian Vedel,  Department of Economics   Email: christian-vs@sam.sdu.dk" />
-    <script src="libs/header-attrs-2.18/header-attrs.js"></script>
+    <script src="libs/header-attrs-2.25/header-attrs.js"></script>
     <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
     <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
   </head>
@@ -22,10 +22,14 @@ class: center, middle, inverse, title-slide
 ### Christian Vedel,<br> Department of Economics<br><br> Email: <a href="mailto:christian-vs@sam.sdu.dk" class="email">christian-vs@sam.sdu.dk</a>
 ]
 .date[
-### Updated 2023-10-18
+### Updated 2023-11-13
 ]
 
 ---
+
+
+
+
 
 
 &lt;style type="text/css"&gt;
@@ -78,9 +82,11 @@ class: center, middle, inverse, title-slide
 
 # Last time
 .pull-left[
-- Course overview
-- How did we get to ChatGPT? (And what are the implications)
-- An example of some research I do using the techniques of the course
+- We can understand many NLP tasks as classification tasks
+- Today mainly 'structural' classification 
+- Based on understanding structure of language
+- spaCy library 
+- Zero-shot classificaiton using Transformers
 ]
 
 .pull-right[
@@ -90,48 +96,384 @@ class: center, middle, inverse, title-slide
 ---
 # Today's lecture
 .pull-left[
-- .red[**Slides are not yet ready**]
+- More standard classification approach
+- Extracting features using NLP tools 
+- Training data `\(\rightarrow\)` prediction engine
+- **Research example:** Automatic occupational classification
 ]
 
 .pull-right[
-
+![Flows](Figures/0_Transformations, dataflows, magical, mathematical _esrgan-v1-x2plus.png)
 ]
 
 ---
-## References (1/2)
+# Coding challenge solution! 
+
+---
+# Features to extract 
+- String endings 
+- Sentiment 
+- Word type 
+- Count vectorizer 
+- Transformers:
+  + ZeroShot classifcations 
+  + Sentiments
+- ...All the relevant things we will learn about in the course 
+
+---
+# The Naïve Bayes classifier (1/2)
+.pull-left-wide[
+.small123[
+- We can infer `\(P(Class|X)\)` via `\(P(Class|X)\)`
+- In the Naïve Bayes classifier, we assume features are conditionally independent given the class, simplifying the calculation: `\(P(X|Class) = P(x_1|Class) \cdot P(x_2|Class) \cdot \ldots\)`
+- Simple and very widely used classifier 
+- `\(X\)` is the features 
+  + `\(P(Class|x_i) = P(x|Class)P(Class)/P(x_i)\)` (Bayes' law)
+  + `\(P(x_i|Class)=\mathbb E\left(\frac{1}{n}\sum_{j\in Class} 1[x_j] \right)\)`
+  + `\(P(Class)\)` can be assumed or estimated; `\(P(x_i)\)` can also be estimated
+  
+- Assumes independence between features
+]
+]
+
+
+.pull-right-narrow[
+![Bayes](https://upload.wikimedia.org/wikipedia/commons/d/d4/Thomas_Bayes.gif)
+.small123[*Maybe* Bayes, wikimedia commons]
+]
+  
+
+.footnote[
+.small[
+[See 3Blue1Brown explaination of Bayes theorem](https://youtu.be/U_85TaXbeIo)
+]
+]
+
+---
+# The Naïve Bayes classifier (2/2)
 
 .small123[
-Andersen, H. C. (1844). The Nightingale. https://www.hcandersen-homepage.dk/?page_id=2257
+- This and similar approaches used extensively in research
+  + The maths is simple and clear, which helps in Causal Inference applications 
+  + We want to know the *kinds of errors* more rather than *minimizing the errors*
+  + Sometimes works really well
+- Two examples: 
+  + Bentzen &amp; Andersen (2022): More religious names are associated with less technological development
+  + Bentzen, Boberg-Fazlic, Sharp, Skovsgaard, Vedel (2023): Certain Danish religious movements is associated with less integration into the US in 1800s. But this seemlingly has little consequences for occupational outcomes.
+  
+- Always start with NB
+- But do use other estimates as well :-)
+]
 
-Devlin, J., Chang, M.-W., Lee, K., &amp; Toutanova, K. (2019). BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding. In Proceedings of the 2019 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies, Volume 1 (Long and Short Papers), pages 4171–4186, Minneapolis, Minnesota. Association for Computational Linguistics.
+---
+# Getting genders from names 
+.pull-left-narrow[
+- A common problem in feature engineering
+- We want to obtain e.g. demographic data from other variables 
+- Most names are gendered
+- Female names:
+  + Tends to end in *a, e, i*
+- Male names:
+  + Tends to end in *k, o, r, s, t*
+]
+--
+.pull-right-wide[
+### Simple NLTK (from ch. 6)
+.small123[
 
-Descartes, R. (1637). Discourse on the Method of Rightly Conducting One's Reason and of Seeking Truth in the Sciences (J. Veitch, Trans.). EBook-No. 59. https://www.gutenberg.org/ebooks/59
+```python
+def gender_features(word):
+  return {'last_letter': word[-1]}
+gender_features('Shrek')
+```
 
-Firth, J.R. (1957). "A synopsis of linguistic theory 1930–1955". Studies in Linguistic Analysis: 1–32. Reprinted in F.R. Palmer, ed. (1968). Selected Papers of J.R. Firth 1952–1959. London: Longman.
+```
+## {'last_letter': 'k'}
+```
 
-Gurnee, W., &amp; Tegmark, M. (2023). Language Models Represent Space and Time. https://arxiv.org/abs/2310.02207
 
-Pearl, J. (2019). The seven tools of causal inference, with reflections on machine learning. Communications of the ACM, 62(3), 54–60. https://doi.org/10.1145/3241036
+```python
+from nltk.corpus import names
 
-Radford, A., &amp; Narasimhan, K. (2018). Improving Language Understanding by Generative Pre-Training. https://api.semanticscholar.org/CorpusID:49313245
+male_tmp   = [(name, 'male') for name in names.words('male.txt')]
+female_tmp = [(name, 'female') for name in names.words('female.txt')]
 
-Rosenblatt, F. (1958). The perceptron: A probabilistic model for information storage and organization in the brain. Psychological Review, 65(6), 386–408. https://doi.org/10.1037/h0042519
+labeled_names = male_tmp + female_tmp
+```
+
+]
+]
+---
+# Getting genders from names (cont.)
+--
+
+```python
+# Shuffle features
+import random as r
+r.shuffle(labeled_names)
+```
+
+--
+
+```python
+# Train test split
+featuresets = [(gender_features(n), gender) for (n, gender) in labeled_names]
+train_set, test_set = featuresets[500:], featuresets[:500]
+
+# Train classifier
+classifier = nltk.NaiveBayesClassifier.train(train_set)
+```
+--
+
+```python
+classifier.classify(gender_features('Neo'))
+```
+
+```
+## 'male'
+```
+
+```python
+classifier.classify(gender_features('Trinity'))
+```
+
+```
+## 'female'
+```
+
+
+---
+# Getting genders from names (cont.)
+--
+
+```python
+print(nltk.classify.accuracy(classifier, test_set))
+```
+
+```
+## 0.764
+```
+
+---
+# A real application 
+.pull-left-wide[
+- Census data can be the source of knowledge about long run development
+- Census data does not always contain genders 
+- We can use the gender information in names 
+- Used via a Naive-Bayes classifier 
+- This time using the entire name
+
+- **Turns out:** We can obtain 97.2% accuracy with Naïve-Bayes
+]
+
+.pull-right-narrow[
+![Census](https://upload.wikimedia.org/wikipedia/commons/9/9a/Folket%C3%A6lling-1840.jpg)
+*Census data, 1840, wikimedia*
+]
+
+---
+class: inverse, middle
+# [Breaking the HISCO Barrier: AI and Occupational Data Standardization*](https://raw.githack.com/christianvedels/Presentations/main/HISCO/Slides_flash.html) 
+### *Conference presentation: An example of the kind of research I do with things you learn about in this course*
+
+.footnote[
+\* *it's a link, that you can click!*
+.small123[
+[More details](https://raw.githack.com/christianvedels/Guest_Lectures_and_misc_talks/main/HISCO/Slides.html)
+]
 ]
 
 
 ---
-## References (2/2)
+# Simple Naïve Bayes to identify gender
+[Lecture 4 - Classification pt 2/Code/Gender_classification_all_Danish_names.py](https://github.com/christianvedels/News_and_Market_Sentiment_Analytics/blob/main/Lecture%204%20-%20Classification%20pt%202/Code/Gender_classification_all_Danish_names.py)
+
+- Using modern name/gender data to build a classifier that works in 1787
+
+---
+# Feature extraction 
+
+### 1. Word type
+
+```python
+# Function to extract word type as a feature
+def word_type_feature(word):
+    pos_tag = nltk.pos_tag([word])[0][1]
+    return {'word_type': pos_tag}
+
+# Example usage
+print(word_type_feature('dog'))
+```
+
+```
+## {'word_type': 'NN'}
+```
+
+---
+# Feature extraction 
+
+### 2. Count vectorizer
+
+```python
+from sklearn.feature_extraction.text import CountVectorizer
+
+# Function to extract count vectorizer features
+def count_vectorizer_feature(corpus):
+    vectorizer = CountVectorizer()
+    X = vectorizer.fit_transform(corpus)
+    feature_names = vectorizer.get_feature_names_out()
+    return dict(zip(feature_names, X.toarray()[0]))
+
+# Example usage
+corpus = ['This is the first document.', 'This document is the second document.']
+print(count_vectorizer_feature(corpus))
+```
+
+```
+## {'document': 1, 'first': 1, 'is': 1, 'second': 0, 'the': 1, 'this': 1}
+```
+
+---
+# Feature extraction
+### 3. Simple bag of words sentiment
+
+```python
+from afinn import Afinn
+
+# Function to extract sentiment using AFINN score as a feature
+def afinn_sentiment_feature(text):
+    afinn = Afinn()
+    sentiment_score = afinn.score(text)
+    return {'afinn_sentiment': sentiment_score}
+
+# Example usage
+print(afinn_sentiment_feature('This is a positive sentence.'))
+```
+
+```
+## {'afinn_sentiment': 0.0}
+```
+
+---
+# Feature extraction
+### 4. Length of the Text
+
+```python
+# Function to extract text length as a feature
+def text_length_feature(text):
+    return {'text_length': len(text)}
+
+# Example usage
+print(text_length_feature('This is a short text.'))
+```
+
+```
+## {'text_length': 21}
+```
+
+---
+# Feature extraction
+### 5: Number of Words
+
+```python
+# Function to extract number of words as a feature
+def word_count_feature(text):
+    words = nltk.word_tokenize(text)
+    return {'word_count': len(words)}
+
+# Example usage
+print(word_count_feature('This is an example sentence.'))
+```
+
+```
+## {'word_count': 6}
+```
+
+---
+# Feature extraction
+### 6: Average Word Length
+
+```python
+# Function to extract average word length as a feature
+def avg_word_length_feature(text):
+    words = nltk.word_tokenize(text)
+    avg_length = sum(len(word) for word in words) / len(words) if len(words) &gt; 0 else 0
+    return {'avg_word_length': avg_length}
+
+# Example usage
+print(avg_word_length_feature('This is a demonstration of average word length.'))
+```
+
+```
+## {'avg_word_length': 4.444444444444445}
+```
+
+---
+# Feature extraction
+### 7: Presence of Specific Words
+
+```python
+# Function to check the presence of specific words as features
+def specific_word_feature(text, target_words):
+    features = {}
+    for word in target_words:
+        features[f'contains_{word}'] = (word in text.lower())
+    return features
+
+# Example usage
+text = 'This is a sample text with some specific words.'
+target_words = ['sample', 'specific']
+print(specific_word_feature(text, target_words))
+```
+
+```
+## {'contains_sample': True, 'contains_specific': True}
+```
+
+---
+# Feature extraction
+### 8: Zipf's law features
+
+```python
+# ... Zipf coefficient from coding challenge 2
+```
+
+
+---
+# Feature extraction 
+### 4. ZeroShot Classification with Transformers
+
+```python
+from transformers import pipeline
+
+# Function for zero-shot classification
+def zero_shot_classification(text, labels):
+    classifier = pipeline('zero-shot-classification')
+    result = classifier(text, labels)
+    return {label: score for label, score in zip(result['labels'], result['scores'])}
+
+# Example usage
+text = 'The movie was captivating and full of suspense.'
+labels = ['positive', 'negative']
+print(zero_shot_classification(text, labels))
+```
+
+```
+## {'positive': 0.9759026765823364, 'negative': 0.02409730851650238}
+## 
+## No model was supplied, defaulted to facebook/bart-large-mnli and revision c626438 (https://huggingface.co/facebook/bart-large-mnli).
+## Using a pipeline without specifying a model name and revision in production is not recommended.
+```
+
+
+---
+# References
 .small123[
-Roweis, S. T., Saul, L. K. (2000). "Nonlinear Dimensionality Reduction by Locally Linear Embedding". Science, 290(5500), 2323–6. https://doi.org/10.1126/science.290.5500.2323
+Bentzen, J and L Andersen (2022), ‘DP16938 In the Name of God! Religiosity and the Transition to Modern Growth‘, CEPR Discussion Paper No. 16938. CEPR Press, Paris &amp; London. https://cepr.org/publications/dp16938
 
-Searle, J. (1980), "Minds, Brains and Programs", Behavioral and Brain Sciences, 3(3), 417–457. https://doi.org/10.1017/S0140525X00005756
 
-Vaswani, A., Shazeer, N., Parmar, N., Uszkoreit, J., Jones, L., Gomez, A. N., Kaiser, L., &amp; Polosukhin, I. (2023). Attention Is All You Need. https://arxiv.org/abs/1706.03762
-
-Weizenbaum, J. (1966). ELIZA—a Computer Program for the Study of Natural Language Communication between Man and Machine. Commun. ACM, 9(1), 36–45. https://doi.org/10.1145/365153.365168
+Bentzen, J. S., Boberg-Fazlic, N., Sharp, P., Skovsgaard, C. V., &amp; Vedel, C. (2023). Does Cultural Assimilation Matter? In C. Vedel (Ed.), Natural Experiments in Geography and Institutions: Essays in the Economic History of Denmark (Chapter 3). [Ph.D. thesis, SDU]. Syddansk Universitet. Det Samfundsvidenskabelige Fakultet. https://doi.org/10.21996/jt34-zc23
 ]
-
-
 
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
