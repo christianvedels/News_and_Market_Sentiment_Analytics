@@ -107,7 +107,7 @@ import nltk
 
 ---
 # Features to extract 
-- String endings 
+- Word endings 
 - Sentiment 
 - Word type 
 - Count vectorizer 
@@ -115,6 +115,8 @@ import nltk
   + ZeroShot classifcations 
   + Sentiments
 - ...All the relevant things we will learn about in the course 
+
+![Simple](Figures/Simple_illustration.png)
 
 ---
 # The Naïve Bayes classifier (1/2)
@@ -262,6 +264,12 @@ class: inverse, middle
 - Using modern name/gender data to build a classifier that works in 1787
 
 ---
+# Simple Naïve Bayes to identify news categories
+[Lecture 4 - Classification pt 2/Code/Classifying_news.py](https://github.com/christianvedels/News_and_Market_Sentiment_Analytics/blob/main/Lecture%204%20-%20Classification%20pt%202/Code/Classifying_news.py)
+
+- Classifying categories of reuters
+
+---
 # Feature extraction 
 
 ### 1. Word type
@@ -307,7 +315,7 @@ def afinn_sentiment_feature(text):
     return {'afinn_sentiment': sentiment_score}
 
 # Example usage
-print(afinn_sentiment_feature('This is a positive sentence.'))
+print(afinn_sentiment_feature('This was just great. Pretty amazing.'))
 ```
 
 ---
@@ -379,7 +387,7 @@ print(specific_word_feature(text, target_words))
 
 ---
 # Feature extraction 
-### 4. ZeroShot Classification with Transformers
+### 9. ZeroShot Classification with Transformers
 ```{python, cache = TRUE}
 from transformers import pipeline
 
@@ -391,10 +399,48 @@ def zero_shot_classification(text, labels):
 
 # Example usage
 text = 'The movie was captivating and full of suspense.'
-labels = ['positive', 'negative']
+labels = ['exciting', 'dull', 'intellectual']
 print(zero_shot_classification(text, labels))
 ```
 
+
+---
+class: inverse, middle
+# Coding challenge: 
+## 'Building a news classifier'
+[Click here to submit](https://forms.gle/WmSEkZn8WH1fiDjE6 )
+
+```{r echo=FALSE}
+library(countdown)
+source("../000_Misc_functions_for_slides.R")
+vertical = 0.35
+dist = 0.15
+
+countdown(
+  minutes = 35,
+  seconds = 0,
+  right = 0,
+  top = ToPct(vertical),
+  update_every = 10
+)
+# countdown(
+#   minutes = 25,
+#   seconds = 0,
+#   right = 0,
+#   top = ToPct(vertical + dist)
+# )
+```
+
+---
+# Next time
+.pull-left[
+- Utilizing grammar
+- Entity recognition 
+]
+
+.pull-right[
+![Trees](Figures/Trees.jpg)
+]
 
 ---
 # References

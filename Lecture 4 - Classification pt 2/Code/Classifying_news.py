@@ -37,7 +37,7 @@ stop_words = set(stopwords.words('english'))
 stemmer = PorterStemmer()
 
 for doc_id in documents:
-    print(reuters.raw(doc_id))
+    # print(reuters.raw(doc_id))
     words = [stemmer.stem(word.lower()) for word in word_tokenize(reuters.raw(doc_id))]
     filtered_words = [word for word in words if word not in stop_words]
     data.append(' '.join(filtered_words))
