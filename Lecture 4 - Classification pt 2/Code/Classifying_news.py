@@ -62,6 +62,9 @@ classifier.fit(X_train, y_train)
 y_pred = classifier.predict(X_test)
 
 # %% Evaluate the model accuracy
+# Precision:  If I guess x, how often is that guess then correct?
+# Recall:     If x is correct, how often will I then guess it?
+# F1:         Geometric mean of the two  
 accuracy = accuracy_score(y_test, y_pred)
 print(f"Accuracy: {accuracy:.2f}")
 
