@@ -133,6 +133,8 @@ plt.title('Normalized Confusion Matrix (%)')
 plt.show()
 
 # %% Test on Danish census data from the year 1787 from Link Lives
+# https://link-lives.dk/en/about-link-lives/
+# This used to not contain gender. Now it does.
 df1787 = pd.read_csv("../Data/Names_gender1787.csv")
 print(df1787)
 
@@ -199,3 +201,4 @@ plt.xlabel('Predicted')
 plt.ylabel('True')
 plt.title('Normalized Confusion Matrix (%)')
 plt.show()
+
