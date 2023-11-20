@@ -4,7 +4,7 @@ Created on Mon Nov 13 10:56:51 2023
 
 @author: chris
 """
-# %% Dir
+# %% Directory
 import os
 script_directory = os.path.dirname(os.path.abspath(__file__))
 os.chdir(script_directory)
@@ -97,7 +97,7 @@ print(classifier_wrapper(['Trinity']))
 print(classifier_wrapper(['Casper']))
 print(classifier_wrapper(['Marie']))
 
- # Name of Elon Musk' child
+# Name of Elon Musk' child
 # print(classifier_wrapper(["XÆA-12"]))
 # Error because it is unseen in traning
 
