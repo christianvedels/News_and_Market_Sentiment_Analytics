@@ -8,24 +8,28 @@ Created on Mon Nov 20 21:40:06 2023
 # %% Volatility
 import numpy as np
 import matplotlib.pyplot as plt
+import math
 
 # Generate 100,000 random draws
-random_sequence = np.random.normal(0, 1, 100000)
+prices = np.cumsum(np.random.normal(0, 0.01, 10000))  # Cumulative sum for price simulation
 
-# Calculate volatility using a rolling window of 100 observations
-window_size = 100
-volatility = np.zeros_like(random_sequence)
+# Calculate logarithmic returns
+log_returns = np.log(prices[1:] / prices[:-1])
 
-for i in range(window_size, len(random_sequence)):
-    window = random_sequence[i - window_size: i]
-    volatility[i] = np.std(window)
+# Calculate historical volatility with a rolling window of 30 observations
+window_size = 30
+volatility = np.zeros_like(prices)
+volatility[:window_size] = np.std(log_returns[:window_size])
+
+for i in range(window_size, len(prices)):
+    volatility[i] = np.std(log_returns[i - window_size + 1:i + 1])
 
 # Plot the results
 plt.figure(figsize=(10, 6))
-plt.plot(random_sequence, label='Random Sequence')
+plt.plot(prices, label='Price')
 plt.plot(volatility, label='Volatility (Rolling Window)')
 plt.legend()
-plt.title('Random Sequence and Volatility')
+plt.title('Price and Historical Volatility')
 plt.xlabel('Observation')
 plt.ylabel('Value')
 plt.show()
