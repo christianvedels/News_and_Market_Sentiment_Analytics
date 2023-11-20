@@ -24,6 +24,11 @@ library(reticulate)
 use_condaenv("sentimentF23")
 ```
 
+```{python}
+2 + 2
+```
+
+
 ```{python include=FALSE}
 import nltk
 ```
