@@ -56,11 +56,11 @@ def get_info(x):
     doc = nlp(x)
 
     # Extract Noun Phrases (NP) and Verb Phrases (VP) using spaCy's dependency parsing
-    noun_phrases    = [chunk.text for chunk in doc.noun_chunks]
-    verb_phrases    = [token.text for token in doc if token.pos_ == 'VERB']
+    noun_phrases    = [chunk.text.lower() for chunk in doc.noun_chunks]
+    verb_phrases    = [token.text.lower() for token in doc if token.pos_ == 'VERB']
     named_entities  = [(ent.text, ent.label_) for ent in doc.ents]
-    organiations    = [org[0] for org in named_entities if org[1]=="ORG"]
-    geography       = [gpe[0] for gpe in named_entities if gpe[1]=="GPE"]
+    organiations    = [org[0].lower() for org in named_entities if org[1]=="ORG"]
+    geography       = [gpe[0].lower() for gpe in named_entities if gpe[1]=="GPE"]
     
     # Count the occurrences of each word
     noun_phrases    = sorted(Counter(noun_phrases).items(), key=lambda x: x[1], reverse=True)
