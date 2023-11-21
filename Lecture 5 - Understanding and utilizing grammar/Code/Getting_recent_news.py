@@ -25,7 +25,7 @@ start_date = '2023-11-14'
 # Notice that this borrows from Lecture 2 - Lexical resources/Code/01_Get_stock_data.py
 # Get your own free API key here: https://newsapi.org/
 # Init
-newsapi = NewsApiClient(api_key="b973a0633202458792a421940fc2c1be")
+newsapi = NewsApiClient(api_key="")
 
 # /v2/top-headlines
 news = newsapi.get_everything(
