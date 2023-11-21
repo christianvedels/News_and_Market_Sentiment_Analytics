@@ -54,11 +54,14 @@ for idx, reuters_i in enumerate(reuters_texts, 1):
 # %% Check results
 i = 0
 
+print("\nPhrases:")
 print(noun_phrases_list[i][0:10])
 print(verb_phrases_list[i][0:10])
+
+print("\nNamed Entities:")
 print(organiations_list[i][0:10])
 print(geography_list[i][0:10])
 
 # Does it make sense?
-print(reuters_texts[i])
+# print(reuters_texts[i])
 

@@ -4,7 +4,7 @@
     <title>News and Market Sentiment Analytics</title>
     <meta charset="utf-8" />
     <meta name="author" content="Christian Vedel,  Department of Economics   Email: christian-vs@sam.sdu.dk" />
-    <script src="libs/header-attrs-2.25/header-attrs.js"></script>
+    <script src="libs/header-attrs-2.21/header-attrs.js"></script>
     <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
     <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
     <link href="libs/panelset-0.2.6/panelset.css" rel="stylesheet" />
@@ -27,7 +27,7 @@ class: center, middle, inverse, title-slide
 ### Christian Vedel,<br> Department of Economics<br><br> Email: <a href="mailto:christian-vs@sam.sdu.dk" class="email">christian-vs@sam.sdu.dk</a>
 ]
 .date[
-### Updated 2023-11-20
+### Updated 2023-11-21
 ]
 
 ---
@@ -224,6 +224,19 @@ for word, tag in pos_tags: # Pretty print
 | going | gerund                  | VBG  |
 | went  | simple past             | VBD  |
 
+---
+# Parts of Speech
+
+- **Noun Phrases**
+  - *Group of words centered around a noun*
+    - *Example: **The old book** on the shelf is valuable.*
+- **Verb Phrases**
+  - *Group of words centered around a verb*
+    - *Example: The cat **is sleeping** peacefully.*
+- **Sentence Structure**
+  - *Subject, Predicate, Object*
+    - *Example: **She** (subject) **ate** (verb) **the delicious cake** (object).*
+
 
 ---
 # Chunkers: Extracting Phrases
@@ -257,6 +270,42 @@ for subtree in chunks.subtrees():
 ## (NP the/DT roof/NN)
 ```
 ]
+---
+# Chunkers: Extracting Phrases (spaCy)
+.small123[
+
+```python
+import spacy
+
+# Load spaCy English model
+nlp = spacy.load("en_core_web_sm")
+
+# Example sentence
+sentence = "Sarah mentioned the research paper that highlighted scientists discovered a new species in the Amazon rainforest."
+
+# Process the sentence with spaCy
+doc = nlp(sentence)
+
+# Extract noun phrases and verb phrases
+noun_phrases = [chunk.text for chunk in doc.noun_chunks]
+verb_phrases = [token.text for token in doc if token.pos_ == 'VERB']
+
+# Print the results
+print("Noun Phrases:", noun_phrases)
+```
+
+```
+## Noun Phrases: ['Sarah', 'the research paper', 'that', 'highlighted scientists', 'a new species', 'the Amazon rainforest']
+```
+
+```python
+print("Verb Phrases:", verb_phrases)
+```
+
+```
+## Verb Phrases: ['mentioned', 'discovered']
+```
+]
 
 ---
 # Noun phrase chunking
@@ -264,20 +313,6 @@ for subtree in chunks.subtrees():
 .small123[
 *From NLTK ch. 2.1*
 ]
-
----
-# Parts of Speech
-
-- **Noun Phrases**
-  - *Group of words centered around a noun*
-    - *Example: **The old book** on the shelf is valuable.*
-- **Verb Phrases**
-  - *Group of words centered around a verb*
-    - *Example: The cat **is sleeping** peacefully.*
-- **Sentence Structure**
-  - *Subject, Predicate, Object*
-    - *Example: **She** (subject) **ate** (verb) **the delicious cake** (object).*
-
 
 ---
 # Named Entity Recognition (NER)
@@ -393,7 +428,7 @@ displacy.render(doc, style="ent")
 .small123[
 .panelset[
 .panel[.panel-name[Front page]
-![Trap](http://runeberg.org/img/trap/3-1/0003.4.png)
+![Trap](Figures/Trap.png)
 ]
 .panel[.panel-name[NER]
 ![TrapNER](Figures/TrapNER.PNG)
@@ -466,7 +501,7 @@ for sentence in example_sentences:
 
 ---
 # Code example
-[Lecture 5 - Understanding and utilizing grammar/Code/Getting_recent_news.py](https://github.com/christianvedels/News_and_Market_Sentiment_Analytics/blob/main/Lecture%205%20-%20Understanding%20and%20utilizing%20grammar/Code/Getting_recent_news.py)  
+[Lecture 5 - Understanding and utilizing grammar/Code/Extracting_news_information.py](https://raw.githubusercontent.com/christianvedels/News_and_Market_Sentiment_Analytics/main/Lecture%205%20-%20Understanding%20and%20utilizing%20grammar/Code/Extracting_news_information.py)  
 
 [Lecture 5 - Understanding and utilizing grammar/Code/Getting_recent_news.py](https://github.com/christianvedels/News_and_Market_Sentiment_Analytics/blob/main/Lecture%205%20-%20Understanding%20and%20utilizing%20grammar/Code/Getting_recent_news.py)
 
