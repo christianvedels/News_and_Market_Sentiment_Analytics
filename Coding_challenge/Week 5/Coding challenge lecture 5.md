@@ -20,6 +20,4 @@ One thing is to predict stock prices, another issue is to estimate uncertainty. 
 ## Resources
 - Check [Lecture 2 - Lexical resources/Code/01_Get_stock_data.py](https://github.com/christianvedels/News_and_Market_Sentiment_Analytics/blob/main/Lecture%202%20-%20Lexical%20resources/Code/01_Get_stock_data.py)  
 - Get news and extract features with [Lecture 5 - Understanding and utilizing grammar/Code/Getting_recent_news.py](https://github.com/christianvedels/News_and_Market_Sentiment_Analytics/blob/main/Lecture%205%20-%20Understanding%20and%20utilizing%20grammar/Code/Getting_recent_news.py)  
-- Use the following formula to estimate volatility. Please note the cautionary note above:
-
-$$\hat{\sigma}_{t,t-30} = \sqrt{\sum_{i=t-30}^{t}\left[\ln(p_i/p_{i-1})\right]^2}$$
+- Use the following formula to estimate volatility. Please note the cautionary note above: $\hat{\sigma}_{t,t-30} = \sqrt{\sum_{i=t-30}^{t}\left[\ln(p_i/p_{i-1})\right]^2}$
