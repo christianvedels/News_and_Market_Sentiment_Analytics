@@ -1,5 +1,5 @@
 # News and Market Sentiment Analytics
-This is the GitHub page of [DS821: News and Market Sentiment Analytics](https://odin.sdu.dk/sitecore/index.php?a=fagbesk&id=64864&lang=en&listid=) offered in the Data Science masters of the University of Southern Denmark. Here you can find slides and other content for the course. If you are a student of this course, please also check the itslearning page of the course.  
+This is the GitHub page of [DS821: News and Market Sentiment Analytics](https://odin.sdu.dk/sitecore/index.php?a=fagbesk&id=136547&lang=en&listid=) offered in the Data Science masters of the University of Southern Denmark. Here you can find slides and other content for the course. If you are a student of this course, please also check the itslearning page of the course.  
 
 ## Notes
 The course is being developed throughout the semester. Please check back for updates. 
