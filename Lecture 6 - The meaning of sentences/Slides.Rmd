@@ -109,9 +109,8 @@ xaringanExtra::use_progress_bar(color = "#808080", location = "top")
   + Trap Danmark, which you are asked to scrape from http://runeberg.org/trap/2-1/0053.html 
   
 - You submit the exam as a pdf containing: 
-  + A paper describing: The **objective** of your project, the **NLP-tools** you used, and why you think they are **appropriate**, a **demonstration or the results** you ended with and **how well it performs**. 
-  + A link to a GitHub-repository.
-  + Alternatively: A well-documented appendix with code. 
+  + A paper describing: The **objective** of your project, the **NLP-tools** you used, and why you think they are **appropriate**, a **demonstration of the results** and **how well it performs**. 
+  + Documentation: **A link to a GitHub-repository** or **a well-documented appendix with code**.
 
 ---
 # Today's lecture
