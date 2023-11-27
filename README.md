@@ -12,14 +12,14 @@ The course is being developed throughout the semester. Please check back for upd
 | 2023-11-07 | [Lecture 3 - Classification pt 1](https://raw.githack.com/christianvedels/News_and_Market_Sentiment_Analytics/main/Lecture%203%20-%20Classification%20pt%201/Slides.html) | NLTK ch. 4, ch. 5 ([NLTK Book](https://www.nltk.org/book/)), [Zero shot classification](https://huggingface.co/tasks/zero-shot-classification), [Installing spaCy](https://spacy.io/usage) |
 | 2023-11-14 | [Lecture 4 - Classification pt 2](https://raw.githack.com/christianvedels/News_and_Market_Sentiment_Analytics/main/Lecture%204%20-%20Classification%20pt%202/Slides.html) | NLTK ch. 5, ch. 6 ([NLTK Book](https://www.nltk.org/book/)) |
 | 2023-11-21 | [Lecture 5 - Understanding and utilizing grammar](https://raw.githack.com/christianvedels/News_and_Market_Sentiment_Analytics/main/Lecture%205%20-%20Understanding%20and%20utilizing%20grammar/Slides.html) | NLTK ch. 7, ch. 8 ([NLTK Book](https://www.nltk.org/book/)) |
-| 2023-11-28 | [Lecture 6* - The meaning of sentences](https://raw.githack.com/christianvedels/News_and_Market_Sentiment_Analytics/main/Lecture%206%20-%20The%20meaning%20of%20sentences/Slides.html) | ch. 10 ([NLTK Book](https://www.nltk.org/book/)), [Word Embedding Clearly Explained](https://youtu.be/viZrOnJclY0?si=5fmNdnfHa_eTbETP) |
-| 2023-12-05 | [Lecture 7* - Sentiment analysis](https://raw.githack.com/christianvedels/News_and_Market_Sentiment_Analytics/main/Lecture%207%20-%20Sentiment%20analysis/Slides.html) | Reading follows |
+| 2023-11-28 | [Lecture 6 - The meaning of sentences](https://raw.githack.com/christianvedels/News_and_Market_Sentiment_Analytics/main/Lecture%206%20-%20The%20meaning%20of%20sentences/Slides.html) | ch. 10 ([NLTK Book](https://www.nltk.org/book/)), [Word Embedding Clearly Explained](https://youtu.be/viZrOnJclY0?si=5fmNdnfHa_eTbETP) |
+| 2023-12-05 | [Lecture 7* - Sentiment analysis](https://raw.githack.com/christianvedels/News_and_Market_Sentiment_Analytics/main/Lecture%207%20-%20Sentiment%20analysis/Slides.html) | See below |
 | 2023-12-12 | [Lecture 8* - Remaining topics](https://raw.githack.com/christianvedels/News_and_Market_Sentiment_Analytics/main/Lecture%208%20-%20Remaining%20topics/Slides.html#1) | Reading follows |
 
 
 *Unfinished slides
 
-*Reading for lecture 1:*
+**Reading for lecture 1:**
 
 -	Start on this Wikipedia page and search for more. Try to get answers for the following questions  https://en.wikipedia.org/wiki/History_of_natural_language_processing 
 -	What fields of study have been instrumental in the formation of modern NLP?  
@@ -30,6 +30,12 @@ The course is being developed throughout the semester. Please check back for upd
 
 *Suggested additional reading:* Gentzkow, Matthew, Bryan Kelly, and Matt Taddy. 2019. "Text as Data." Journal of Economic Literature, 57 (3): 535-74.[ https://doi.org/10.1257/jel.20181020] [https://web.stanford.edu/~gentzkow/research/text-as-data.pdf] 
 
+**Reading for lecture 7:**  
+Please read skim the following articles. Please try to identify some of the main ways LLMs can be used in sentiment analysis:
+- [Evaluation of transformer models for financial targeted sentiment analysis in Spanish](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC10280559/)
+- [Enhancing Financial Sentiment Analysis via Retrieval Augmented Large Language Models](https://arxiv.org/abs/2310.04027)
+- [Instruct-FinGPT: Financial Sentiment Analysis by Instruction Tuning of General-Purpose Large Language Models](https://arxiv.org/abs/2306.12659)
+- [Large-scale language models for innovation and technology intelligence: sentiment analysis on news articles](https://medium.com/mapegy-tech/large-scale-language-models-for-innovation-and-technology-intelligence-sentiment-analysis-on-news-2c1ed1f6f2ad)
 
 ## Setup
 Please see ["Setting-up-Python-environment.md"](https://github.com/christianvedels/News_and_Market_Sentiment_Analytics/blob/main/Setting-up-Python-environment.md)
