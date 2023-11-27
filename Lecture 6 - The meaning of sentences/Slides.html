@@ -4,9 +4,14 @@
     <title>News and Market Sentiment Analytics</title>
     <meta charset="utf-8" />
     <meta name="author" content="Christian Vedel,  Department of Economics   Email: christian-vs@sam.sdu.dk" />
-    <script src="libs/header-attrs-2.18/header-attrs.js"></script>
+    <script src="libs/header-attrs-2.25/header-attrs.js"></script>
     <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
     <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+    <link href="libs/panelset-0.2.6/panelset.css" rel="stylesheet" />
+    <script src="libs/panelset-0.2.6/panelset.js"></script>
+    <link href="libs/tile-view-0.2.6/tile-view.css" rel="stylesheet" />
+    <script src="libs/tile-view-0.2.6/tile-view.js"></script>
+    <script src="libs/xaringanExtra-progressBar-0.0.1/progress-bar.js"></script>
   </head>
   <body>
     <textarea id="source">
@@ -22,11 +27,38 @@ class: center, middle, inverse, title-slide
 ### Christian Vedel,<br> Department of Economics<br><br> Email: <a href="mailto:christian-vs@sam.sdu.dk" class="email">christian-vs@sam.sdu.dk</a>
 ]
 .date[
-### Updated 2023-10-18
+### Updated 2023-11-27
 ]
 
 ---
 
+
+
+
+
+
+
+
+<style>.xe__progress-bar__container {
+  top:0;
+  opacity: 1;
+  position:absolute;
+  right:0;
+  left: 0;
+}
+.xe__progress-bar {
+  height: 0.25em;
+  background-color: #808080;
+  width: calc(var(--slide-current) / var(--slide-total) * 100%);
+}
+.remark-visible .xe__progress-bar {
+  animation: xe__progress-bar__wipe 200ms forwards;
+  animation-timing-function: cubic-bezier(.86,0,.07,1);
+}
+@keyframes xe__progress-bar__wipe {
+  0% { width: calc(var(--slide-previous) / var(--slide-total) * 100%); }
+  100% { width: calc(var(--slide-current) / var(--slide-total) * 100%); }
+}</style>
 
 &lt;style type="text/css"&gt;
 .pull-left {
@@ -88,48 +120,399 @@ class: center, middle, inverse, title-slide
 ]
 
 ---
+# Exam
+- January 13-20
+- Relatively open format
+
+**Generic format**
+
+- "Demonstrate the skills you have learned in this course to gain relevant and useful insights into [x]"
+- Example of [x]:
+  + The corpus of Reuters articles from NLTK 
+  + Financial news, that you are asked to find yourself 
+  + Trap Danmark, which you are asked to scrape from http://runeberg.org/trap/2-1/0053.html 
+  
+- You submit the exam as a pdf containing: 
+  + A paper describing: The **objective** of your project, the **NLP-tools** you used, and why you think they are **appropriate**, a **demonstration or the results** you ended with and **how well it performs**. 
+  + A link to a GitHub-repository.
+  + Alternatively: A well-documented appendix with code. 
+
+---
 # Today's lecture
 .pull-left[
-- .red[**Slides are not yet ready**]
+- The idea of **Embedding Space**
+  + **Word embedding**
+  + **Sentence embeddings**
+
+
+
+- **String distances**:
+  + Edit distance
+  + Semantic distance
+]
+
+.pull-right[
+![Flows](Figures/0_Transformations, dataflows, magical, mathematical _esrgan-v1-x2plus.png)
+]
+
+---
+# Edit Distance in String Analysis
+.pull-left[
+- **Simple string distances**
+  + Hamming distance
+  + Levensthein distance
+  + Jaro-Winkler distance
+  + Useful for quantifying dissimilarity between strings
+  
+- **Applications**
+  + Fuzzy matching 
+  + Spell correction 
+  + Working with transcribed sources 
+]
+
+.pull-right[
+**Levensthein distance**  
+kitten `\(\rightarrow\)` sitting
+1. sitten (substitution of 's' for 'k')
+2. sittin (substitution of 'i' for 'e')
+3. sitting (insertion of 'g')
+]
+
+---
+
+# Levensthein distance
+
+.pull-left[
+- Most common basic string distance measure 
+- `\(O(mn)\)` complexity - you can run it 
+- Consists of edits: deletions, insertions, substitutions 
+]
+
+
+
+.pull-right[
+**Levensthein distance**  
+kitten `\(\rightarrow\)` sitting
+1. sitten (substitution of 's' for 'k')
+2. sittin (substitution of 'i' for 'e')
+3. sitting (insertion of 'g')
+]
+
+
+---
+
+# Jaro-Winkler Distance
+
+.pull-left[
+- **Definition**
+  - Measures the similarity between two strings, allowing for minor differences
+  - Similar to Levenshtein Distance but gives more weight to common prefixes
+  - Complex formula
+  - Achieves higher weights on first letters
 ]
 
 .pull-right[
 
+```python
+from nltk.metrics import edit_distance
+from nltk.metrics.distance import jaro_winkler_similarity
+
+str1 = "jellyfish"
+str2 = "smellyfish"
+
+lev_distance = edit_distance(str1, str2) / max(len(str1), len(str2))
+jw_distance = jaro_winkler_similarity(str1, str2)
+
+print(f"Lev. dist: {lev_distance}")
+```
+
+```
+## Lev. dist: 0.2
+```
+
+```python
+print(f"JW dist: {jw_distance}")
+```
+
+```
+## JW dist: 0.8962962962962964
+```
+
 ]
 
 ---
-## References (1/2)
 
-.small123[
-Andersen, H. C. (1844). The Nightingale. https://www.hcandersen-homepage.dk/?page_id=2257
+# Hamming Distance
 
-Devlin, J., Chang, M.-W., Lee, K., &amp; Toutanova, K. (2019). BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding. In Proceedings of the 2019 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies, Volume 1 (Long and Short Papers), pages 4171–4186, Minneapolis, Minnesota. Association for Computational Linguistics.
+.pull-left[
+- **Definition**
+  - Even simpler than Levensthein
+]
 
-Descartes, R. (1637). Discourse on the Method of Rightly Conducting One's Reason and of Seeking Truth in the Sciences (J. Veitch, Trans.). EBook-No. 59. https://www.gutenberg.org/ebooks/59
+.pull-right[
+- **Example**
+  - *karolin* and *kathrin* have a Hamming Distance of 3 (l, o, i)
+]
 
-Firth, J.R. (1957). "A synopsis of linguistic theory 1930–1955". Studies in Linguistic Analysis: 1–32. Reprinted in F.R. Palmer, ed. (1968). Selected Papers of J.R. Firth 1952–1959. London: Longman.
 
-Gurnee, W., &amp; Tegmark, M. (2023). Language Models Represent Space and Time. https://arxiv.org/abs/2310.02207
 
-Pearl, J. (2019). The seven tools of causal inference, with reflections on machine learning. Communications of the ACM, 62(3), 54–60. https://doi.org/10.1145/3241036
+---
+# Spell correction with Levensthein distance
+.pull-left[
+- Correcting misspelled words in a text
+- Levenshtein Distance helps identify the closest correct spelling
+- This is a simple and functional spell correction technique used in a lot of software
+]
 
-Radford, A., &amp; Narasimhan, K. (2018). Improving Language Understanding by Generative Pre-Training. https://api.semanticscholar.org/CorpusID:49313245
+.pull-right[
 
-Rosenblatt, F. (1958). The perceptron: A probabilistic model for information storage and organization in the brain. Psychological Review, 65(6), 386–408. https://doi.org/10.1037/h0042519
+```python
+from nltk.metrics import edit_distance
+
+# Original text
+text = "The cat sat on the met."
+
+# Misspelled word
+misspelled_word = "met"
+
+# Candidate correct words
+correct_words = ["mat", "mete", "meet", "meat"]
+
+# Select the word with the minimum Levenshtein Distance as the correction
+closest_word = min(correct_words, key=lambda word: edit_distance(misspelled_word, word))
+
+print(f"Closest Correct Spelling: {closest_word}")
+```
+
+```
+## Closest Correct Spelling: mat
+```
+
+]
+
+---
+# Record Linking
+.pull-left[
+- **Definition**
+  + Process of identifying and linking records that correspond to the same entity across different data sources
+- **Challenges**
+  + Variations in data format and structure
+  + Presence of errors and inconsistencies
+]
+
+.pull-right[
+![Record Linking](Figures/record_linking.jpg)
+]
+
+---
+
+# Record Linking with edit distance
+.pull-left[
+- **String Matching**
+  + Levenshtein Distance for approximate matching of strings
+  + Jaro-Winkler Distance for similarity calculation
+- **Blocking**
+  + Narrowing down potential matches by creating blocks based on certain criteria
+  
+  
+![Creamery](Figures/Mejeri.png)
+]
+
+.pull-right[
+**Example: Identifying same entities in historical data**
+- 'blidstrup', 'bildstrup', 'bilstrp', 'blidstrup', 'ballerup', 'baulum'
+- How do we find the same creamery in 33k observations of data with typos? 
+- Levensthein distance + blocking (Sharp, Henriques, McLaughlin, Tsoukli, Vedel, 2023)
+]
+
+---
+# Embeddings: The idea
+.pull-left[
+- Encode language such that semantics is encoded in vector operations
+- Embedding vectors can be manipulated algebraically
+- Example: `Emb(King) + Emb(Woman) = Emb(Queen)`
+- Replaces [semantic nets](https://raw.githack.com/christianvedels/News_and_Market_Sentiment_Analytics/main/Lecture%201%20-%20Context%20and%20setup/Slides.html#10) 
+]
+
+.pull-right[
+![Vector Arithmetic](Figures/Embeddings.svg)
 ]
 
 
 ---
-## References (2/2)
-.small123[
-Roweis, S. T., Saul, L. K. (2000). "Nonlinear Dimensionality Reduction by Locally Linear Embedding". Science, 290(5500), 2323–6. https://doi.org/10.1126/science.290.5500.2323
-
-Searle, J. (1980), "Minds, Brains and Programs", Behavioral and Brain Sciences, 3(3), 417–457. https://doi.org/10.1017/S0140525X00005756
-
-Vaswani, A., Shazeer, N., Parmar, N., Uszkoreit, J., Jones, L., Gomez, A. N., Kaiser, L., &amp; Polosukhin, I. (2023). Attention Is All You Need. https://arxiv.org/abs/1706.03762
-
-Weizenbaum, J. (1966). ELIZA—a Computer Program for the Study of Natural Language Communication between Man and Machine. Commun. ACM, 9(1), 36–45. https://doi.org/10.1145/365153.365168
+# Semantic Distance vs Edit Distance
+.pull-left[
+- **Semantic Distance**
+  + Measures the meaning or similarity between strings
+  + Considers the context and semantics
+  + Suitable for applications requiring understanding of content
 ]
+
+.pull-right[
+- **Edit Distance**
+  + Measures the dissimilarity based on the number of operations needed
+  + Sensitive to character-level differences
+  + Suitable for applications involving textual variations and corrections
+]
+
+
+---
+# When to Use Semantic Distance
+.pull-left[
+- **Natural Language Understanding**
+  + Sentiment Analysis
+  + Intent Recognition
+- **Contextual Analysis**
+  + Understanding relationships between words
+  + Machine Translation
+]
+
+.pull-right[
+![Semantic Distance](Figures/semantic_distance_use_case.jpg)
+]
+
+---
+
+# When to Use Edit Distance
+.pull-left[
+- **Textual Variations**
+  + Spell Correction
+  + Fuzzy Matching
+- **Error Detection**
+  + DNA Sequence Analysis
+  + Plagiarism Detection
+]
+
+.pull-right[
+![Edit Distance](Figures/edit_distance_use_case.jpg)
+]
+
+
+---
+# Cosine distance
+$$
+dist\left(Embd(a),\, Embd(b)\right) = cos(\theta_{a, b})
+$$
+
+
+- Ignoring differences in magnitudes, how close are vectors?
+
+- Do they point in the same direction `\(\theta=0\)` or opposite directions `\(\theta = \pi\)`
+
+- Lives inside OneShotClassification as you already saw
+
+See [Cosine Similarity, Clearly Explained!!!](https://youtu.be/e9U0QAFbfLI?si=rsO3qxzxSjLTvIlP)
+
+
+---
+# Word Embeddings in spaCy
+.pull-left-narrow[
+- Getting embeddings in spacy is easy
+]
+
+.pull-right-wide[
+
+```python
+import spacy
+nlp = spacy.load("en_core_web_lg")
+sentence = "Word embeddings capture meaning."
+doc = nlp(sentence)
+for token in doc:
+    print(token.text, token.vector[:5])
+```
+
+```
+## Word [ 5.0944 -2.1753  4.1609  3.028   1.6814]
+## embeddings [-2.3663   0.18312 -0.74771  0.39892  3.9158 ]
+## capture [-3.6511   1.3005  -3.0378   0.31302  0.86455]
+## meaning [0.62742 0.31069 0.72985 0.97909 3.5207 ]
+## . [-0.076454 -4.6896   -4.0431   -3.4333   11.758   ]
+```
+]
+
+---
+# Vector arithmetic
+
+
+
+
+```python
+# Example in spaCy
+king = nlp("king").vector
+woman = nlp("woman").vector
+queen = king - nlp("man").vector + woman
+queen_true = nlp("queen").vector
+
+queen[:5]
+```
+
+```
+## array([ 1.93922  , -2.3115   , -1.3863   , -1.9133999,  4.17494  ],
+##       dtype=float32)
+```
+
+```python
+queen_true[:5]
+```
+
+```
+## array([ 2.167  ,  0.29991, -3.1277 , -2.7817 , -0.26743], dtype=float32)
+```
+
+
+---
+# Cosine similarity (with maths)
+
+```python
+# Example in spaCy
+token1 = nlp("cat").vector
+token2 = nlp("dog").vector
+
+cosine_similarity = np.dot(token1, token2) / (np.linalg.norm(token1) * np.linalg.norm(token2))
+print(cosine_similarity)
+```
+
+```
+## 0.8220817
+```
+
+---
+# Cosine similarity (build in spacy)
+
+```python
+# Example in spaCy
+token1 = nlp("cat")
+token2 = nlp("dog")
+
+similarity_score = token1.similarity(token2)
+print(similarity_score)
+```
+
+```
+## 0.82208162391359
+```
+
+
+---
+# Under the hood of zero-shot classification
+[Lecture 6 - The meaning of sentences/Code/spaCy_zeroshot.py](https://github.com/christianvedels/News_and_Market_Sentiment_Analytics/blob/main/Lecture%206%20-%20The%20meaning%20of%20sentences/Code/spaCy_zeroshot.py)
+
+---
+# Where to get embeddings?
+
+- Just start with spaCy
+- Any of the language models out there on hugging face
+- Can also be used with a model you train 
+- [**How?** Cut off the final layer](https://raw.githack.com/christianvedels/Guest_Lectures_and_misc_talks/main/HISCO/Slides.html#30)
+
+---
+## References
+
+.small123[
+Sharp, P., Henriques, S., McLaughlin, E., Tsoukli, X., &amp; Vedel, C. (2023). A Microlevel Analysis of Danish Dairy Cooperatives: Opportunities for Large Data in Business History. Enterprise &amp; Society, 1-29. https://doi.org/10.1017/eso.2023.13 
+]
+
+
 
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
