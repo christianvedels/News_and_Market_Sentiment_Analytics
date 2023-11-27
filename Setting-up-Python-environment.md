@@ -17,6 +17,7 @@ There are plenty of guides online for how to install this: https://youtu.be/-sNX
 `pip install yfinance`
 `pip install afinn`
 `pip install newsapi-python`
+`conda install plotly`
 
 ## Install pytorch to run on cuda 11.8
 `pip install transformers`  
