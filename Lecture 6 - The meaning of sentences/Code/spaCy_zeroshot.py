@@ -22,7 +22,8 @@ pio.renderers.default='browser'
 
 #%%
 # Load spaCy model
-nlp = spacy.load("en_core_web_sm")
+import spacy_transformers
+nlp = spacy.load("en_core_web_trf")
 
 # %%
 # Function to get spaCy embeddings for a sentence

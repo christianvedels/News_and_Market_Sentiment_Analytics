@@ -261,7 +261,7 @@ print(f"Closest Correct Spelling: {closest_word}")
 ]
 
 .pull-right[
-![Record Linking](Figures/record_linking.jpg)
+![Flows](Figures/0_Transformations, dataflows, magical, mathematical _esrgan-v1-x2plus.png)
 ]
 
 ---
@@ -317,8 +317,10 @@ print(f"Closest Correct Spelling: {closest_word}")
 
 
 ---
-# When to Use Semantic Distance
+# When to use
+
 .pull-left[
+### When to Use Semantic Distance
 - **Natural Language Understanding**
   + Sentiment Analysis
   + Intent Recognition
@@ -328,13 +330,7 @@ print(f"Closest Correct Spelling: {closest_word}")
 ]
 
 .pull-right[
-![Semantic Distance](Figures/semantic_distance_use_case.jpg)
-]
-
----
-
-# When to Use Edit Distance
-.pull-left[
+### When to Use Edit Distance
 - **Textual Variations**
   + Spell Correction
   + Fuzzy Matching
@@ -343,9 +339,6 @@ print(f"Closest Correct Spelling: {closest_word}")
   + Plagiarism Detection
 ]
 
-.pull-right[
-![Edit Distance](Figures/edit_distance_use_case.jpg)
-]
 
 
 ---
@@ -427,6 +420,9 @@ print(similarity_score)
 ---
 # Under the hood of zero-shot classification
 [Lecture 6 - The meaning of sentences/Code/spaCy_zeroshot.py](https://github.com/christianvedels/News_and_Market_Sentiment_Analytics/blob/main/Lecture%206%20-%20The%20meaning%20of%20sentences/Code/spaCy_zeroshot.py)
+
+
+Also see [Zero-Shot Learning in Modern NLP](https://joeddav.github.io/blog/2020/05/29/ZSL.html)
 
 ---
 # Where to get embeddings?
