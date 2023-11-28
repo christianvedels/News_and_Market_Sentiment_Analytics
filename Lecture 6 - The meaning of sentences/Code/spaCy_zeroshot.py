@@ -28,8 +28,10 @@ def calculate_cosine_similarity(vector1, vector2):
 
 # Function for zero-shot emotion classification
 def classify_emotion(sentence, emotion_classes):
+    # breakpoint()
     sentence_embedding = get_sentence_embedding(sentence)
-    similarities = [calculate_cosine_similarity(sentence_embedding, get_sentence_embedding(class_sentence)) for class_sentence in emotion_classes]
+    # x = [get_sentence_embedding(class_word)  for class_word in emotion_classes]
+    similarities = [calculate_cosine_similarity(sentence_embedding, get_sentence_embedding(class_word)) for class_word in emotion_classes]
     predicted_class = emotion_classes[np.argmax(similarities)]
     return predicted_class
 
@@ -128,7 +130,7 @@ example_sentences = [
 
 # %%
 # Emotion class labels
-emotion_classes = ["Happy", "Surprised", "Angry", "Sad"]
+emotion_classes = ["Happy", "Surprised", "Angry", "Sad", "Complex"]
 
 # Zero-shot emotion classification for each sentence
 predictions = [classify_emotion(sentence, emotion_classes) for sentence in example_sentences]
