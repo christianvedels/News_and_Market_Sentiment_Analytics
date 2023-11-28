@@ -9,16 +9,7 @@ Created on Mon Nov 27 14:56:10 2023
 import spacy
 import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity
-from sklearn.manifold import TSNE
 import pandas as pd
-
-# %% Plotly stuff
-import plotly.express as px
-import plotly.graph_objects as go
-
-# Show in browser
-import plotly.io as pio
-pio.renderers.default='browser'
 
 #%%
 # Load spaCy model
@@ -138,9 +129,6 @@ example_sentences = [
 # %%
 # Emotion class labels
 emotion_classes = ["Happy", "Surprised", "Angry", "Sad"]
-
-# Generate embeddings for each example sentence
-sentence_embeddings = [get_sentence_embedding(sentence) for sentence in example_sentences]
 
 # Zero-shot emotion classification for each sentence
 predictions = [classify_emotion(sentence, emotion_classes) for sentence in example_sentences]
