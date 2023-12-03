@@ -18,6 +18,24 @@ editor_options:
   chunk_output_type: console
 ---
 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(eval=TRUE, include=TRUE, cache=FALSE)
+library(reticulate)
+use_condaenv("sentimentF23")
+```
+
+```{r xaringan-panelset, echo=FALSE}
+xaringanExtra::use_panelset()
+```
+
+```{r xaringan-tile-view, echo=FALSE}
+xaringanExtra::use_tile_view()
+```
+
+```{r xaringanExtra, echo = FALSE}
+xaringanExtra::use_progress_bar(color = "#808080", location = "top")
+```
+
 ```{css echo=FALSE}
 .pull-left {
   float: left;
@@ -68,9 +86,10 @@ editor_options:
 
 # Last time
 .pull-left[
-- Course overview
-- How did we get to ChatGPT? (And what are the implications)
-- An example of some research I do using the techniques of the course
+- Distances
+- Edit distances and its applicaitons 
+- Semantic distances and its applicaitons 
+- Under the hood of one-shot classificaiton 
 ]
 
 .pull-right[
@@ -80,10 +99,182 @@ editor_options:
 ---
 # Today's lecture
 .pull-left[
-- .red[**Slides are not yet ready**]
+- Four recent academic papers on sentiment analysis
+- How to access LLaMA2
+- Recommendations on sentiment analysis
 ]
 
 .pull-right[
+![Dataflow](Figures/0_Transformations, dataflows, magical, mathematical _esrgan-v1-x2plus.png)
+]
+
+---
+# Types of Language Models
+
+#### Conventional Language Models:
+- Predict probability distributions over linguistic sequences.
+- Developed through statistical or data-driven approaches.
+- Examples include N-grams LMs, exponential LMs, and earlier neural LMs.
+
+$$P(u_1, u_2, \ldots, u_t) = P(u_1)P(u_2|u_1)P(u_3|u_1, u_2) \ldots P(u_t|u_1, \ldots, u_{t-1})$$
+
+#### Pretrained Language Models:
+- Pretrained on a broad range of linguistic tasks and objectives.
+- Mainstream approach in contemporary language modeling.
+- Often based on transformers
+- "This is a [MASK] type of food"
+
+$$P(u_t|u_{<t}), \quad P(u_t|u_{<t}, u_{>t})$$
+
+.footnote[
+.small123[[Wei, Wang, Wang, Kuo (2023)](https://arxiv.org/abs/2303.05759)]
+]
+
+
+
+---
+# A list of LMs
+.pull-left-wide[
+- [BERT-base-uncased](https://huggingface.co/bert-base-uncased): 110M parameters; One of the most used LMs out there
+  + [FinBERT](https://huggingface.co/ProsusAI/finbert): Finetuned for financial sentiment
+- [XLM-RoBERTa](https://huggingface.co/xlm-roberta-base): 279M parameters; Trained on 100 languages, powers our [HISCO project](https://raw.githack.com/christianvedels/Presentations/main/HISCO/Slides_flash.html)
+
+- [GPT-3.5](https://openai.com/pricing): 175 billion parameters; One of the largest language models:
+  + Also GPT-4, rumored to have 1.76 trillion parameters
+
+- [LLaMA2](https://huggingface.co/meta-llama/Llama-2-7b): 7B, 13B or 70B versions. Open source version of ChatGPT from Meta. You can run it locally (but it will take a while)
+
+- [DistilBERT](https://huggingface.co/distilbert-base-uncased): 66M parameters; A distilled version of BERT for faster inference
+]
+
+.pull-right-narrow[
+![LLaMA_poly](Figures/LLAMA_poly.png)
+.small123[*Dreamstudio.ai*]
+
+.small123[*For more check Naveed et al. (2023)*]
+]
+
+
+
+---
+# Pan et al. (2023)
+.pull-left[
+- *Target based sentiment analysis* in Spanish financial markets
+- Pipeline:
+  1. Identify entities (E.g. companies ) 
+  2. Identify sentiment for target not just the whole text
+  
+- Accuracy in the 70s percent
+
+]
+
+.pull-right[
+![Pan2023](Figures/Pan et al 2023.PNG)
+]
+
+---
+# Plaue (2023)
+.pull-left[
+- Not an academic article :-)
+- A nice go to to get started
+- Goes over a few standard ways of doing sentiment analysis
+- Main takeaways:
+  + Finetuning of a transformer model is worth it 
+  + But it might take a while to run for a lot of news
+]
+
+.pull-right[
+![Plaue](Figures/Plaue2023.PNG)
+.small123[*Finetuned LLM, figure from Plaue (2023)*]
+]
+
+---
+# Zhang, Yang, Liu (2023)
+
+- LLM do not understand numbers. Accounts, etc. can be key information in sentiment analysis 
+- LLMs can be instructed/prompted to have certain behaviours
+- *Instruction tuning* helps 
+  + see Zhang et al. (2023) for state of the art on instruction tuning
+- LLaMA-7B is used
+
+![Instructiontuning](Figures/Instructiontuning.PNG)
+.small123[*Figure 1 from Zhang, Yang, Liu (2023)*]
+
+---
+# Zhang et al. (2023)
+.pull-left[
+- Sometimes the problem is missing context 
+- What if we could get an LLM to retrieve relevant context from the internet when applicable? 
+- Extract important bits from texts "It was troubling what happened at **Apple** today" $\rightarrow$ [Retrieve information from **Apple**]
+
+#### Steps
+1. Search for [text] on search engine 
+2. Extract and add text to context if relevant
+3. Use query + context with instruction tuning to get sentiment
+
+]
+
+.pull-right[
+**Retrieval Augmented Generation**
+![RAG](Figures/RAG.PNG)
+.small123[*Table III from Zhang 2023*]
+]
+
+---
+# LLaMA2
+.pull-left[
+
+
+https://ai.meta.com/llama/get-started/
+
+- [Step by step guide for Tuning LLaMA2](https://www.datacamp.com/tutorial/fine-tuning-llama-2)
+
+- [LLaMA2 demo](https://huggingface.co/spaces/huggingface-projects/llama-2-7b-chat)
+
+![LLaMA2sent](Figures/LLAMA2_sentiment.PNG)
+
+]
+
+.pull-right[
+![LLaMA2](Figures/Finetuning_LLAMA2.png)
+.small123[*Finetuning LLaMA2 according to dreamstudio.ai*]
+]
+
+---
+# Where to get data
+.pull-left[
+- Twitter is suddenly expensive
+- Reuters and Bloomberg: [Start with some of the compiled data out there](https://github.com/philipperemy/financial-news-dataset)
+- [Thomson Reuters API](https://developers.thomsonreuters.com/pages/home)
+- [Bloomberg API](https://www.bloomberg.com/professional/support/api-library/); [Bloomberg Python package](https://bloomberg.github.io/blpapi-docs/python/3.23/) 
+- [All Danish News on Infomedia](https://infomedia.dk/mediearkiv/)
+- [The Guardian](https://open-platform.theguardian.com/)
+- [Many GitHub repositories for scraping news](https://github.com/topics/news-scraper)
+]
+
+
+.pull-right[
+![Twitter](Figures/Tweets_price.PNG)
+.small123[*[Tweet prices](https://developer.twitter.com/en/portal/petition/essential/basic-info)*]
+]
+
+
+---
+# Timing is key
+.pull-left[
+- Remember the [*Efficient Market Hypothesis*](https://raw.githack.com/christianvedels/News_and_Market_Sentiment_Analytics/main/Lecture%205%20-%20Understanding%20and%20utilizing%20grammar/Slides.html?panelset=front-page&panelset1=text#18)
+- It is not valuable to know what changes are happening on the market **now** we need to know what changes will happen in **the future**
+- **Implication:** Prediction must be done with a lag. I.e. predictions should reflect: $\Delta Y_t=f(\Delta Y_{t-1}, Z_{t-1}$
+]
+
+---
+# Best practice data transformations 
+.pull-left[
+- Take logs of the outcome $Y_t=log(Stock\;price_t)$ 
+  + This makes 1% change comparable across scales. 
+- Take differences:
+  + $\Delta Y = Y_t - Y_{t-1}$
+  + This centers the data around 0
 
 ]
 
@@ -91,33 +282,28 @@ editor_options:
 ## References (1/2)
 
 .small123[
-Andersen, H. C. (1844). The Nightingale. https://www.hcandersen-homepage.dk/?page_id=2257
 
-Devlin, J., Chang, M.-W., Lee, K., & Toutanova, K. (2019). BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding. In Proceedings of the 2019 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies, Volume 1 (Long and Short Papers), pages 4171–4186, Minneapolis, Minnesota. Association for Computational Linguistics.
 
-Descartes, R. (1637). Discourse on the Method of Rightly Conducting One's Reason and of Seeking Truth in the Sciences (J. Veitch, Trans.). EBook-No. 59. https://www.gutenberg.org/ebooks/59
+Naveed, H., Khan, A. U., Qiu, S., Saqib, M., Anwar, S., Usman, M., Akhtar, N., Barnes, N., & Mian, A. (2023). A Comprehensive Overview of Large Language Models. arXiv preprint arXiv:2307.06435. https://arxiv.org/abs/2307.06435
 
-Firth, J.R. (1957). "A synopsis of linguistic theory 1930–1955". Studies in Linguistic Analysis: 1–32. Reprinted in F.R. Palmer, ed. (1968). Selected Papers of J.R. Firth 1952–1959. London: Longman.
+Plaue, M. (2023, May 5). Large-scale language models for innovation and technology intelligence: sentiment analysis on news articles. MAPEGY Tech. https://medium.com/mapegy-tech/large-scale-language-models-for-innovation-and-technology-intelligence-sentiment-analysis-on-news-2c1ed1f6f2ad
 
-Gurnee, W., & Tegmark, M. (2023). Language Models Represent Space and Time. https://arxiv.org/abs/2310.02207
+Wei, C., Wang, Y.-C., Wang, B., & Kuo, C.-C. J. (2023). An Overview on Language Models: Recent Developments and Outlook. arXiv preprint arXiv:2303.05759. https://arxiv.org/abs/2303.05759
 
-Pearl, J. (2019). The seven tools of causal inference, with reflections on machine learning. Communications of the ACM, 62(3), 54–60. https://doi.org/10.1145/3241036
+Zhang, S., Dong, L., Li, X., Zhang, S., Sun, X., Wang, S., Li, J., Hu, R., Zhang, T., Wu, F., & Wang, G. (2023). Instruction Tuning for Large Language Models: A Survey. arXiv preprint arXiv:2308.10792. https://arxiv.org/abs/2308.10792
 
-Radford, A., & Narasimhan, K. (2018). Improving Language Understanding by Generative Pre-Training. https://api.semanticscholar.org/CorpusID:49313245
+Zhang, B., Yang, H., Zhou, T., Babar, A., & Liu, X.-Y. (2023). Enhancing Financial Sentiment Analysis via Retrieval Augmented Large Language Models. arXiv preprint arXiv:2310.04027. https://arxiv.org/abs/2310.04027
 
-Rosenblatt, F. (1958). The perceptron: A probabilistic model for information storage and organization in the brain. Psychological Review, 65(6), 386–408. https://doi.org/10.1037/h0042519
+Zhang, B., Yang, H., & Liu, X.-Y. (2023). Instruct-FinGPT: Financial Sentiment Analysis by Instruction Tuning of General-Purpose Large Language Models. arXiv preprint arXiv:2306.12659. https://arxiv.org/abs/2306.12659 
+
+
+
 ]
 
 
 ---
 ## References (2/2)
 .small123[
-Roweis, S. T., Saul, L. K. (2000). "Nonlinear Dimensionality Reduction by Locally Linear Embedding". Science, 290(5500), 2323–6. https://doi.org/10.1126/science.290.5500.2323
 
-Searle, J. (1980), "Minds, Brains and Programs", Behavioral and Brain Sciences, 3(3), 417–457. https://doi.org/10.1017/S0140525X00005756
-
-Vaswani, A., Shazeer, N., Parmar, N., Uszkoreit, J., Jones, L., Gomez, A. N., Kaiser, L., & Polosukhin, I. (2023). Attention Is All You Need. https://arxiv.org/abs/1706.03762
-
-Weizenbaum, J. (1966). ELIZA—a Computer Program for the Study of Natural Language Communication between Man and Machine. Commun. ACM, 9(1), 36–45. https://doi.org/10.1145/365153.365168
 ]
 
