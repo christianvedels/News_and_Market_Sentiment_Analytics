@@ -145,6 +145,8 @@ $$P(u_t|u_{<t}), \quad P(u_t|u_{<t}, u_{>t})$$
 - [LLaMA2](https://huggingface.co/meta-llama/Llama-2-7b): 7B, 13B or 70B versions. Open source version of ChatGPT from Meta. You can run it locally (but it will take a while)
 
 - [DistilBERT](https://huggingface.co/distilbert-base-uncased): 66M parameters; A distilled version of BERT for faster inference
+
+- **Ancient result:** An LLM will often [implicitly model sentiment](https://openai.com/research/unsupervised-sentiment-neuron)
 ]
 
 .pull-right-narrow[
