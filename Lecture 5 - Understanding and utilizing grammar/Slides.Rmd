@@ -413,7 +413,7 @@ for sentence in example_sentences:
 # Efficient Market Hypothesis (EMH)
 
 .pull-left[
-*If you can by cheaply something which is more valuable than its price, you can profit (arbitrage). But ...*
+*If you can buy cheaply something which is more valuable than its price, you can profit (arbitrage). But ...*
 1. We all have access to the same information 
 2. Everyone is interested in maximum profits
 3. Everyone buys the undervalued assets 
