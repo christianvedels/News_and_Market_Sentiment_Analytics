@@ -11,7 +11,7 @@ import os
 script_directory = os.path.dirname(os.path.abspath(__file__))
 os.chdir(script_directory)
 
-#%%
+#%% Libraries
 
 import torch
 from transformers import DistilBertTokenizer, DistilBertForSequenceClassification, AdamW
@@ -25,7 +25,7 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import numpy as np
 
-# Load IMDb dataset from CSV
+# %% Load IMDb dataset from CSV
 imdb_data_path = '../../../IMDB/IMDB Dataset.csv'
 imdb_df = pd.read_csv(
     imdb_data_path
@@ -35,6 +35,7 @@ imdb_df = pd.read_csv(
 # Split the dataset into training and validation sets
 train_df, val_df = train_test_split(imdb_df, test_size=0.2, random_state=20)
 
+# %% Data prep
 # Tokenize and encode the training and validation sets
 tokenizer = DistilBertTokenizer.from_pretrained('distilbert-base-uncased')
 train_inputs = tokenizer(train_df['review'].tolist(), return_tensors='pt', padding=True, truncation=True)
@@ -45,7 +46,7 @@ label_encoder = LabelEncoder()
 train_labels = torch.tensor(label_encoder.fit_transform(train_df['sentiment']), dtype=torch.long)
 val_labels = torch.tensor(label_encoder.transform(val_df['sentiment']), dtype=torch.long)
 
-# Create a custom dataset class
+# %% Create a custom dataset class
 class SentimentDataset(Dataset):
     def __init__(self, inputs, labels):
         self.inputs = inputs
@@ -64,7 +65,7 @@ val_dataset = SentimentDataset(val_inputs, val_labels)
 train_dataloader = DataLoader(train_dataset, batch_size=16, shuffle=True)
 val_dataloader = DataLoader(val_dataset, batch_size=16, shuffle=False)
 
-# Fine-tune the model
+# %% Fine-tune the model
 model = DistilBertForSequenceClassification.from_pretrained('distilbert-base-uncased', num_labels=2)
 optimizer = AdamW(model.parameters(), lr=5e-5)
 
@@ -73,7 +74,7 @@ model.to(device)
 
 # Training loop
 num_epochs = 10
-for epoch in range(num_epochs):
+for epoch in range(num_epochs): # Appr. 15 min. per epoch
     model.train()
     for batch in tqdm(train_dataloader, desc=f'Epoch {epoch + 1}/{num_epochs}'):
         inputs, labels = batch
@@ -114,7 +115,7 @@ for epoch in range(num_epochs):
     print(f'  Validation Loss: {avg_val_loss:.4f}')
     print(f'  Validation Accuracy: {accuracy * 100:.2f}%')
 
-# Save the fine-tuned model
+# %% Save the fine-tuned model
 model.save_pretrained('fine_tuned_sentiment_model')
 tokenizer.save_pretrained('fine_tuned_sentiment_model')
 
