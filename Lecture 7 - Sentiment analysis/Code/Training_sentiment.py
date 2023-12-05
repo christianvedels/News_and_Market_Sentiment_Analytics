@@ -72,46 +72,47 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 model.to(device)
 
 # %% Training loop
-# num_epochs = 10
-# for epoch in range(num_epochs): # Appr. 15 min. per epoch
-#     model.train()
-#     for batch in tqdm(train_dataloader, desc=f'Epoch {epoch + 1}/{num_epochs}'):
-        # inputs, labels = batch
-        # inputs = {key: tensor.to(device) for key, tensor in inputs.items()}
-        # labels = labels.to(device)
+num_epochs = 10
+for epoch in range(num_epochs): # Appr. 15 min. per epoch
+    model.train()
+    for batch in tqdm(train_dataloader, desc=f'Epoch {epoch + 1}/{num_epochs}'):
+        inputs, labels = batch
+        inputs = {key: tensor.to(device) for key, tensor in inputs.items()}
+        labels = labels.to(device)
 
-        # optimizer.zero_grad()
-        # outputs = model(**inputs, labels=labels) # Equivalent to model(input_ids=tensor1, attention_mask=tensor2, labels=labels)
-#         loss.backward()
-#         optimizer.step()
+        optimizer.zero_grad()
+        outputs = model(**inputs, labels=labels) # Equivalent to model(input_ids=tensor1, attention_mask=tensor2, labels=labels)
+        loss = outputs.loss # BUGFIX        
+        loss.backward()
+        optimizer.step()
 
-#     # Validation
-#     model.eval()
-#     val_loss = 0.0
-#     correct_preds = 0
-#     total_preds = 0
-#     with torch.no_grad():
-#         for batch in tqdm(val_dataloader, desc='Validation'):
-#             inputs, labels = batch
-#             inputs = {key: tensor.to(device) for key, tensor in inputs.items()}
-#             labels = labels.to(device)
+    # Validation
+    model.eval()
+    val_loss = 0.0
+    correct_preds = 0
+    total_preds = 0
+    with torch.no_grad():
+        for batch in tqdm(val_dataloader, desc='Validation'):
+            inputs, labels = batch
+            inputs = {key: tensor.to(device) for key, tensor in inputs.items()}
+            labels = labels.to(device)
 
-#             outputs = model(**inputs, labels=labels)
-#             loss = outputs.loss
-#             val_loss += loss.item()
+            outputs = model(**inputs, labels=labels)
+            loss = outputs.loss
+            val_loss += loss.item()
 
-#             logits = outputs.logits
-#             preds = torch.argmax(logits, dim=1)
-#             correct_preds += (preds == labels).sum().item()
-#             total_preds += labels.size(0)
+            logits = outputs.logits
+            preds = torch.argmax(logits, dim=1)
+            correct_preds += (preds == labels).sum().item()
+            total_preds += labels.size(0)
 
-#     avg_val_loss = val_loss / len(val_dataloader)
-#     accuracy = correct_preds / total_preds
+    avg_val_loss = val_loss / len(val_dataloader)
+    accuracy = correct_preds / total_preds
 
-#     print(f'Epoch {epoch + 1}/{num_epochs}:')
-#     print(f'  Training Loss: {loss.item():.4f}')
-#     print(f'  Validation Loss: {avg_val_loss:.4f}')
-#     print(f'  Validation Accuracy: {accuracy * 100:.2f}%')
+    print(f'Epoch {epoch + 1}/{num_epochs}:')
+    print(f'  Training Loss: {loss.item():.4f}')
+    print(f'  Validation Loss: {avg_val_loss:.4f}')
+    print(f'  Validation Accuracy: {accuracy * 100:.2f}%')
 
 # %% Save the fine-tuned model
 # model.save_pretrained('fine_tuned_sentiment_model')
