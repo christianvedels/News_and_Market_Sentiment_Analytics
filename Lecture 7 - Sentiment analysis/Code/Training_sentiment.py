@@ -115,8 +115,8 @@ for epoch in range(num_epochs): # Appr. 15 min. per epoch
     print(f'  Validation Accuracy: {accuracy * 100:.2f}%')
 
 # %% Save the fine-tuned model
-# model.save_pretrained('fine_tuned_sentiment_model')
-# tokenizer.save_pretrained('fine_tuned_sentiment_model')
+model.save_pretrained('fine_tuned_sentiment_model')
+tokenizer.save_pretrained('fine_tuned_sentiment_model')
 
 # %% Load model
 model = DistilBertForSequenceClassification.from_pretrained('fine_tuned_sentiment_model')
