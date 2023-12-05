@@ -123,24 +123,24 @@ tokenizer = DistilBertTokenizer.from_pretrained('fine_tuned_sentiment_model')
 
 # %% Evaluate the model
 model.eval()
-all_preds = []
-all_labels = []
+# all_preds = []
+# all_labels = []
 
-with torch.no_grad():
-    for batch in tqdm(val_dataloader, desc='Validation'):
-        inputs, labels = batch
-        inputs = {key: tensor.to(device) for key, tensor in inputs.items()}
-        labels = labels.to(device)
+# with torch.no_grad():
+#     for batch in tqdm(val_dataloader, desc='Validation'):
+#         inputs, labels = batch
+#         inputs = {key: tensor.to(device) for key, tensor in inputs.items()}
+#         labels = labels.to(device)
 
-        # Ensure model is on the same device as the inputs
-        model.to(inputs[list(inputs.keys())[0]].device)
+#         # Ensure model is on the same device as the inputs
+#         model.to(inputs[list(inputs.keys())[0]].device)
 
-        outputs = model(**inputs)
-        logits = outputs.logits
-        preds = torch.argmax(logits, dim=1)
+#         outputs = model(**inputs)
+#         logits = outputs.logits
+#         preds = torch.argmax(logits, dim=1)
 
-        all_preds.extend(preds.cpu().numpy())
-        all_labels.extend(labels.cpu().numpy())
+#         all_preds.extend(preds.cpu().numpy())
+#         all_labels.extend(labels.cpu().numpy())
 
 # %% Calculate and print classification report
 print("Classification Report:")
