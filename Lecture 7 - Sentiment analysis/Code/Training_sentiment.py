@@ -76,13 +76,12 @@ model.to(device)
 # for epoch in range(num_epochs): # Appr. 15 min. per epoch
 #     model.train()
 #     for batch in tqdm(train_dataloader, desc=f'Epoch {epoch + 1}/{num_epochs}'):
-#         inputs, labels = batch
-#         inputs = {key: tensor.to(device) for key, tensor in inputs.items()}
-#         labels = labels.to(device)
+        # inputs, labels = batch
+        # inputs = {key: tensor.to(device) for key, tensor in inputs.items()}
+        # labels = labels.to(device)
 
-#         optimizer.zero_grad()
-#         outputs = model(**inputs, labels=labels)
-#         loss = outputs.loss
+        # optimizer.zero_grad()
+        # outputs = model(**inputs, labels=labels) # Equivalent to model(input_ids=tensor1, attention_mask=tensor2, labels=labels)
 #         loss.backward()
 #         optimizer.step()
 

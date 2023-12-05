@@ -27,7 +27,7 @@ class: center, middle, inverse, title-slide
 ### Christian Vedel,<br> Department of Economics<br><br> Email: <a href="mailto:christian-vs@sam.sdu.dk" class="email">christian-vs@sam.sdu.dk</a>
 ]
 .date[
-### Updated 2023-12-04
+### Updated 2023-12-05
 ]
 
 ---
@@ -159,6 +159,7 @@ class: center, middle, inverse, title-slide
 ---
 # A list of LMs
 .pull-left-wide[
+.small123[
 - [BERT-base-uncased](https://huggingface.co/bert-base-uncased): 110M parameters; One of the most used LMs out there
   + [FinBERT](https://huggingface.co/ProsusAI/finbert): Finetuned for financial sentiment
 - [XLM-RoBERTa](https://huggingface.co/xlm-roberta-base): 279M parameters; Trained on 100 languages, powers our [HISCO project](https://raw.githack.com/christianvedels/Presentations/main/HISCO/Slides_flash.html)
@@ -171,6 +172,8 @@ class: center, middle, inverse, title-slide
 - [DistilBERT](https://huggingface.co/distilbert-base-uncased): 66M parameters; A distilled version of BERT for faster inference
 
 - **Ancient result:** An LLM will often [implicitly model sentiment](https://openai.com/research/unsupervised-sentiment-neuron)
+
+]
 ]
 
 .pull-right-narrow[
@@ -255,6 +258,9 @@ class: center, middle, inverse, title-slide
 - [LLaMA2 demo](https://huggingface.co/spaces/huggingface-projects/llama-2-7b-chat)
 ![LLaMA2sent](Figures/LLAMA2_sentiment.PNG)
 
+- [ChatGPT example](https://chat.openai.com/share/cc0fd509-41d1-43cb-a57f-4faed592b56b)
+- [News example](https://finance.yahoo.com/news/4-pfizer-drops-twice-daily-114842993.html)
+
 ]
 
 .pull-right[
@@ -272,7 +278,7 @@ class: center, middle, inverse, title-slide
 - It is an open source version of chatGPT
 - It works well 
 - We can freely implement it anywhere 
-- Tough to finetune but can be done with Parameter-Efficient Fine-Tuning ([PEFT](https://github.com/huggingface/peft))
+- Tough to finetune but can be done with Parameter-Efficient Fine-Tuning ([PEFT](https://github.com/huggingface/peft), [Simple explaination](https://www.leewayhertz.com/parameter-efficient-fine-tuning/#:~:text=On%20the%20other%20hand%2C%20parameter,updating%20those%20parameters%20during%20training.))
 ]
 
 .pull-right[
@@ -304,7 +310,7 @@ class: center, middle, inverse, title-slide
 .pull-left[
 - Remember the [*Efficient Market Hypothesis*](https://raw.githack.com/christianvedels/News_and_Market_Sentiment_Analytics/main/Lecture%205%20-%20Understanding%20and%20utilizing%20grammar/Slides.html?panelset=front-page&amp;panelset1=text#18)
 - It is not valuable to know what changes are happening on the market **now** we need to know what changes will happen in **the future**
-- **Implication:** Prediction must be done with a lag. I.e. predictions should reflect: `\(\Delta Y_t=f(\Delta Y_{t-1}, Z_{t-1}\)`
+- **Implication:** Prediction must be done with a lag. I.e. predictions should reflect: `\(\Delta Y_t=f(\Delta Y_{t-1}, Z_{t-1})\)`, where `\(Z_{t-1}\)` is some additional information known before current time `\(t\)`. E.g. news sentiment
 ]
 
 .pull-right[
@@ -337,6 +343,7 @@ class: center, middle, inverse, title-slide
 # Next time
 .pull-left[
 - Topic modelling: Clustering, LDA, etc. 
+- Best practice when working with language data
 - Content of your choice 
 ]
 
