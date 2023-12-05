@@ -225,14 +225,10 @@ $$P(u_t|u_{<t}), \quad P(u_t|u_{<t}, u_{>t})$$
 ---
 # LLaMA2
 .pull-left[
-
-
-https://ai.meta.com/llama/get-started/
-
+- An open source version of 
 - [Step by step guide for Tuning LLaMA2](https://www.datacamp.com/tutorial/fine-tuning-llama-2)
-
+- [HugginFace Guide](https://huggingface.co/blog/llama2)
 - [LLaMA2 demo](https://huggingface.co/spaces/huggingface-projects/llama-2-7b-chat)
-
 ![LLaMA2sent](Figures/LLAMA2_sentiment.PNG)
 
 ]
@@ -240,6 +236,24 @@ https://ai.meta.com/llama/get-started/
 .pull-right[
 ![LLaMA2](Figures/Finetuning_LLAMA2.png)
 .small123[*Finetuning LLaMA2 according to dreamstudio.ai*]
+]
+
+.footnote[
+.small123[[See Touvron et. al 2023](https://arxiv.org/abs/2307.09288)]
+]
+
+---
+# Why are people excited about LLaMA2?
+.pull-left[
+- It is an open source version of chatGPT
+- It works well 
+- We can freely implement it anywhere 
+- Tough to finetune but can be done with Parameter-Efficient Fine-Tuning ([PEFT](https://github.com/huggingface/peft))
+]
+
+.pull-right[
+![LLAMA](Figures/LLAMA_paper.png)
+.small123[*dreamstudio.ai*]
 ]
 
 ---
@@ -269,6 +283,10 @@ https://ai.meta.com/llama/get-started/
 - **Implication:** Prediction must be done with a lag. I.e. predictions should reflect: $\Delta Y_t=f(\Delta Y_{t-1}, Z_{t-1}$
 ]
 
+.pull-right[
+![Stoncks](Figures/stonks.jpeg)
+]
+
 ---
 # Best practice data transformations 
 .pull-left[
@@ -277,35 +295,60 @@ https://ai.meta.com/llama/get-started/
 - Take differences:
   + $\Delta Y = Y_t - Y_{t-1}$
   + This centers the data around 0
-
+- Regularization on the text-level:
+  + Random word swapping/insertion
+  + Random character swapping/insertion
+  + Back translation
+  + [TextAttack library](https://textattack.readthedocs.io/en/master/)
 ]
+
+
+
+---
+# Code example
+- [Finetuning DistilBERT for IMDB sentiments](https://github.com/christianvedels/News_and_Market_Sentiment_Analytics/blob/main/Lecture%207%20-%20Sentiment%20analysis/Code/Training_sentiment.py) 
+- [Running LLaMA2 on your own machine](https://github.com/christianvedels/News_and_Market_Sentiment_Analytics/blob/main/Lecture%207%20-%20Sentiment%20analysis/Code/Using_LLAMA2.py)
+
+---
+# Next time
+.pull-left[
+- Topic modelling: Clustering, LDA, etc. 
+- Content of your choice 
+]
+
+.pull-right[
+![Trees](Figures/Trees.jpg)
+]
+
+
 
 ---
 ## References (1/2)
 
 .small123[
-
+Mangrulkar, S., Gugger, S., Debut, L., Belkada, Y., Paul, S., & Bossan, B. (2022). PEFT: State-of-the-art Parameter-Efficient Fine-Tuning methods. Retrieved from https://github.com/huggingface/peft
 
 Naveed, H., Khan, A. U., Qiu, S., Saqib, M., Anwar, S., Usman, M., Akhtar, N., Barnes, N., & Mian, A. (2023). A Comprehensive Overview of Large Language Models. arXiv preprint arXiv:2307.06435. https://arxiv.org/abs/2307.06435
 
 Plaue, M. (2023, May 5). Large-scale language models for innovation and technology intelligence: sentiment analysis on news articles. MAPEGY Tech. https://medium.com/mapegy-tech/large-scale-language-models-for-innovation-and-technology-intelligence-sentiment-analysis-on-news-2c1ed1f6f2ad
 
+Touvron, H., Martin, L., Stone, K., Albert, P., Almahairi, A., Babaei, Y., Bashlykov, N., Batra, S., Bhargava, P., Bhosale, S., Bikel, D., Blecher, L., Canton Ferrer, C., Chen, M., Cucurull, G., Esiobu, D., Fernandes, J., Fu, J., Fu, W., Fuller, B., Gao, C., Goswami, V., Goyal, N., Hartshorn, A., Hosseini, S., Hou, R., Inan, H., Kardas, M., Kerkez, V., Khabsa, M., Kloumann, I., Korenev, A., Koura, P. S., Lachaux, M-A., Lavril, T., Lee, J., Liskovich, D., Lu, Y., Mao, Y., Martinet, X., Mihaylov, T., Mishra, P., Molybog, I., Nie, Y., Poulton, A., Reizenstein, J., Rungta, R., Saladi, K., Schelten, A., Silva, R., Smith, E. M., Subramanian, R., Tan, X. E., Tang, B., Taylor, R., Williams, A., Xiang Kuan, J., Xu, P., Yan, Z., Zarov, I., Zhang, Y., Fan, A., Kambadur, M., Narang, S., Rodriguez, A., Stojnic, R., Edunov, S., & Scialom, T. (2023). Llama 2: Open Foundation and Fine-Tuned Chat Models. arXiv preprint arXiv:2307.09288. https://arxiv.org/abs/2307.09288
+
 Wei, C., Wang, Y.-C., Wang, B., & Kuo, C.-C. J. (2023). An Overview on Language Models: Recent Developments and Outlook. arXiv preprint arXiv:2303.05759. https://arxiv.org/abs/2303.05759
 
+]
+
+---
+## References (2/2)
+
+.small123[
 Zhang, S., Dong, L., Li, X., Zhang, S., Sun, X., Wang, S., Li, J., Hu, R., Zhang, T., Wu, F., & Wang, G. (2023). Instruction Tuning for Large Language Models: A Survey. arXiv preprint arXiv:2308.10792. https://arxiv.org/abs/2308.10792
 
 Zhang, B., Yang, H., Zhou, T., Babar, A., & Liu, X.-Y. (2023). Enhancing Financial Sentiment Analysis via Retrieval Augmented Large Language Models. arXiv preprint arXiv:2310.04027. https://arxiv.org/abs/2310.04027
 
 Zhang, B., Yang, H., & Liu, X.-Y. (2023). Instruct-FinGPT: Financial Sentiment Analysis by Instruction Tuning of General-Purpose Large Language Models. arXiv preprint arXiv:2306.12659. https://arxiv.org/abs/2306.12659 
 
-
-
 ]
 
 
----
-## References (2/2)
-.small123[
-
-]
 
