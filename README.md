@@ -14,7 +14,7 @@ The course is being developed throughout the semester. Please check back for upd
 | 2023-11-21 | [Lecture 5 - Understanding and utilizing grammar](https://raw.githack.com/christianvedels/News_and_Market_Sentiment_Analytics/main/Lecture%205%20-%20Understanding%20and%20utilizing%20grammar/Slides.html) | NLTK ch. 7, ch. 8 ([NLTK Book](https://www.nltk.org/book/)) |
 | 2023-11-28 | [Lecture 6 - The meaning of sentences](https://raw.githack.com/christianvedels/News_and_Market_Sentiment_Analytics/main/Lecture%206%20-%20The%20meaning%20of%20sentences/Slides.html) | ch. 10 ([NLTK Book](https://www.nltk.org/book/)), [Word Embedding Clearly Explained](https://youtu.be/viZrOnJclY0?si=5fmNdnfHa_eTbETP) |
 | 2023-12-05 | [Lecture 7 - Sentiment analysis](https://raw.githack.com/christianvedels/News_and_Market_Sentiment_Analytics/main/Lecture%207%20-%20Sentiment%20analysis/Slides.html) | See below |
-| 2023-12-12 | [Lecture 8* - Remaining topics](https://raw.githack.com/christianvedels/News_and_Market_Sentiment_Analytics/main/Lecture%208%20-%20Remaining%20topics/Slides.html#1) | Reading follows |
+| 2023-12-12 | [Lecture 8 - Remaining topics](https://raw.githack.com/christianvedels/News_and_Market_Sentiment_Analytics/main/Lecture%208%20-%20Remaining%20topics/Slides.html#1) | No reading - topic models |
 
 
 *Unfinished slides
