@@ -68,9 +68,9 @@ editor_options:
 
 # Last time
 .pull-left[
-- Course overview
-- How did we get to ChatGPT? (And what are the implications)
-- An example of some research I do using the techniques of the course
+- Four recent academic papers on sentiment analysis
+- How to access LLaMA2
+- Recommendations on sentiment analysis
 ]
 
 .pull-right[
@@ -80,48 +80,250 @@ editor_options:
 ---
 # Today's lecture
 .pull-left[
-- Course overview
-- How did we get to ChatGPT? (And what are the implications)
-- An example of some research I do using the techniques of the course
+- Topic modelling: 
+  + Clustering , LDA, etc. 
+]
+
+.pull-right[
+![Clustering](Figures/Clustering_dall-e.jpg)
+]
+
+---
+# A pipeline for extracting information from a heterogenous stack of documents
+
+1. Figure out which document it is
+2. Extract Appropriate Information
+3. Use Information for New Insights
+
+
+Example: See [Dahl, Johansen, Sørensen, Westermann, Wittrock (2023)](/https://arxiv.org/abs/2102.03239)
+
+
+### Exam relevance
+- In the exam you will be given a source of text data
+- And it would be great if you extracted relevant information from it
+
+---
+# Document Classification in the Clustering Pipeline
+
+## 1. Figure out which document it is
+
+- **Task Description:**
+  + Identify the type or category of a given document.
+- **Approach:**
+  + Utilize document classification to assign predefined labels or categories.
+
+![Dahl](Figures/Dahl et al 2023.png)
+.small123[*Figure 1 from Dahl et al (2023)*]
+
+---
+
+## 2. Extract Appropriate Information
+
+- **Task Description:**
+  + Extract relevant information from the identified document.
+- **Technique:**
+  + Apply Named Entity Recognition (NER) to identify and extract entities.
+
+
+---
+
+## 3. Use Information for New Insights
+
+- **Task Description:**
+  + Leverage the extracted information to gain new insights or knowledge.
+- **Application:**
+  + Analyze entities, relationships, or patterns to derive meaningful insights.
+
+
+---
+# Topic Modeling 
+.pull-left[
+- A common issue when dealing with text, is that we want to extract topics 
+- *This is an unsupervised learning task*
+  + E.g. clustering 
+- We can derive valuable clusters from the classical approach 'Bag of words' 
+  + k means
+  + Latent Diriclet Allocation
+- Great results from more modern approaches
+  + K means - just in embedding space
+]
+
+.pull-right[
+![Topicmodelling](Figures/Topics.png)
+]
+
+---
+# K Means
+.pull-left[
+- **Representation:**
+  + **Bag of Words (BoW):** Each document represented by word frequencies.
+- **Algorithm:**
+  + K means leverages BoW for simple document similarity based on word occurrences.
+- The simplest form of topic discovery. 
+- Requires tinkering to get useful results
+  
+]
+
+.pull-right[
+![K-Nearest Neighbors](Figures/k_means.png)
+]
+
+---
+# K-Means implementation
+.pull-left[
+.small123[
+### Steps
+- **Step 0:** Clean data, remove stopwords, etc.
+- **Step 1:** BoW representaiton
+  + Each document is represented as a vector of word frequencies 
+- **Step 2 (optional):** Consider reducing the dimensionality of the problem
+  + I.e. limit to only useful words using PCA or other heuristics 
+- **Step 3:** Run K means for k in 1:K
+  + Use some evaluation metric to choose optimal k. 
+  + Metrics: Sum of squared errors
+  + Criterion: Elbow point
+  
+**See [Lecture 8 - Remaining topics/Code/K_means_topic_modelling.py](https://github.com/christianvedels/News_and_Market_Sentiment_Analytics/blob/main/Lecture%208%20-%20Remaining%20topics/Code/K_means_topic_modelling.py)**
+]
+
+]
+
+.pull-right[
+.small123[
+### Each K means run:
+Init: Set k means $\{\mathbf{m}^{(k)}\}$ randomly
+
+1. **Assignment**
+  + Measure distances $\{Dist\} = Dist\left(\mathbf{m}^{(k)},\mathbf{x}^{(n)}\right)$ using e.g. Euclidean or Cosine distance
+  + Assign all elements of $\mathbf{x}^{(k)}$ to an element of $\mathbf{m}^{(k)}$ for which $\{Dist\}$ is minimal
+  
+2. **Update**
+  + Updates all $\mathbf{m}^{(k)}$ to be equal to the mean of its assigned elements of $\mathbf{x}^{(k)}$
+  
+- **Repeat 1 and 2 until convergence**
+  
+MacKay (2003), p. 286
+]
+
+]
+
+---
+# Latent Dirichlet Allocation (LDA)
+.pull-left[
+- We imagine that every document is generated in the BoW way
+- But in two steps:
+  1. Each document is a mixture of topics 
+  2. Each topic is a mixture of words
+- 1. and 2. are drawn from a Dirichlet distribution
+- Topics are the latent part we are trying to identify
+]
+
+.pull-right[
+![LDA](Figures/lda.png)
+]
+
+---
+# Latent Dirichlet Allocation (LDA) Implementation
+.pull-left[
+.small123[
+### Steps
+- **Step 0:** Clean data, remove stopwords, etc.
+- **Step 1:** Prepare the document-term matrix (DTM)
+  + Each document is represented as a vector of word frequencies or other features
+- **Step 2:** Run LDA for a given number of topics
+  + Use some evaluation metric to choose the optimal number of topics.
+  + Criterion: Elbow point
+  
+**See [Lecture 8 - Remaining topics/Code/LDA_topic_modelling.py](https://github.com/christianvedels/News_and_Market_Sentiment_Analytics/blob/main/Lecture%208%20-%20Remaining%20topics/Code/LDA_topic_modelling.py)**
+]
+
+]
+
+.pull-right[
+.small123[
+### LDA estimation
+**Hiearchical Bayesian model**
+- $\theta_i\sim Dir(\alpha)$: Topic mixture distribution
+- $\varphi_k\sim Dir(\beta)$: Word in topic k
+
+To generate one document repeat:
+1. Choose topic $z_{ij} \sim Multinomial(\theta_i)$ 
+2. Choose word from topic $w_{ij}\sim Multinomial(\varphi_{z_{ij}})$
+
+Can be estimated with Markov Chain Monte Carlo. E.g. Gibbs sampling
+
+*[What is a Dirichlet distribution? It's a distribution of distributions](https://en.wikipedia.org/wiki/Dirichlet_distribution)*
+
+]
+
+]
+
+---
+# Sentence-Level Transformers and Clustering
+.pull-left[
+- Leverage advanced transformer models for sentence embeddings.
+- Understand context and semantics at a fine-grained level.
+- Utilize these embeddings for document clustering in the embedding space.
+]
+
+.pull-right[
+![Sentence-Level Transformers](Figures/embedding_space.png)
+]
+
+---
+# Sentence-Level Transformer Embeddings
+.pull-left[
+
+### Approach
+- Use transformer models designed for sentence embeddings (e.g., DistilBERT, RoBERTa).
+- Sentence embeddings capture rich contextual information.
+- Fine-tune or use pre-trained models for diverse downstream tasks.
+- Create embeddings for each sentence in the dataset.
+
+[Lecture 8 - Remaining topics/Code/Embedding_topic_modelling.py](https://github.com/christianvedels/News_and_Market_Sentiment_Analytics/blob/main/Lecture%208%20-%20Remaining%20topics/Code/Embedding_topic_modelling.py)
+
 ]
 
 .pull-right[
 
+### Steps
+1. Embed the sentences
+2. Reduce dimensions (PCA, t-SNE)
+3. Run clustering algorithm (K-means)
+
 ]
 
 ---
-## References (1/2)
+class: center
+# Course evaluation
 
-.small123[
-Pearl, J. (2019). The seven tools of causal inference, with reflections on machine learning. Communications of the ACM, 62(3), 54–60. https://doi.org/10.1145/3241036
-
-Rosenblatt, F. (1958). The perceptron: A probabilistic model for information storage and organization in the brain. Psychological Review, 65(6), 386–408. https://doi.org/10.1037/h0042519
-
-Sepp Hochreiter; Jürgen Schmidhuber (1997). "Long short-term memory". Neural Computation. 9 (8): 1735–1780. doi:10.1162/neco.1997.9.8.1735.
-
-Firth, J.R. (1957). "A synopsis of linguistic theory 1930–1955". Studies in Linguistic Analysis: 1–32. Reprinted in F.R. Palmer, ed. (1968). Selected Papers of J.R. Firth 1952–1959. London: Longman.
-
-Jacob Devlin, Ming-Wei Chang, Kenton Lee, and Kristina Toutanova (2019) BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding. In Proceedings of the 2019 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies, Volume 1 (Long and Short Papers), pages 4171–4186, Minneapolis, Minnesota. Association for Computational Linguistics.
-
-Ashish Vaswani, Noam Shazeer, Niki Parmar, Jakob Uszkoreit, Llion Jones, Aidan N. Gomez, Lukasz Kaiser, & Illia Polosukhin. (2023). Attention Is All You Need. https://arxiv.org/abs/1706.03762
-
-Roweis, Sam T., Saul, Lawrence K. (2000). "Nonlinear Dimensionality Reduction by Locally Linear Embedding". Science. 290 (5500): 2323–6. Bibcode:2000Sci...290.2323R. CiteSeerX 10.1.1.111.3313. doi:10.1126/science.290.5500.2323. PMID 11125150. S2CID 5987139.
-
-Searle, John (1980), "Minds, Brains and Programs", Behavioral and Brain Sciences, 3 (3): 417–457, doi:10.1017/S0140525X00005756
+.pull-left[
+**Keep, Add, Drop (KAD)**
+Online form
 ]
+
+.pull-right[
+![KAT](Figures/KAT.png)
+*A 'KAD'*
+]
+
 
 
 ---
-## References (2/2)
+class: center, middle
+# Coding challenge: Research level NLP
+
+
+---
+## References
+
 .small123[
-Weizenbaum, J. (1966). ELIZA—a Computer Program for the Study of Natural Language Communication between Man and Machine. Commun. ACM, 9(1), 36–45. https://doi.org/10.1145/365153.365168
+Dahl, C. M., Johansen, T. S. D., Sørensen, E. N., Westermann, C. E., & Wittrock, S. (2023). Applications of machine learning in tabular document digitisation. Historical Methods: A Journal of Quantitative and Interdisciplinary History, 56(1), 34-48. https://doi.org/10.1080/01615440.2023.2164879 (WP version: https://arxiv.org/abs/2102.03239)
 
-Andersen, H. C. (1844). The Nightingale. https://www.hcandersen-homepage.dk/?page_id=2257
+MacKay, D. J. C. (2003). Information theory, inference, and learning algorithms. Cambridge University Press. https://www.inference.org.uk/itprnn/book.pdf
 
-Descartes, R. (1637). Discourse on the Method of Rightly Conducting One's Reason and of Seeking Truth in the Sciences (J. Veitch, Trans.). EBook-No. 59. https://www.gutenberg.org/ebooks/59
-
-Radford, A., & Narasimhan, K. (2018). Improving Language Understanding by Generative Pre-Training. https://api.semanticscholar.org/CorpusID:49313245
-
-Wes Gurnee, & Max Tegmark. (2023). Language Models Represent Space and Time. https://arxiv.org/abs/2310.02207
+Blei, D. M., Ng, A. Y., & Jordan, M. I. (2003). Latent Dirichlet Allocation. Journal of Machine Learning Research, 3, 993-1022. http://www.jmlr.org/papers/volume3/blei03a/blei03a.pdf
 ]
+
 
