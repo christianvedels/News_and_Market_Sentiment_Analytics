@@ -40,7 +40,7 @@ vectorizer = CountVectorizer()
 X = vectorizer.fit_transform(cleaned_paragraphs)
 
 # %% Step 2: Dimensionality reduction
-print(f'Shape after filtering: {X.shape}') # Many columns
+print(f'Shape before filtering: {X.shape}') # Many columns
 # We will only use 90% of the words
 threshold = 0.90
 # Sum each column of X
