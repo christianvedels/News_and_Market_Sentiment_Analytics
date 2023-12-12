@@ -4,7 +4,7 @@ Created on Mon Dec 11 14:40:53 2023
 @author: christian-vs
 """
 
-# Topic Modeling with DistilBERT Embeddings and K-Nearest Neighbors (KNN)
+# Topic Modeling with DistilBERT Embeddings and K means
  
 # %% Import necessary libraries
 from sklearn.cluster import KMeans
