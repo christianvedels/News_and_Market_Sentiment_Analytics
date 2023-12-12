@@ -126,7 +126,7 @@ cluster_assignments = kmeans.labels_
 
 # Turn everything into frequency dictionaries
 dicts_of_freqs = []
-for cluster_id in range(num_clusters):
+for cluster_id in range(elbow_point):
     cluster_indices = (cluster_assignments == cluster_id)
     
     # Extract the rows corresponding to the cluster from X_filtered
