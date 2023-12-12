@@ -68,7 +68,7 @@ retained_tokens = feature_names[selected_indices].tolist()
 
 print(f'Shape after filtering: {X_filtered.shape}') # Fewer columns
 
-# %% Step 3: Apply K-Nearest Neighbors (KNN)
+# %% Step 3: Apply K-means
 # Initialize a list to store the RMSE values
 rmse_values = []
 
@@ -149,6 +149,7 @@ common_words = set.intersection(*[
     for word_frequency_dict in dicts_of_freqs
     ])
 
+i = 0
 print("Top 10 words for each cluster:")
 for dict_i in dicts_of_freqs:
     # Sort the dictionary by values in descending order
@@ -160,6 +161,7 @@ for dict_i in dicts_of_freqs:
     # Display only the top 10 word frequencies
     top_10_word_frequency = {k: sorted_word_frequency[k] for k in list(sorted_word_frequency)[:10]}
     
-    print(f"Cluster {cluster_id + 1}:\nTop 10 Word Frequencies: {top_10_word_frequency}\n{'-'*50}")
+    print(f"Cluster {i+1}:\nTop 10 Word Frequencies: {top_10_word_frequency}\n{'-'*50}")
+    i = i + 1
 
 

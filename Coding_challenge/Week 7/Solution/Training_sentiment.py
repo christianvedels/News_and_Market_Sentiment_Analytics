@@ -235,11 +235,11 @@ entity_avg_sentiments = {text: data['sentiment_sum'] / data['count'] for text, d
 
 # Print entities with the most negative and most positive average sentiment
 sorted_entities = sorted(entity_avg_sentiments.items(), key=lambda x: x[1])
-print("Top 10 Entities with Most Negative Average Sentiment:")
+print("Top 5 Entities with Most Negative Average Sentiment:")
 for entity, avg_sentiment in sorted_entities[:5]:
     print(f"{entity}: {avg_sentiment:.4f}")
 
-print("\nTop 10 Entities with Most Positive Average Sentiment:")
+print("\nTop 5 Entities with Most Positive Average Sentiment:")
 for entity, avg_sentiment in sorted_entities[-5:]:
     print(f"{entity}: {avg_sentiment:.4f}")
 
