@@ -85,6 +85,7 @@ plt.show()
 print(f"Optimal Number of Clusters (Elbow Point): {elbow_point}")
 
 # Refit with optimal clusters
+elbow_point = 4
 kmeans = KMeans(n_clusters=elbow_point, random_state=20, n_init = 10)
 kmeans.fit(X_tsne)
 

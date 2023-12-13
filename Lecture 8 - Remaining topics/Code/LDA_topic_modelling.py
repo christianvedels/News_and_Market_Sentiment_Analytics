@@ -102,6 +102,7 @@ plt.show()
 print(f"Optimal Number of Topics (Elbow Point): {elbow_point}")
 
 # Refit with optimal topics
+elbow_point = 8
 lda = LatentDirichletAllocation(n_components=elbow_point, random_state=20)
 lda.fit(X_filtered)
 
