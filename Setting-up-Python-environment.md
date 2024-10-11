@@ -28,11 +28,4 @@ There are plenty of guides online for how to install this: https://youtu.be/-sNX
 
 installing spacy, see: https://spacy.io/usage
 
-The two main libraries: nltk and spaCy
-
-## NLTK data
-We will use nltk data extensively. Download everything with the following python code    
-`import nltk`  
-`nltk.download()`  
-
 
