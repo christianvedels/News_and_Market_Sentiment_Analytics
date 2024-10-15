@@ -7,8 +7,6 @@
     <script src="libs/header-attrs-2.28/header-attrs.js"></script>
     <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
     <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
-    <link href="libs/countdown-0.4.0/countdown.css" rel="stylesheet" />
-    <script src="libs/countdown-0.4.0/countdown.js"></script>
   </head>
   <body>
     <textarea id="source">
@@ -368,9 +366,8 @@ class: inverse, middle, center
 ---
 # Setup
 .pull-left[
-- A lot of nltk 
-- Also spaCy and transformers 
-- Install guide for [spacy.io/usage](https://spacy.io/usage)
+- `spaCy` and `transformers` 
+- I use Spyder - but feel free to use something else
 
 #### Conda environment
 
@@ -405,10 +402,6 @@ pip install transformers
 ]
 
 
-.footnote[
-.small123[More details in: [Setting-up-Python-environment.md](https://github.com/christianvedels/News_and_Market_Sentiment_Analytics/blob/main/Setting-up-Python-environment.md)]
-]
-
 ---
 # How to deal with paths
 
@@ -437,37 +430,37 @@ pd.read_csv('Data/Novo_Nordisk_News.csv')
 ]
 ]
 
---
+---
 
 ### Solution?
 
 --
 
-- Make everything relative to where your code is by including this in the beginning of all scripts*:
-.small123[
+Run things from main
+
 
 ``` python
-import os
-script_directory = os.path.dirname(os.path.abspath(__file__))
-os.chdir(script_directory)
+import pandas as pd
+
+def some_function(x):
+  x + 1
+  
+def some_other_function(x):
+  x + 2
+
+if __name__ == "__main__":
+  df = pd.read_csv('Data/Novo_Nordisk_News.csv')
+  df = some_function(df)
+  df = some_other_function(df)
 ```
 
 
-]
 
-.footnote[
-\* Please share a more elegant solution if you have one
-]
 
 ---
 # Before next time
 .pull-left[
-- Read [chapter 2 and 3](https://www.nltk.org/book/)
-
-
-- Run code from the chapters
-  + Does it work?
-  + How does it work?
+- Read [Text Wrangling with Python](https://blog.devgenius.io/text-wrangling-with-python-a-comprehensive-guide-to-nlp-and-nltk-f7553e713291)
   
   
 - Watch ['The Zipf Mystery'](https://youtu.be/fCn8zs912OE?si=xVMA63kt9M99Qvjx)
@@ -488,7 +481,7 @@ os.chdir(script_directory)
 
 ### Project directory
 - Think about how you structure your directory for this course (and in general)
-- Examples: [A perfect storm](https://github.com/christianvedels/A_perfect_storm_replication), [This course](https://github.com/christianvedels/News_and_Market_Sentiment_Analytics/)
+- Examples: [OccCANINE](https://github.com/christianvedels/OccCANINE), [This course](https://github.com/christianvedels/News_and_Market_Sentiment_Analytics/)
 
 - *More advanced approaches*  
   + [Microsoft Team Data Science Project](https://learn.microsoft.com/en-us/azure/architecture/data-science-process/overview),  [Cookiecutter](https://drivendata.github.io/cookiecutter-data-science/), [Cookiecutter youtube video](https://youtu.be/5VjuG5lliYU?si=oci0h0gNiTWciQ_I)
@@ -498,9 +491,7 @@ os.chdir(script_directory)
 class: inverse, middle
 # Coding challenge: 
 ## 'Skipping ahead to the end'
-[Click here to submit](https://forms.gle/WmSEkZn8WH1fiDjE6 )
 
-preserve16f5a4f91d6f96acpreserveacb0ba9f0ead05bf
 
 ---
 ## References (1/2)
