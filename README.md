@@ -6,7 +6,7 @@ This is the GitHub page of [DS821: News and Market Sentiment Analytics](https://
 The course is loosely based on:
 Patel, A. A., & Arasanipalai, A. U. (2021). _Applied natural language processing in the enterprise_. O'Reilly Media. https://www.oreilly.com/library/view/applied-natural-language/9781492062561/
 
-However, NLP is a fast moving these years. So although we will draw many examples from the textbook, we will also cover a few other things. 
+However, NLP is fast-moving these years. So although we will draw many examples from the textbook, we will also cover a few other things. 
 
 ## Lecture structure
 Our lectures will generally follow this structure, which is roughly equally divided:
