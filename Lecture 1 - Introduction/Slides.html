@@ -1,32 +1,16 @@
 <!DOCTYPE html>
 <html lang="" xml:lang="">
   <head>
-    <title>News and Market Sentiment Analytics</title>
+    <title>Slides.knit</title>
     <meta charset="utf-8" />
-    <meta name="author" content="Christian Vedel,  Department of Economics   Email: christian-vs@sam.sdu.dk" />
-    <script src="libs/header-attrs-2.28/header-attrs.js"></script>
+    <script src="libs/header-attrs-2.25/header-attrs.js"></script>
     <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
     <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
   </head>
   <body>
     <textarea id="source">
-class: center, middle, inverse, title-slide
 
-.title[
-# News and Market Sentiment Analytics
-]
-.subtitle[
-## Lecture 1: Introduction
-]
-.author[
-### Christian Vedel,<br> Department of Economics<br><br> Email: <a href="mailto:christian-vs@sam.sdu.dk" class="email">christian-vs@sam.sdu.dk</a>
-]
-.date[
-### Updated 2024-10-15
-]
-
----
-
+class: center, inverse, middle
 
 &lt;style type="text/css"&gt;
 .pull-left {
@@ -88,6 +72,22 @@ class: center, middle, inverse, title-slide
 }
 &lt;/style&gt;
 
+# News and Market Sentiment Analytics
+## Lecture 1: Introduction
+
+### Christian Vedel,&lt;br&gt;Department of Economics
+
+### Email: [christian-vs@sam.sdu.dk](christian-vs@sam.sdu.dk)
+
+### Updated 2024-10-18
+
+.footnote[
+.left[
+*Please beware. I work on these slides until the last minute before the lecture.* 
+]
+]
+
+---
 # Today's lecture
 .pull-left[
 - Course overview
@@ -372,7 +372,7 @@ class: inverse, middle, center
 #### Conda environment
 
 
-``` r
+```r
 conda create --name sentimentF24
 conda activate sentimentF24
 conda install numpy matplotlib pandas seaborn requests
@@ -386,21 +386,26 @@ conda install spyder
 #### spaCy
 Download everything with the following python code    
 
-``` r
+```r
 conda install -c conda-forge spacy
 conda install -c conda-forge cupy
 python -m spacy download en_core_web_sm
 ```
 
-#### Install pytorch to run on cuda 11.8
+#### Install pytorch to run on cuda 11.8*
 
-``` r
+```r
 conda install pytorch torchvision torchaudio pytorch-cuda=11.8 -c pytorch -c nvidia
 pip install transformers
 ```
  
 ]
 
+.footnote[
+.small123[
+  *Without a GPU? See https://pytorch.org/get-started/locally/ 
+]
+]
 
 ---
 # How to deal with paths
@@ -417,13 +422,13 @@ pip install transformers
 .small123[
 .red[**Bad:**] 
 
-``` python
-pd.read_csv('C:/Users/Christian/Dropbox/Teaching/F23_News_and_Market_Sentiment_Analytics/2023/News_and_Market_Sentiment_Analytics/Lecture_2_-_Lexical_resources/Data/Novo_Nordisk_News.csv')
+```python
+pd.read_csv('C:/Users/Christian/Dropbox/Teaching/News_and_Market_Sentiment_Analytics/2024/News_and_Market_Sentiment_Analytics/Lecture_2_-_Lexical_resources/Data/Novo_Nordisk_News.csv')
 ```
 
 .green[**Good:**]
 
-``` python
+```python
 pd.read_csv('Data/Novo_Nordisk_News.csv')
 ```
 
@@ -436,10 +441,11 @@ pd.read_csv('Data/Novo_Nordisk_News.csv')
 
 --
 
-Run things from main
+1. Save scripts to relevant folder
+2. Run things from main 
 
 
-``` python
+```python
 import pandas as pd
 
 def some_function(x):

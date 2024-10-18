@@ -1,11 +1,7 @@
 ---
-title: "News and Market Sentiment Analytics"
-subtitle: "Lecture 1: Introduction"
-author: 'Christian Vedel,<br> Department of Economics<br><br>
-Email: christian-vs@sam.sdu.dk'
-date: "Updated `r Sys.Date()`" 
 output:
   xaringan::moon_reader:
+    seal: false
     includes:
       after_body: insert-logo.html
     self_contained: false
@@ -18,6 +14,7 @@ output:
 editor_options: 
   chunk_output_type: console
 ---
+class: center, inverse, middle
 
 ```{css echo=FALSE}
 .pull-left {
@@ -79,6 +76,22 @@ editor_options:
 }
 ```
 
+# News and Market Sentiment Analytics
+## Lecture 1: Introduction
+
+### Christian Vedel,<br>Department of Economics
+
+### Email: [christian-vs@sam.sdu.dk](christian-vs@sam.sdu.dk)
+
+### Updated `r Sys.Date()`
+
+.footnote[
+.left[
+*Please beware. I work on these slides until the last minute before the lecture.* 
+]
+]
+
+---
 # Today's lecture
 .pull-left[
 - Course overview
@@ -381,7 +394,7 @@ conda install -c conda-forge cupy
 python -m spacy download en_core_web_sm
 ```
 
-#### Install pytorch to run on cuda 11.8
+#### Install pytorch to run on cuda 11.8*
 ```{r eval=FALSE, include=TRUE}
 conda install pytorch torchvision torchaudio pytorch-cuda=11.8 -c pytorch -c nvidia
 pip install transformers
@@ -389,6 +402,11 @@ pip install transformers
  
 ]
 
+.footnote[
+.small123[
+  *Without a GPU? See https://pytorch.org/get-started/locally/ 
+]
+]
 
 ---
 # How to deal with paths
@@ -405,7 +423,7 @@ pip install transformers
 .small123[
 .red[**Bad:**] 
 ```{python eval=FALSE}
-pd.read_csv('C:/Users/Christian/Dropbox/Teaching/F23_News_and_Market_Sentiment_Analytics/2023/News_and_Market_Sentiment_Analytics/Lecture_2_-_Lexical_resources/Data/Novo_Nordisk_News.csv')
+pd.read_csv('C:/Users/Christian/Dropbox/Teaching/News_and_Market_Sentiment_Analytics/2024/News_and_Market_Sentiment_Analytics/Lecture_2_-_Lexical_resources/Data/Novo_Nordisk_News.csv')
 ``` 
 
 .green[**Good:**]
@@ -422,7 +440,8 @@ pd.read_csv('Data/Novo_Nordisk_News.csv')
 
 --
 
-Run things from main
+1. Save scripts to relevant folder
+2. Run things from main 
 
 ```{python eval=FALSE}
 import pandas as pd
