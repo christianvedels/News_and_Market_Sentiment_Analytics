@@ -35,8 +35,8 @@ For the first lecture you have three tasks to do beforehand:
 2. Is ChatGPT high-tech plagiarism? https://youtu.be/SJi4VE-0MoA?si=sqFxbEGQ27drkvFA  
 
 3. This course teaches NLP techniques applied to financial analysis. We can put more or less weight on the application. Please think about the type of skills you want to learn from this course. Then we will adapt the lectures accordingly.
-## Setup
-Please see ["Setting-up-Python-environment.md"](https://github.com/christianvedels/News_and_Market_Sentiment_Analytics/blob/main/Setting-up-Python-environment.md)
+
+
 ## Contact information
 **The course is taught by:**  
 *Christian Vedel,*  
