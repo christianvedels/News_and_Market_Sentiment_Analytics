@@ -76,6 +76,8 @@ class: center, inverse, middle
 }
 ```
 
+
+
 # News and Market Sentiment Analytics
 ## Lecture 1: Introduction
 
@@ -84,6 +86,11 @@ class: center, inverse, middle
 ### Email: [christian-vs@sam.sdu.dk](christian-vs@sam.sdu.dk)
 
 ### Updated `r Sys.Date()`
+
+.red[
+## [Please note: The lecture is cancelled due to illness. This lecture will be held on 2024-10-30 instead]() 
+]
+
 
 .footnote[
 .left[

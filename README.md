@@ -1,3 +1,5 @@
+# **Message:** First lecture on 2024-10-21 is cancelled due to ilness. First lecture will be on 2024-10-30 instead
+
 # News and Market Sentiment Analytics
 This is the GitHub page of [DS821: News and Market Sentiment Analytics](https://odin.sdu.dk/sitecore/index.php?a=fagbesk&id=156413&lang=en) offered in the Data Science masters of the University of Southern Denmark. Here you can find slides and other content for the course. If you are a student of this course, please also check the itslearning page of the course.  
 
