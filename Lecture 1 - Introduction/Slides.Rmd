@@ -133,7 +133,7 @@ class: center, inverse, middle
 - Write me emails
   + .orange[christian-vs@sam.sdu.dk]
 - We can make office hours if you want it. 
-- Second time teaching this course. But most of it completely changed from last year. 
+- Second time teaching this course. But most of it completely changed from last year. Most of this course is adaptable.
 
 [Who are you? https://forms.gle/5Dk1pkCQdd4XYmgW8](https://forms.gle/5Dk1pkCQdd4XYmgW8)
 
@@ -500,6 +500,8 @@ if __name__ == "__main__":
 
 - [Complete Natural Language Processing (NLP) Tutorial in Python! (with examples)](https://youtu.be/M7SWr5xObkA?si=b40Uw97oX5Epy6vf)
 
+- **Do you want a quick and dirty GitHub intro?**
+
 ### Project directory
 - Think about how you structure your directory for this course (and in general)
 - Examples: [OccCANINE](https://github.com/christianvedels/OccCANINE), [This course](https://github.com/christianvedels/News_and_Market_Sentiment_Analytics/)
@@ -507,11 +509,10 @@ if __name__ == "__main__":
 - *More advanced approaches*  
   + [Microsoft Team Data Science Project](https://learn.microsoft.com/en-us/azure/architecture/data-science-process/overview),  [Cookiecutter](https://drivendata.github.io/cookiecutter-data-science/), [Cookiecutter youtube video](https://youtu.be/5VjuG5lliYU?si=oci0h0gNiTWciQ_I)
 
-
 ---
 class: inverse, middle
 # Coding challenge: 
-## 'Skipping ahead to the end'
+## ['Skipping ahead to the end'](https://github.com/christianvedels/News_and_Market_Sentiment_Analytics/blob/main/Lecture%201%20-%20Introduction/Coding_challenge1.md)
 
 
 ---
