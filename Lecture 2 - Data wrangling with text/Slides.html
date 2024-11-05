@@ -7,8 +7,6 @@
     <script src="libs/header-attrs-2.25/header-attrs.js"></script>
     <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
     <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
-    <link href="libs/countdown-0.4.0/countdown.css" rel="stylesheet" />
-    <script src="libs/countdown-0.4.0/countdown.js"></script>
   </head>
   <body>
     <textarea id="source">
@@ -18,20 +16,16 @@ class: center, middle, inverse, title-slide
 # News and Market Sentiment Analytics
 ]
 .subtitle[
-## Lecture 2: Lexical resources
+## Lecture 2: Classical data wrangling with text
 ]
 .author[
 ### Christian Vedel,<br> Department of Economics<br><br> Email: <a href="mailto:christian-vs@sam.sdu.dk" class="email">christian-vs@sam.sdu.dk</a>
 ]
 .date[
-### Updated 2023-10-31
+### Updated 2024-11-05
 ]
 
 ---
-
-
-
-
 
 
 
@@ -89,20 +83,26 @@ class: center, middle, inverse, title-slide
 .pull-left[
 - Course overview
 - How did we get to ChatGPT? (And what are the implications)
-- An example of some research I do using the techniques of the course
+- Expectations
+- Coding challenge - followup
 ]
 
-.pull-right[
+.pull-right-narrow[
 ![Trees](Figures/Trees.jpg)
 ]
 
 ---
 # Today's lecture
 .pull-left[
-- Lexical Resources
-- Finn Årup Nielsen 
-- Basic workings of NLTK
-- Coding challenge: Working with Text Data
+- Introduction to basic tools
+- A lot of not so interesting things. But you can refer back to this. 
+
+### What we will cover:
+- `str` and what you can do with it
+- Text cleaning (dealing with strange characters, stopwords, etc.)
+- Lexical resources (AFINN) 
+- Classical sentiment analysis
+- Coding challenge: Zipf's law
 ]
 
 ---
@@ -118,44 +118,409 @@ Consider the headline
 Noise in `\(\rightarrow\)` noise out  
 Clean data in `\(\rightarrow\)` clean results out
 
+---
+class: middle
+
+# `str` object type
+.pull-left-wide[
+- Basic object type we will be working with
+
+### Basic 
+Let `a = "this_"` and `b = "string"`
+- You can add strings together: `c = a + b` means that `print(c)` gives `"this_string"` 
+- Strings are arrays: `print(a[1])` is `"h"`
+- Test: `"this" in c`: evaluates to `TRUE`
+
+]
 
 ---
-# Lexical resources
+# List comprehension
+.pull-left[
+- A `list` can contain strings. 
+- A with any other list we can use list comprehension to manipulate it. 
+- List comprehensions is a bit like a loop
+
+### Loop
+
+```python
+input_strings = ["hello", "world"]
+res = []
+for x in input_strings:
+  res.append(len(x))
+```
+]
+
+.pull-right[
+### List comprehension
+
+```python
+input_strings = ["hello", "world"]
+res = [len(x) for x in input_strings]
+```
+]
+
+
+---
+# Lowercasing Text
+
+.pull-left[
+**Why Lowercasing?**
+- Consistency is key in text analysis.
+- Reduces variations caused by capitalization (e.g., "Earnings" vs. "earnings").
+]
+
+.pull-right[
+**Example Code:**
+
+
+```python
+# Sample text
+text = "Novo Nordisk reported a Modest INCREASE in Earnings."
+
+# Convert text to lowercase
+cleaned_text = text.lower()
+print(cleaned_text)
+```
+
+```
+## novo nordisk reported a modest increase in earnings.
+```
+
+]
+
+---
+# Removing Punctuation
+
+.pull-left[
+**Why Remove Punctuation?**
+- Punctuation often does not contribute to the meaning of the text.
+- Helps focus on words rather than sentence structure.
+]
+
+.pull-right[
+**Example Code:**
+
+
+```python
+import string
+
+# Sample text
+text = "Earnings were up 20%! However, caution remains high."
+
+# Remove punctuation
+cleaned_text = text.translate(str.maketrans('', '', string.punctuation))
+print(cleaned_text)
+```
+
+```
+## Earnings were up 20 However caution remains high
+```
+
+]
+
+---
+# Stripping Whitespace
+
+.pull-left[
+**Why Normalize Whitespace?**
+- Sometimes we want to avoid that spaces are assigned a meaning.
+- Sometimes we want legible text
+]
+
+.pull-right[
+**Example Code:**
+
+
+```python
+# Sample text with extra whitespace
+text = "   Earnings report:     Novo Nordisk shows increase.  \n"
+
+# Strip leading and trailing whitespace
+cleaned_text = text.strip()
+
+# Remove extra spaces between words
+cleaned_text = " ".join(cleaned_text.split())
+print(cleaned_text)
+```
+
+```
+## Earnings report: Novo Nordisk shows increase.
+```
+
+]
+
+---
+# Removing numbers
+
+.pull-left[
+**Why Remove Numbers?**
+- Focus on the language rather than numbers
+- Or maybe we are only interested in numbers
+]
+
+.pull-right[
+**Example Code:**
+
+
+```python
+import re
+
+# Sample text
+text = "The stock price increased by 20% in Q3 of 2021."
+
+# Remove numbers
+cleaned_text = re.sub(r'\d+', '', text)
+print(cleaned_text)
+```
+
+```
+## The stock price increased by % in Q of .
+```
+
+]
+
+---
+# Handling special characters 
+
+.pull-left[
+**Why Handle Special Characters?**
+- Special characters (e.g., “$,” “@”) can introduce noise and mess with code.
+- Removing or replacing them can simplify the text for analysis.
+]
+
+.pull-right[
+**Example Code:**
+
+
+```python
+# Sample text with special characters
+text = "Check out our earnings on $AAPL and $GOOG!"
+
+# Remove special characters (except letters and spaces)
+cleaned_text = re.sub(r'[^A-Za-z\s]', '', text)
+print(cleaned_text)
+```
+
+```
+## Check out our earnings on AAPL and GOOG
+```
+
+]
+
+---
+# Unicode Normalization
+
+.pull-left[
+**Why Normalize Unicode?**
+- Text data may contain accented characters or symbols, especially in multilingual contexts.
+- Unicode normalization ensures consistency, which is crucial when analyzing text across different languages.
+- Good default is to always do this. Sometimes information is lost, but consistency is gained
+]
+
+.pull-right[
+**Example Code:**
+
+
+```python
+import unidecode
+
+# Sample text with Scandinavian accented characters
+text = "Björk's café in Århus offers smørrebrød and blåbær juice."
+
+# Normalize text by removing accents
+normalized_text = unidecode.unidecode(text)
+print(normalized_text)
+```
+
+```
+## Bjork's cafe in Arhus offers smorrebrod and blabaer juice.
+```
+
+]
+
+---
+# Tying it all together
+
+.pull-left[
+- String cleaning is often dependent on each specific project
+- It is important that we keep consistency and replicability - especially if we want to match on strings
+- Within a project we want to clean all strings in the same way.
+- A good ideas is to define a function `clean_strigs()` which does this for your project
+]
+
+.pull-right[
+**Example code:**  
+
+```python
+import string
+import unidecode
+
+# Sample text
+text = "   Earnings report:     Novo Nordisk shows increase.  \n Åse Aamund, CEO, reacts with optimism ..."
+
+# Remove special characters (except letters and spaces)
+def clean_strings(x):
+  x = x.lower() # To lower
+  x = x.translate(str.maketrans('', '', string.punctuation)) # Remove punct
+  x = unidecode.unidecode(x)
+  x = x.strip() # remove ws
+  x = " ".join(x.split())
+  
+  return x
+ 
+print(clean_strings(text))
+```
+
+```
+## earnings report novo nordisk shows increase ase aamund ceo reacts with optimism
+```
+
+]
+
+---
+# The `spaCy` library
+.pull-left[
+### What is `spaCy`?
+- spaCy is an open-source, high-performance Natural Language Processing (NLP) library in Python.
+- Designed for efficiency and ease of use in large-scale text processing tasks.
+- Provides pre-trained models, powerful tokenization, and many NLP tools, including lemmatization, part-of-speech tagging, named entity recognition, and more.
+
+- 90 pct of problems you encounter can be solved with spaCy alone
+
+]
+
+.pull-right[
+
+```python
+# Import and load spaCy's English model
+import spacy
+nlp = spacy.load("en_core_web_sm")  # Load a small English model
+
+# Process a text
+text = "The company's earnings have increased in Q3 2021."
+doc = nlp(text)
+
+# Display tokenized words
+for token in doc:
+    print(token.text)
+```
+
+```
+## The
+## company
+## 's
+## earnings
+## have
+## increased
+## in
+## Q3
+## 2021
+## .
+```
+
+]
+
+---
+# Lemmatization
+
 .pull-left-narrow[
-- Why do we have to do the work, if someone has already done it? 
+- Lemmatization reduces words to their base form (e.g., “earning” vs. “earnings”), creating a more consistent representation. 
+- Useful if we want to count occurences of words without conjugation. 
+- Especially useful for iregular words 
+- First step in more grammar-heavy NLP
 
 ]
 
 .pull-right-wide[
-#### Stopwords
 
 ```python
-from nltk.corpus import stopwords
-stopwords.words('english')
+import spacy
+nlp = spacy.load("en_core_web_sm")
+
+# Sample text
+text = "Earnings have increased, and the earner is satisfied."
+
+# Lemmatize using spaCy
+doc = nlp(text)
+lemmatized_text = [token.lemma_ for token in doc]
+print(lemmatized_text)
 ```
 
 ```
-## ['i', 'me', 'my', 'myself', 'we', 'our', 'ours', 'ourselves', 'you', "you're", "you've", "you'll", "you'd", 'your', 'yours', 'yourself', 'yourselves', 'he', 'him', 'his', 'himself', 'she', "she's", 'her', 'hers', 'herself', 'it', "it's", 'its', 'itself', 'they', 'them', 'their', 'theirs', 'themselves', 'what', 'which', 'who', 'whom', 'this', 'that', "that'll", 'these', 'those', 'am', 'is', 'are', 'was', 'were', 'be', 'been', 'being', 'have', 'has', 'had', 'having', 'do', 'does', 'did', 'doing', 'a', 'an', 'the', 'and', 'but', 'if', 'or', 'because', 'as', 'until', 'while', 'of', 'at', 'by', 'for', 'with', 'about', 'against', 'between', 'into', 'through', 'during', 'before', 'after', 'above', 'below', 'to', 'from', 'up', 'down', 'in', 'out', 'on', 'off', 'over', 'under', 'again', 'further', 'then', 'once', 'here', 'there', 'when', 'where', 'why', 'how', 'all', 'any', 'both', 'each', 'few', 'more', 'most', 'other', 'some', 'such', 'no', 'nor', 'not', 'only', 'own', 'same', 'so', 'than', 'too', 'very', 's', 't', 'can', 'will', 'just', 'don', "don't", 'should', "should've", 'now', 'd', 'll', 'm', 'o', 're', 've', 'y', 'ain', 'aren', "aren't", 'couldn', "couldn't", 'didn', "didn't", 'doesn', "doesn't", 'hadn', "hadn't", 'hasn', "hasn't", 'haven', "haven't", 'isn', "isn't", 'ma', 'mightn', "mightn't", 'mustn', "mustn't", 'needn', "needn't", 'shan', "shan't", 'shouldn', "shouldn't", 'wasn', "wasn't", 'weren', "weren't", 'won', "won't", 'wouldn', "wouldn't"]
+## ['earning', 'have', 'increase', ',', 'and', 'the', 'earner', 'be', 'satisfied', '.']
 ```
 
-#### Computing conent fraction
+]
 
+---
+# Removing stopwords
+.pull-left-narrow[
+- Stopwords are uninformative words ['the', 'is', etc]
+- (Still semantically useful - you din't want to remove them in more advanced NLP applications)
+]
+
+.pull-left-wide[
 
 ```python
-from nltk.corpus import gutenberg
-def content_fraction(text):
-  stopwords = nltk.corpus.stopwords.words('english')
-  content = [w for w in text if w.lower() not in stopwords]
-  return len(content) / len(text)
-emma = gutenberg.words("austen-emma.txt")
-content_fraction(emma)
+import spacy
+nlp = spacy.load("en_core_web_sm")
+
+# Sample text
+text = "The company has shown an increase in earnings this year."
+
+# Remove stopwords using spaCy
+doc = nlp(text)
+cleaned_text = [token.text for token in doc if not token.is_stop]
+print(cleaned_text)
 ```
 
 ```
-## 0.5403399730807007
+## ['company', 'shown', 'increase', 'earnings', 'year', '.']
+```
+]
+
+---
+# Part-of-Speech (POS) Tagging
+.pull-left-narrow[
+- POS tagging labels each token with its part of speech (e.g., noun, verb, adjective).
+- Understanding the grammatical role of words helps in tasks like sentiment analysis and text classification.
+]
+
+.pull-right-wide[
+
+```python
+import spacy
+nlp = spacy.load("en_core_web_sm")
+
+# Sample text
+text = "The stock price increased significantly."
+
+# Perform POS tagging
+doc = nlp(text)
+pos_tags = [(token.text, token.pos_) for token in doc]
+for x in pos_tags: print(x)
 ```
 
+```
+## ('The', 'DET')
+## ('stock', 'NOUN')
+## ('price', 'NOUN')
+## ('increased', 'VERB')
+## ('significantly', 'ADV')
+## ('.', 'PUNCT')
+```
+]
 
+---
+class: middle
+
+# Lexical resources
+.pull-left-narrow[
+- Once we have cleaned the text, we can use it in analysis
+- Further examples to come.
+- One example here: Wordcount based sentiment analysis
+- Mostly just a classroom exercise. But also has a few real world use cases. 
+- Concepts generalize to more complex settings.
 ]
 
 ---
@@ -189,130 +554,6 @@ content_fraction(emma)
 - Typos and spelling mistakes are unhandled 
 ]
 
-.pull-left[
-
-]
-
----
-# Trick 1: Stopwords 
-Already covered
-
----
-# Tricks 2: Stemming 
-.small123[
-.pull-left[
-
-```python
-import nltk
-from nltk.stem import PorterStemmer
-
-# Initialize the Porter Stemmer
-stemmer = PorterStemmer()
-
-# Example words for stemming
-words = ["jumping", "jumps", "jumped", "jumper", "jumpingly"]
-
- # Stem the words
-stemmed_words = [stemmer.stem(word) for word in words]
-```
-]
-
-.pull-right[
-
-```python
-# Print the stemmed words
-for original, stemmed in zip(words, stemmed_words):
-    print(f"{original} -&gt; {stemmed}")
-```
-
-```
-## jumping -&gt; jump
-## jumps -&gt; jump
-## jumped -&gt; jump
-## jumper -&gt; jumper
-## jumpingly -&gt; jumpingli
-```
-]
-]
-
----
-# Tricks 3: Lemmatization
-.pull-left[
-- Relies on the idea of a semantic net 
-- Each word with same meaning should be encoded the same 
-- "car", "automobile", "automotive vehicle"
-]
-
-```python
-from nltk.stem import WordNetLemmatizer
-lemmatizer = WordNetLemmatizer()
-lemmatizer.lemmatize("rocks")
-```
-
-```
-## 'rock'
-```
-
-```python
-lemmatizer.lemmatize("corpora")
-```
-
-```
-## 'corpus'
-```
-
----
-# A look insight WordNet
-
-.pull-left[
-
-```python
-from nltk.corpus import wordnet as wn
-
-# Synonomym names
-wn.synsets('motorcar')
-```
-
-```
-## [Synset('car.n.01')]
-```
-
-```python
-# Synonyms
-wn.synset('car.n.01').lemma_names()
-```
-
-```
-## ['car', 'auto', 'automobile', 'machine', 'motorcar']
-```
-]
-
-
-.pull-right[
-![Wordnet](https://www.nltk.org/images/wordnet-hierarchy.png)
-]
-#### Example
-&gt; the boy's cars are different colors 
-&gt; `\(\Rightarrow\)` the boy car be differ color
-
-
----
-# More lexical relations
-- Hypernyms and Hyponyms: 
-  + 'Hypo': Below, 'Hyper': 
-  + Above ('is a' relationship)
-- Meronym and holonym: 
-  + 'Mero': Parts, 
-  + 'Holo': Whole (what it is part of)
-  
-Meronym of a 'tree': Trunk, Crown, Leaves 
-Holonym of a 'tree': Forest 
-
-Homonyms: 'saw', 'saw' 
- + Either *honomgraphs* or *homophones* (above is both)
- + Homophones: 'bow' (ship), 'bow' (act of politeness), 'bow' (pretty thing)
- + Homophones: 'cell', 'sell'
-
 ---
 # Simple(st) sentiment analysis
 *I will demonstrate a simple sentiment analysis in Python*
@@ -335,10 +576,6 @@ class: inverse, middle
 ## The Zipf Mystery
 [Click here to submit](https://forms.gle/WmSEkZn8WH1fiDjE6 )
 
-<div class="countdown" id="timer_b7a0a5eb" data-update-every="1" tabindex="0" style="top:35%;right:0;">
-<div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
-<code class="countdown-time"><span class="countdown-digits minutes">35</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
-</div>
 
 ---
 # Next time
@@ -359,7 +596,8 @@ class: inverse, middle
 <script>var slideshow = remark.create({
 "highlightStyle": "github",
 "highlightLines": true,
-"countIncrementalSlides": false
+"countIncrementalSlides": false,
+"ratio": "16:9"
 });
 if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
   window.dispatchEvent(new Event('resize'));

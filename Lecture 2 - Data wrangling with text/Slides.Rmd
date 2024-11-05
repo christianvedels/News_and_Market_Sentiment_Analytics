@@ -14,6 +14,7 @@ output:
       highlightStyle: github
       highlightLines: true
       countIncrementalSlides: false
+      ratio: '16:9'
 editor_options: 
   chunk_output_type: console
 ---
@@ -21,7 +22,7 @@ editor_options:
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(eval=TRUE, include=TRUE, cache=TRUE)
 library(reticulate)
-use_condaenv("sentimentF24")
+use_condaenv("sentimentF23")
 ```
 
 ```{css echo=FALSE}
@@ -81,7 +82,7 @@ use_condaenv("sentimentF24")
 - Coding challenge - followup
 ]
 
-.pull-right[
+.pull-right-narrow[
 ![Trees](Figures/Trees.jpg)
 ]
 
@@ -113,6 +114,46 @@ Noise in $\rightarrow$ noise out
 Clean data in $\rightarrow$ clean results out
 
 ---
+class: middle
+
+# `str` object type
+.pull-left-wide[
+- Basic object type we will be working with
+
+### Basic 
+Let `a = "this_"` and `b = "string"`
+- You can add strings together: `c = a + b` means that `print(c)` gives `"this_string"` 
+- Strings are arrays: `print(a[1])` is `"h"`
+- Test: `"this" in c`: evaluates to `TRUE`
+
+]
+
+---
+# List comprehension
+.pull-left[
+- A `list` can contain strings. 
+- A with any other list we can use list comprehension to manipulate it. 
+- List comprehensions is a bit like a loop
+
+### Loop
+```{python}
+input_strings = ["hello", "world"]
+res = []
+for x in input_strings:
+  res.append(len(x))
+```
+]
+
+.pull-right[
+### List comprehension
+```{python}
+input_strings = ["hello", "world"]
+res = [len(x) for x in input_strings]
+```
+]
+
+
+---
 # Lowercasing Text
 
 .pull-left[
@@ -131,10 +172,6 @@ text = "Novo Nordisk reported a Modest INCREASE in Earnings."
 # Convert text to lowercase
 cleaned_text = text.lower()
 print(cleaned_text)
-```
-
-```{r echo=FALSE}
-print("novo nordisk reported a modest increase in earnings.")
 ```
 
 ]
@@ -160,10 +197,6 @@ text = "Earnings were up 20%! However, caution remains high."
 # Remove punctuation
 cleaned_text = text.translate(str.maketrans('', '', string.punctuation))
 print(cleaned_text)
-```
-
-```{r echo=FALSE}
-print("Earnings were up 20 However caution remains high")
 ```
 
 ]
@@ -192,10 +225,6 @@ cleaned_text = " ".join(cleaned_text.split())
 print(cleaned_text)
 ```
 
-```{r echo=FALSE}
-print("Earnings report: Novo Nordisk shows increase.")
-```
-
 ]
 
 ---
@@ -221,10 +250,6 @@ cleaned_text = re.sub(r'\d+', '', text)
 print(cleaned_text)
 ```
 
-```{r echo=FALSE}
-print("The stock price increased by % in Q of .")
-```
-
 ]
 
 ---
@@ -246,10 +271,6 @@ text = "Check out our earnings on $AAPL and $GOOG!"
 # Remove special characters (except letters and spaces)
 cleaned_text = re.sub(r'[^A-Za-z\s]', '', text)
 print(cleaned_text)
-```
-
-```{r echo=FALSE}
-print("Check out our earnings on AAPL and GOOG")
 ```
 
 ]
@@ -278,10 +299,6 @@ normalized_text = unidecode.unidecode(text)
 print(normalized_text)
 ```
 
-```{r echo=FALSE}
-"Bjork's cafe in Arhus offers smorrebrod and blaabaer juice."
-```
-
 ]
 
 ---
@@ -304,18 +321,16 @@ import unidecode
 text = "   Earnings report:     Novo Nordisk shows increase.  \n Åse Aamund, CEO, reacts with optimism ..."
 
 # Remove special characters (except letters and spaces)
-def clean_strigs(x):
+def clean_strings(x):
   x = x.lower() # To lower
   x = x.translate(str.maketrans('', '', string.punctuation)) # Remove punct
   x = unidecode.unidecode(x)
+  x = x.strip() # remove ws
+  x = " ".join(x.split())
   
   return x
-  
-x = clean_strings(x)
-```
-
-```{r echo=FALSE}
-print("REPLACE")
+ 
+print(clean_strings(text))
 ```
 
 ]
@@ -350,34 +365,88 @@ for token in doc:
 
 ]
 
-
 ---
-# Lexical resources
+# Lemmatization
+
 .pull-left-narrow[
-- Why do we have to do the work, if someone has already done it? 
+- Lemmatization reduces words to their base form (e.g., “earning” vs. “earnings”), creating a more consistent representation. 
+- Useful if we want to count occurences of words without conjugation. 
+- Especially useful for iregular words 
+- First step in more grammar-heavy NLP
 
 ]
 
 .pull-right-wide[
-#### Stopwords
 ```{python}
-from nltk.corpus import stopwords
-stopwords.words('english')
+import spacy
+nlp = spacy.load("en_core_web_sm")
+
+# Sample text
+text = "Earnings have increased, and the earner is satisfied."
+
+# Lemmatize using spaCy
+doc = nlp(text)
+lemmatized_text = [token.lemma_ for token in doc]
+print(lemmatized_text)
 ```
 
-#### Computing conent fraction
+]
 
+---
+# Removing stopwords
+.pull-left-narrow[
+- Stopwords are uninformative words ['the', 'is', etc]
+- (Still semantically useful - you din't want to remove them in more advanced NLP applications)
+]
+
+.pull-left-wide[
 ```{python}
-from nltk.corpus import gutenberg
-def content_fraction(text):
-  stopwords = nltk.corpus.stopwords.words('english')
-  content = [w for w in text if w.lower() not in stopwords]
-  return len(content) / len(text)
-emma = gutenberg.words("austen-emma.txt")
-content_fraction(emma)
+import spacy
+nlp = spacy.load("en_core_web_sm")
+
+# Sample text
+text = "The company has shown an increase in earnings this year."
+
+# Remove stopwords using spaCy
+doc = nlp(text)
+cleaned_text = [token.text for token in doc if not token.is_stop]
+print(cleaned_text)
+
 ```
+]
 
+---
+# Part-of-Speech (POS) Tagging
+.pull-left-narrow[
+- POS tagging labels each token with its part of speech (e.g., noun, verb, adjective).
+- Understanding the grammatical role of words helps in tasks like sentiment analysis and text classification.
+]
 
+.pull-right-wide[
+```{python}
+import spacy
+nlp = spacy.load("en_core_web_sm")
+
+# Sample text
+text = "The stock price increased significantly."
+
+# Perform POS tagging
+doc = nlp(text)
+pos_tags = [(token.text, token.pos_) for token in doc]
+for x in pos_tags: print(x)
+```
+]
+
+---
+class: middle
+
+# Lexical resources
+.pull-left-narrow[
+- Once we have cleaned the text, we can use it in analysis
+- Further examples to come.
+- One example here: Wordcount based sentiment analysis
+- Mostly just a classroom exercise. But also has a few real world use cases. 
+- Concepts generalize to more complex settings.
 ]
 
 ---
@@ -411,97 +480,6 @@ content_fraction(emma)
 - Typos and spelling mistakes are unhandled 
 ]
 
-.pull-left[
-
-]
-
----
-# Trick 1: Stopwords 
-Already covered
-
----
-# Tricks 2: Stemming 
-.small123[
-.pull-left[
-```{python}
-import nltk
-from nltk.stem import PorterStemmer
-
-# Initialize the Porter Stemmer
-stemmer = PorterStemmer()
-
-# Example words for stemming
-words = ["jumping", "jumps", "jumped", "jumper", "jumpingly"]
-
- # Stem the words
-stemmed_words = [stemmer.stem(word) for word in words]
-```
-]
-
-.pull-right[
-```{python}
-# Print the stemmed words
-for original, stemmed in zip(words, stemmed_words):
-    print(f"{original} -> {stemmed}")
-```
-]
-]
-
----
-# Tricks 3: Lemmatization
-.pull-left[
-- Relies on the idea of a semantic net 
-- Each word with same meaning should be encoded the same 
-- "car", "automobile", "automotive vehicle"
-]
-```{python}
-from nltk.stem import WordNetLemmatizer
-lemmatizer = WordNetLemmatizer()
-lemmatizer.lemmatize("rocks")
-lemmatizer.lemmatize("corpora")
-```
-
----
-# A look insight WordNet
-
-.pull-left[
-```{python}
-from nltk.corpus import wordnet as wn
-
-# Synonomym names
-wn.synsets('motorcar')
-
-# Synonyms
-wn.synset('car.n.01').lemma_names()
-```
-]
-
-
-.pull-right[
-![Wordnet](https://www.nltk.org/images/wordnet-hierarchy.png)
-]
-#### Example
-> the boy's cars are different colors 
-> $\Rightarrow$ the boy car be differ color
-
-
----
-# More lexical relations
-- Hypernyms and Hyponyms: 
-  + 'Hypo': Below, 'Hyper': 
-  + Above ('is a' relationship)
-- Meronym and holonym: 
-  + 'Mero': Parts, 
-  + 'Holo': Whole (what it is part of)
-  
-Meronym of a 'tree': Trunk, Crown, Leaves 
-Holonym of a 'tree': Forest 
-
-Homonyms: 'saw', 'saw' 
- + Either *honomgraphs* or *homophones* (above is both)
- + Homophones: 'bow' (ship), 'bow' (act of politeness), 'bow' (pretty thing)
- + Homophones: 'cell', 'sell'
-
 ---
 # Simple(st) sentiment analysis
 *I will demonstrate a simple sentiment analysis in Python*
@@ -524,25 +502,6 @@ class: inverse, middle
 ## The Zipf Mystery
 [Click here to submit](https://forms.gle/WmSEkZn8WH1fiDjE6 )
 
-```{r echo=FALSE}
-library(countdown)
-source("../000_Misc_functions_for_slides.R")
-vertical = 0.35
-dist = 0.15
-
-countdown(
-  minutes = 35,
-  seconds = 0,
-  right = 0,
-  top = ToPct(vertical)
-)
-# countdown(
-#   minutes = 25,
-#   seconds = 0,
-#   right = 0,
-#   top = ToPct(vertical + dist)
-# )
-```
 
 ---
 # Next time
