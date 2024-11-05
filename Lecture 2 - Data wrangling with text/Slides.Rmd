@@ -1,0 +1,559 @@
+---
+title: "News and Market Sentiment Analytics"
+subtitle: "Lecture 2: Classical data wrangling with text"
+author: 'Christian Vedel,<br> Department of Economics<br><br>
+Email: christian-vs@sam.sdu.dk'
+date: "Updated `r Sys.Date()`" 
+output:
+  xaringan::moon_reader:
+    includes:
+      after_body: insert-logo.html
+    self_contained: false
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(eval=TRUE, include=TRUE, cache=TRUE)
+library(reticulate)
+use_condaenv("sentimentF24")
+```
+
+```{css echo=FALSE}
+.pull-left {
+  float: left;
+  width: 48%;
+}
+.pull-right {
+  float: right;
+  width: 48%;
+}
+.pull-right ~ p {
+  clear: both;
+}
+
+
+.pull-left-wide {
+  float: left;
+  width: 66%;
+}
+.pull-right-wide {
+  float: right;
+  width: 66%;
+}
+.pull-right-wide ~ p {
+  clear: both;
+}
+
+.pull-left-narrow {
+  float: left;
+  width: 30%;
+}
+.pull-right-narrow {
+  float: right;
+  width: 30%;
+}
+
+.small123 {
+  font-size: 0.80em;
+}
+
+.large123 {
+  font-size: 2em;
+}
+
+.red {
+  color: red
+}
+```
+
+
+# Last time
+.pull-left[
+- Course overview
+- How did we get to ChatGPT? (And what are the implications)
+- Expectations
+- Coding challenge - followup
+]
+
+.pull-right[
+![Trees](Figures/Trees.jpg)
+]
+
+---
+# Today's lecture
+.pull-left[
+- Introduction to basic tools
+- A lot of not so interesting things. But you can refer back to this. 
+
+### What we will cover:
+- `str` and what you can do with it
+- Text cleaning (dealing with strange characters, stopwords, etc.)
+- Lexical resources (AFINN) 
+- Classical sentiment analysis
+- Coding challenge: Zipf's law
+]
+
+---
+# A basic problem
+Consider the headline 
+
+> "Novo Nordisk reported a modest increase in earnings, but analysts remain cautious."
+
+- "the," "a," and "in" are stopwords that don't provide financial context
+- "earnings" and "cautious" are important terms for stock prediction 
+- Removing stopwords helps focus on the financially relevant content
+
+Noise in $\rightarrow$ noise out  
+Clean data in $\rightarrow$ clean results out
+
+---
+# Lowercasing Text
+
+.pull-left[
+**Why Lowercasing?**
+- Consistency is key in text analysis.
+- Reduces variations caused by capitalization (e.g., "Earnings" vs. "earnings").
+]
+
+.pull-right[
+**Example Code:**
+
+```{python}
+# Sample text
+text = "Novo Nordisk reported a Modest INCREASE in Earnings."
+
+# Convert text to lowercase
+cleaned_text = text.lower()
+print(cleaned_text)
+```
+
+```{r echo=FALSE}
+print("novo nordisk reported a modest increase in earnings.")
+```
+
+]
+
+---
+# Removing Punctuation
+
+.pull-left[
+**Why Remove Punctuation?**
+- Punctuation often does not contribute to the meaning of the text.
+- Helps focus on words rather than sentence structure.
+]
+
+.pull-right[
+**Example Code:**
+
+```{python}
+import string
+
+# Sample text
+text = "Earnings were up 20%! However, caution remains high."
+
+# Remove punctuation
+cleaned_text = text.translate(str.maketrans('', '', string.punctuation))
+print(cleaned_text)
+```
+
+```{r echo=FALSE}
+print("Earnings were up 20 However caution remains high")
+```
+
+]
+
+---
+# Stripping Whitespace
+
+.pull-left[
+**Why Normalize Whitespace?**
+- Sometimes we want to avoid that spaces are assigned a meaning.
+- Sometimes we want legible text
+]
+
+.pull-right[
+**Example Code:**
+
+```{python}
+# Sample text with extra whitespace
+text = "   Earnings report:     Novo Nordisk shows increase.  \n"
+
+# Strip leading and trailing whitespace
+cleaned_text = text.strip()
+
+# Remove extra spaces between words
+cleaned_text = " ".join(cleaned_text.split())
+print(cleaned_text)
+```
+
+```{r echo=FALSE}
+print("Earnings report: Novo Nordisk shows increase.")
+```
+
+]
+
+---
+# Removing numbers
+
+.pull-left[
+**Why Remove Numbers?**
+- Focus on the language rather than numbers
+- Or maybe we are only interested in numbers
+]
+
+.pull-right[
+**Example Code:**
+
+```{python}
+import re
+
+# Sample text
+text = "The stock price increased by 20% in Q3 of 2021."
+
+# Remove numbers
+cleaned_text = re.sub(r'\d+', '', text)
+print(cleaned_text)
+```
+
+```{r echo=FALSE}
+print("The stock price increased by % in Q of .")
+```
+
+]
+
+---
+# Handling special characters 
+
+.pull-left[
+**Why Handle Special Characters?**
+- Special characters (e.g., “$,” “@”) can introduce noise and mess with code.
+- Removing or replacing them can simplify the text for analysis.
+]
+
+.pull-right[
+**Example Code:**
+
+```{python}
+# Sample text with special characters
+text = "Check out our earnings on $AAPL and $GOOG!"
+
+# Remove special characters (except letters and spaces)
+cleaned_text = re.sub(r'[^A-Za-z\s]', '', text)
+print(cleaned_text)
+```
+
+```{r echo=FALSE}
+print("Check out our earnings on AAPL and GOOG")
+```
+
+]
+
+---
+# Unicode Normalization
+
+.pull-left[
+**Why Normalize Unicode?**
+- Text data may contain accented characters or symbols, especially in multilingual contexts.
+- Unicode normalization ensures consistency, which is crucial when analyzing text across different languages.
+- Good default is to always do this. Sometimes information is lost, but consistency is gained
+]
+
+.pull-right[
+**Example Code:**
+
+```{python}
+import unidecode
+
+# Sample text with Scandinavian accented characters
+text = "Björk's café in Århus offers smørrebrød and blåbær juice."
+
+# Normalize text by removing accents
+normalized_text = unidecode.unidecode(text)
+print(normalized_text)
+```
+
+```{r echo=FALSE}
+"Bjork's cafe in Arhus offers smorrebrod and blaabaer juice."
+```
+
+]
+
+---
+# Tying it all together
+
+.pull-left[
+- String cleaning is often dependent on each specific project
+- It is important that we keep consistency and replicability - especially if we want to match on strings
+- Within a project we want to clean all strings in the same way.
+- A good ideas is to define a function `clean_strigs()` which does this for your project
+]
+
+.pull-right[
+**Example code:**  
+```{python}
+import string
+import unidecode
+
+# Sample text
+text = "   Earnings report:     Novo Nordisk shows increase.  \n Åse Aamund, CEO, reacts with optimism ..."
+
+# Remove special characters (except letters and spaces)
+def clean_strigs(x):
+  x = x.lower() # To lower
+  x = x.translate(str.maketrans('', '', string.punctuation)) # Remove punct
+  x = unidecode.unidecode(x)
+  
+  return x
+  
+x = clean_strings(x)
+```
+
+```{r echo=FALSE}
+print("REPLACE")
+```
+
+]
+
+---
+# The `spaCy` library
+.pull-left[
+### What is `spaCy`?
+- spaCy is an open-source, high-performance Natural Language Processing (NLP) library in Python.
+- Designed for efficiency and ease of use in large-scale text processing tasks.
+- Provides pre-trained models, powerful tokenization, and many NLP tools, including lemmatization, part-of-speech tagging, named entity recognition, and more.
+
+- 90 pct of problems you encounter can be solved with spaCy alone
+
+]
+
+.pull-right[
+```{python}
+# Import and load spaCy's English model
+import spacy
+nlp = spacy.load("en_core_web_sm")  # Load a small English model
+
+# Process a text
+text = "The company's earnings have increased in Q3 2021."
+doc = nlp(text)
+
+# Display tokenized words
+for token in doc:
+    print(token.text)
+
+```
+
+]
+
+
+---
+# Lexical resources
+.pull-left-narrow[
+- Why do we have to do the work, if someone has already done it? 
+
+]
+
+.pull-right-wide[
+#### Stopwords
+```{python}
+from nltk.corpus import stopwords
+stopwords.words('english')
+```
+
+#### Computing conent fraction
+
+```{python}
+from nltk.corpus import gutenberg
+def content_fraction(text):
+  stopwords = nltk.corpus.stopwords.words('english')
+  content = [w for w in text if w.lower() not in stopwords]
+  return len(content) / len(text)
+emma = gutenberg.words("austen-emma.txt")
+content_fraction(emma)
+```
+
+
+]
+
+---
+# AFINN package
+.pull-left[
+- Afinn github: https://github.com/fnielsen/afinn
+- Live Afinn: https://darenr.github.io/afinn/
+> "That would have been splendid. It would have been absolutely amazing. The best there ever was. But it was not."
+- 'best': 3, 'amazing': 4, 'splendid': 3
+
+]
+
+.pull-right[
+![Finn](https://avatars.githubusercontent.com/u/484028?v=4)
+*https://github.com/fnielsen*
+]
+
+---
+# A very simple sentiment analysis
+.pull-left[
+- What if we just count positive/negative words? 
+
+### Advatages 
+- You can explain this to anyone 
+- Works supprisingly well 
+
+### Disadvantages 
+- Cannot understand context 
+  + "Bull" is positive in finance
+  + "Bull" is neutral/negative in everyday conversation
+- Typos and spelling mistakes are unhandled 
+]
+
+.pull-left[
+
+]
+
+---
+# Trick 1: Stopwords 
+Already covered
+
+---
+# Tricks 2: Stemming 
+.small123[
+.pull-left[
+```{python}
+import nltk
+from nltk.stem import PorterStemmer
+
+# Initialize the Porter Stemmer
+stemmer = PorterStemmer()
+
+# Example words for stemming
+words = ["jumping", "jumps", "jumped", "jumper", "jumpingly"]
+
+ # Stem the words
+stemmed_words = [stemmer.stem(word) for word in words]
+```
+]
+
+.pull-right[
+```{python}
+# Print the stemmed words
+for original, stemmed in zip(words, stemmed_words):
+    print(f"{original} -> {stemmed}")
+```
+]
+]
+
+---
+# Tricks 3: Lemmatization
+.pull-left[
+- Relies on the idea of a semantic net 
+- Each word with same meaning should be encoded the same 
+- "car", "automobile", "automotive vehicle"
+]
+```{python}
+from nltk.stem import WordNetLemmatizer
+lemmatizer = WordNetLemmatizer()
+lemmatizer.lemmatize("rocks")
+lemmatizer.lemmatize("corpora")
+```
+
+---
+# A look insight WordNet
+
+.pull-left[
+```{python}
+from nltk.corpus import wordnet as wn
+
+# Synonomym names
+wn.synsets('motorcar')
+
+# Synonyms
+wn.synset('car.n.01').lemma_names()
+```
+]
+
+
+.pull-right[
+![Wordnet](https://www.nltk.org/images/wordnet-hierarchy.png)
+]
+#### Example
+> the boy's cars are different colors 
+> $\Rightarrow$ the boy car be differ color
+
+
+---
+# More lexical relations
+- Hypernyms and Hyponyms: 
+  + 'Hypo': Below, 'Hyper': 
+  + Above ('is a' relationship)
+- Meronym and holonym: 
+  + 'Mero': Parts, 
+  + 'Holo': Whole (what it is part of)
+  
+Meronym of a 'tree': Trunk, Crown, Leaves 
+Holonym of a 'tree': Forest 
+
+Homonyms: 'saw', 'saw' 
+ + Either *honomgraphs* or *homophones* (above is both)
+ + Homophones: 'bow' (ship), 'bow' (act of politeness), 'bow' (pretty thing)
+ + Homophones: 'cell', 'sell'
+
+---
+# Simple(st) sentiment analysis
+*I will demonstrate a simple sentiment analysis in Python*
+
+*See under '[Lecture 2 - Lexical resources/Code/](https://github.com/christianvedels/News_and_Market_Sentiment_Analytics/tree/main/Lecture%202%20-%20Lexical%20resources/Code)' '01_Get_stock_data.py', '02_Get_news_sentiment.py', '03_Stock_prices_and_sentiment'*
+
+---
+# The Zipf Mystery
+*We will use basic NLP tools to investigate Zipfs law in the Gutenberg Corpus*
+
+*See under '[Lecture 2 - Lexical resources/Code/](https://github.com/christianvedels/News_and_Market_Sentiment_Analytics/tree/main/Lecture%202%20-%20Lexical%20resources/Code)' '11_Zipf'*
+
+**Zipf's law:**  
+
+$$F_n = \frac{F_1}{n}$$
+
+---
+class: inverse, middle
+# Coding challenge: 
+## The Zipf Mystery
+[Click here to submit](https://forms.gle/WmSEkZn8WH1fiDjE6 )
+
+```{r echo=FALSE}
+library(countdown)
+source("../000_Misc_functions_for_slides.R")
+vertical = 0.35
+dist = 0.15
+
+countdown(
+  minutes = 35,
+  seconds = 0,
+  right = 0,
+  top = ToPct(vertical)
+)
+# countdown(
+#   minutes = 25,
+#   seconds = 0,
+#   right = 0,
+#   top = ToPct(vertical + dist)
+# )
+```
+
+---
+# Next time
+.pull-left[
+- 'Structural' classification 
+- Word tagging 
+ 
+]
+
+.pull-right[
+![Trees](Figures/Trees.jpg)
+]
+
+
