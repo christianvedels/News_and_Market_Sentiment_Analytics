@@ -2,7 +2,8 @@
 
 ## Challenge Details
 
-### 1. Zipf regressions
+### Zipf regressions
+*In this exercise you will use the Zipf-property of natural language to detect synethetically created text*
 
 - Define a function 'ZipfIt' which takes a textID ∈ (0, 1, ...) and
 outputs the slope of the Zipf regression. 
@@ -13,6 +14,8 @@ GitHub](https://github.com/christianvedels/News_and_Market_Sentiment_Analytics/t
 - Use the outputs to classify real from fake texts. Test the quality
 against ['Answers.csv'](https://github.com/christianvedels/News_and_Market_Sentiment_Analytics/blob/main/Lecture%202%20-%20Data%20wrangling%20with%20text/Coding_challenge_data/Answer.csv). You are not allowed to use anything in
 'Answers.csv' as training data.
+
+- Please report accuracy here. Who can get the most accurate result? https://forms.gle/3qtz2urrMF27Yn7w7
 
 **Hint 1:** ChatGPT is handy: https://chatgpt.com/share/672a8a48-f9d8-800c-87fc-fc09c1e3c9e1 
 
