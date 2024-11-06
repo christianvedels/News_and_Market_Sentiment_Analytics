@@ -16,7 +16,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 
 # Load the sentiment analysis pipeline
-classifier = pipeline("sentiment-analysis")
+classifier = pipeline("sentiment-analysis", device = "cuda")
 
 def get_notes_from_the_underground():
     url = 'https://www.gutenberg.org/cache/epub/600/pg600.txt'
