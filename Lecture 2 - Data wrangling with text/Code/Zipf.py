@@ -50,12 +50,12 @@ if __name__ == "__main__":
     ranks = range(1, len(sorted_freq) + 1)
     frequencies = [freq for _, freq in sorted_freq]
     
-    # Plot the Zipf distribution
-    plt.figure(figsize=(10, 6))
-    plt.plot(ranks, frequencies)
-    plt.xscale("log")
-    plt.yscale("log")
-    plt.xlabel("Rank of word (log scale)")
-    plt.ylabel("Frequency of word (log scale)")
-    plt.title("Zipf's Law Distribution of Words in 'Alice in Wonderland'")
-    plt.show()
+    # # Plot the Zipf distribution
+    # plt.figure(figsize=(10, 6))
+    # plt.plot(ranks, frequencies)
+    # plt.xscale("log")
+    # plt.yscale("log")
+    # plt.xlabel("Rank of word (log scale)")
+    # plt.ylabel("Frequency of word (log scale)")
+    # plt.title("Zipf's Law Distribution of Words in 'Alice in Wonderland'")
+    # plt.show()
