@@ -7,8 +7,6 @@
     <script src="libs/header-attrs-2.25/header-attrs.js"></script>
     <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
     <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
-    <link href="libs/countdown-0.4.0/countdown.css" rel="stylesheet" />
-    <script src="libs/countdown-0.4.0/countdown.js"></script>
   </head>
   <body>
     <textarea id="source">
@@ -288,7 +286,7 @@ class: middle
 - Used via a Naive-Bayes classifier 
 - This time using the entire name
 
-- **Turns out:** We can obtain 97.2% accuracy with Naïve-Bayes
+- **Turns out:** We can obtain 98.1% accuracy with Naïve-Bayes
 ]
 
 .pull-right-narrow[
@@ -299,15 +297,9 @@ class: middle
 
 ---
 # Simple Naïve Bayes to identify gender
-[Lecture 4 - Classification pt 2/Code/Gender_classification_all_Danish_names.py](https://github.com/christianvedels/News_and_Market_Sentiment_Analytics/blob/main/Lecture%204%20-%20Classification%20pt%202/Code/Gender_classification_all_Danish_names.py)
+[Lecture 3 - Classification pt 1/Code/Gender_classification_all_Danish_names.py](https://github.com/christianvedels/News_and_Market_Sentiment_Analytics/blob/main/Lecture%203%20-%20Classification%20pt%201/Code/Gender_classification_all_Danish_names.py)
 
 - Using modern name/gender data to build a classifier that works in 1787
-
----
-# Simple Naïve Bayes to identify news categories
-[Lecture 4 - Classification pt 2/Code/Classifying_news.py](https://github.com/christianvedels/News_and_Market_Sentiment_Analytics/blob/main/Lecture%204%20-%20Classification%20pt%202/Code/Classifying_news.py)
-
-- Classifying categories of reuters
 
 ---
 # Feature extraction 
@@ -315,9 +307,15 @@ class: middle
 ### 1. Word type
 
 ```python
+import spacy
+
+# Load the spaCy model
+nlp = spacy.load("en_core_web_sm")
+
 # Function to extract word type as a feature
 def word_type_feature(word):
-    pos_tag = nltk.pos_tag([word])[0][1]
+    doc = nlp(word)
+    pos_tag = doc[0].pos_
     return {"word_type": pos_tag}
 
 # Example usage
@@ -325,7 +323,7 @@ print(word_type_feature("dog"))
 ```
 
 ```
-## {'word_type': 'NN'}
+## {'word_type': 'NOUN'}
 ```
 
 ---
@@ -334,14 +332,17 @@ print(word_type_feature("dog"))
 ### 2. Count vectorizer
 
 ```python
-from sklearn.feature_extraction.text import CountVectorizer
+import spacy
+from collections import Counter
 
-# Function to extract count vectorizer features
+# Load the spaCy model
+nlp = spacy.load("en_core_web_sm")
+
+# Function to extract token counts as features
 def count_vectorizer_feature(corpus):
-    vectorizer = CountVectorizer()
-    X = vectorizer.fit_transform(corpus)
-    feature_names = vectorizer.get_feature_names_out()
-    return dict(zip(feature_names, X.toarray()[0]))
+    doc = nlp(" ".join(corpus))
+    word_counts = Counter([token.text.lower() for token in doc if token.is_alpha])
+    return dict(word_counts)
 
 # Example usage
 corpus = ["This is the first document.", "This document is the second document."]
@@ -349,7 +350,7 @@ print(count_vectorizer_feature(corpus))
 ```
 
 ```
-## {'document': 1, 'first': 1, 'is': 1, 'second': 0, 'the': 1, 'this': 1}
+## {'this': 2, 'is': 2, 'the': 2, 'first': 1, 'document': 3, 'second': 1}
 ```
 
 ---
@@ -357,20 +358,7 @@ print(count_vectorizer_feature(corpus))
 ### 3. Simple bag of words sentiment
 
 ```python
-from afinn import Afinn
-
-# Function to extract sentiment using AFINN score as a feature
-def afinn_sentiment_feature(text):
-    afinn = Afinn()
-    sentiment_score = afinn.score(text)
-    return {"afinn_sentiment": sentiment_score}
-
-# Example usage
-print(afinn_sentiment_feature("This was just great. Pretty amazing."))
-```
-
-```
-## {'afinn_sentiment': 8.0}
+# ... code from last time
 ```
 
 ---
@@ -395,17 +383,22 @@ print(text_length_feature("This is a short text."))
 ### 5: Number of Words
 
 ```python
+import spacy
+
+# Load the spaCy model
+nlp = spacy.load("en_core_web_sm")
+
 # Function to extract number of words as a feature
 def word_count_feature(text):
-    words = nltk.word_tokenize(text)
-    return {"word_count": len(words)}
+    doc = nlp(text)
+    return {"word_count": len([token for token in doc if token.is_alpha])}
 
 # Example usage
 print(word_count_feature("This is an example sentence."))
 ```
 
 ```
-## {'word_count': 6}
+## {'word_count': 5}
 ```
 
 ---
@@ -413,10 +406,16 @@ print(word_count_feature("This is an example sentence."))
 ### 6: Average Word Length
 
 ```python
+import spacy
+
+# Load the spaCy model
+nlp = spacy.load("en_core_web_sm")
+
 # Function to extract average word length as a feature
 def avg_word_length_feature(text):
-    words = nltk.word_tokenize(text)
-    avg_length = sum(len(word) for word in words) / len(words) if len(words) &gt; 0 else 0
+    doc = nlp(text)
+    words = [token for token in doc if token.is_alpha]
+    avg_length = sum(len(word) for word in words) / len(words) if words else 0
     return {"avg_word_length": avg_length}
 
 # Example usage
@@ -424,7 +423,7 @@ print(avg_word_length_feature("This is a demonstration of average word length.")
 ```
 
 ```
-## {'avg_word_length': 4.444444444444445}
+## {'avg_word_length': 4.875}
 ```
 
 ---
@@ -432,11 +431,17 @@ print(avg_word_length_feature("This is a demonstration of average word length.")
 ### 7: Presence of Specific Words
 
 ```python
+import spacy
+
+# Load the spaCy model
+nlp = spacy.load("en_core_web_sm")
+
 # Function to check the presence of specific words as features
 def specific_word_feature(text, target_words):
+    doc = nlp(text)
     features = {}
     for word in target_words:
-        features[f"contains_{word}"] = (word in text.lower())
+        features[f"contains_{word}"] = any(token.text.lower() == word for token in doc)
     return features
 
 # Example usage
@@ -467,7 +472,7 @@ from transformers import pipeline
 
 # Function for zero-shot classification
 def zero_shot_classification(text, labels):
-    classifier = pipeline("zero-shot-classification")
+    classifier = pipeline("zero-shot-classification", model = "facebook/bart-large-mnli")
     result = classifier(text, labels)
     return {label: score for label, score in zip(result["labels"], result["scores"])}
 
@@ -479,9 +484,6 @@ print(zero_shot_classification(text, labels))
 
 ```
 ## {'exciting': 0.9633232951164246, 'intellectual': 0.03195451945066452, 'dull': 0.00472218869253993}
-## 
-## No model was supplied, defaulted to facebook/bart-large-mnli and revision c626438 (https://huggingface.co/facebook/bart-large-mnli).
-## Using a pipeline without specifying a model name and revision in production is not recommended.
 ```
 
 ---
@@ -499,19 +501,12 @@ class: inverse, middle
 ---
 class: inverse, middle
 # Coding challenge: 
-## "Building a news classifier"
-[Click here to submit](https://forms.gle/WmSEkZn8WH1fiDjE6 )
-
-<div class="countdown" id="timer_7be8b004" data-update-every="10" data-blink-colon="true" tabindex="0" style="top:35%;right:0;">
-<div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
-<code class="countdown-time"><span class="countdown-digits minutes">35</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
-</div>
+## [Zero-Shot classification](https://github.com/christianvedels/News_and_Market_Sentiment_Analytics/blob/main/Lecture%203%20-%20Classification%20pt%201/Coding_challenge_lecture3.md)
 
 ---
 # Next time
 .pull-left[
-- Utilizing grammar
-- Entity recognition 
+- Fancier classification
 ]
 
 .pull-right[
@@ -522,7 +517,6 @@ class: inverse, middle
 # References
 .small123[
 Bentzen, J and L Andersen (2022), ‘DP16938 In the Name of God! Religiosity and the Transition to Modern Growth‘, CEPR Discussion Paper No. 16938. CEPR Press, Paris &amp; London. https://cepr.org/publications/dp16938
-
 
 Bentzen, J. S., Boberg-Fazlic, N., Sharp, P., Skovsgaard, C. V., &amp; Vedel, C. (2023). Does Cultural Assimilation Matter? In C. Vedel (Ed.), Natural Experiments in Geography and Institutions: Essays in the Economic History of Denmark (Chapter 3). [Ph.D. thesis, SDU]. Syddansk Universitet. Det Samfundsvidenskabelige Fakultet. https://doi.org/10.21996/jt34-zc23
 ]
