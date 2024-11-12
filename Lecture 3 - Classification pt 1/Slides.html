@@ -18,13 +18,13 @@ class: center, middle, inverse, title-slide
 # News and Market Sentiment Analytics
 ]
 .subtitle[
-## Lecture 4: Classification pt 2
+## Lecture 3: Classification pt 1
 ]
 .author[
 ### Christian Vedel,<br> Department of Economics<br><br> Email: <a href="mailto:christian-vs@sam.sdu.dk" class="email">christian-vs@sam.sdu.dk</a>
 ]
 .date[
-### Updated 2023-11-13
+### Updated 2024-11-12
 ]
 
 ---
@@ -84,45 +84,53 @@ class: center, middle, inverse, title-slide
 
 # Last time
 .pull-left[
-- We can understand many NLP tasks as classification tasks
-- Today mainly 'structural' classification 
-- Based on understanding structure of language
-- spaCy library 
-- Zero-shot classificaiton using Transformers
+- Introduction to basic tools
+- A lot of not so interesting things. But you can refer back to this. 
+
+### What we covered:
+- `str` and what you can do with it
+- Text cleaning (dealing with strange characters, stopwords, etc.)
+- Lexical resources (AFINN) 
+- Classical sentiment analysis
+- Coding challenge: Zipf"s law
 ]
 
-.pull-right[
+.pull-right-narrow[
 ![Trees](Figures/Trees.jpg)
 ]
 
 ---
-# Today's lecture
+# Today"s lecture
 .pull-left[
-- More standard classification approach
+- Standard classification approaches
 - Extracting features using NLP tools 
 - Training data `\(\rightarrow\)` prediction engine
 - **Research example:** Automatic occupational classification
 ]
 
-.pull-right[
+.pull-right-narrow[
 ![Flows](Figures/0_Transformations, dataflows, magical, mathematical _esrgan-v1-x2plus.png)
 ]
 
 ---
-# Coding challenge solution! 
-
----
+class: middle
 # Features to extract 
+.pull-left[
 - Word endings 
 - Sentiment 
 - Word type 
 - Count vectorizer 
 - Transformers:
-  + ZeroShot classifcations 
+  + ZeroShot classifcations (next time)
   + Sentiments
+  + Embeddings
 - ...All the relevant things we will learn about in the course 
+]
 
+.pull-right[
 ![Simple](Figures/Simple_illustration.png)
+]
+
 
 ---
 # The Naïve Bayes classifier (1/2)
@@ -132,11 +140,13 @@ class: center, middle, inverse, title-slide
 - In the Naïve Bayes classifier, we assume features are conditionally independent given the class, simplifying the calculation: `\(P(X|Class) = P(x_1|Class) \cdot P(x_2|Class) \cdot \ldots\)`
 - Simple and very widely used classifier 
 - `\(X\)` is the features 
-  + `\(P(Class|x_i) = P(x|Class)P(Class)/P(x_i)\)` (Bayes' law)
-  + `\(P(x_i|Class)=\mathbb E\left(\frac{1}{n}\sum_{j\in Class} 1[x_j] \right)\)`
+  + `\(P(Class|x_i) = P(x|Class)P(Class)/P(x_i)\)` (Bayes" law)
+  + `\(P(x_i|Class)=\frac{1}{n}\sum_{j\in Class} 1[x_j]\)`
   + `\(P(Class)\)` can be assumed or estimated; `\(P(x_i)\)` can also be estimated
   
 - Assumes independence between features
+
+- We will walk over intuition in the following slides
 ]
 ]
 
@@ -149,114 +159,125 @@ class: center, middle, inverse, title-slide
 
 .footnote[
 .small[
-[See 3Blue1Brown explaination of Bayes theorem](https://youtu.be/U_85TaXbeIo)
+1. [See 3Blue1Brown explaination of Bayes theorem](https://youtu.be/U_85TaXbeIo)
+2. You can use libraries for this, but often this is makes more sense to implement manually 
 ]
 ]
+
 
 ---
 # The Naïve Bayes classifier (2/2)
 
 .small123[
-- This and similar approaches used extensively in research
+- This and similar approaches used extensively for feature extraction and in social science research
   + The maths is simple and clear, which helps in Causal Inference applications 
   + We want to know the *kinds of errors* more rather than *minimizing the errors*
   + Sometimes works really well
 - Two examples: 
   + Bentzen &amp; Andersen (2022): More religious names are associated with less technological development
-  + Bentzen, Boberg-Fazlic, Sharp, Skovsgaard, Vedel (2023): Certain Danish religious movements is associated with less integration into the US in 1800s. But this seemlingly has little consequences for occupational outcomes.
+  + Bentzen, Boberg-Fazlic, Sharp, Skovsgaard, Vedel (2024): Certain Danish religious movements is associated with less integration into the US in 1800s. But this seemingly has little consequences for occupational outcomes.
   
-- Always start with NB
-- But do use other estimates as well :-)
+- Always start with NB when dealing with textual data
+- But do use other models as well :-)
 ]
 
 ---
-# Getting genders from names 
-.pull-left-narrow[
-- A common problem in feature engineering
-- We want to obtain e.g. demographic data from other variables 
-- Most names are gendered
-- Female names:
-  + Tends to end in *a, e, i*
-- Male names:
-  + Tends to end in *k, o, r, s, t*
+class: middle
+# NB intuition: Genders from names (1/5)
+
+.pull-left-wide[
+- We want to classify a name as either *male* or *female* 
+- **Training data:** A list of of female / male names
+- **Goal:** Use this data to produce a classifier
+- **Note:** We do not need any fancy neural nets. We just need basic probability theory. 
 ]
---
-.pull-right-wide[
-### Simple NLTK (from ch. 6)
-.small123[
 
-```python
-def gender_features(word):
-  return {'last_letter': word[-1]}
-gender_features('Shrek')
-```
-
-```
-## {'last_letter': 'k'}
-```
-
-
-```python
-from nltk.corpus import names
-
-male_tmp   = [(name, 'male') for name in names.words('male.txt')]
-female_tmp = [(name, 'female') for name in names.words('female.txt')]
-
-labeled_names = male_tmp + female_tmp
-```
-
-]
-]
 ---
-# Getting genders from names (cont.)
+class: middle
+# NB intuition: Genders from names (2/5)
+- Say we observe 20000 names - 10000 for each gender
+- **What we observe:** The frequency of names among genders
+  + "Carl" might appear 1023/10000 times as male and 3/10000 times as female in our data
+  + "Carla" has a might appear 2148/10000 times as male and 5/10000 times as female in our data
+  + Etc.
+  
+- **We can derive** an estimate of `\(Pr(Gender | Name)\)`:
+  + `\(Pr(Name = \text{"Carl"} | Gender = \text{"Male"}) \approx 1023 / 10000 = 0.1023\)`
+  + `\(Pr(Name = \text{"Carl"} | Gender = \text{"Female"}) \approx 3 / 10000 = 0.0003\)`
+  + `\(Pr(Name = \text{"Carla"} | Gender = \text{"Male"}) \approx 5 / 10000 = 0.0005\)`
+  + `\(Pr(Name = \text{"Carla"} | Gender = \text{"Female"}) \approx 2148 / 10000 = 0.2148\)` 
+  + *Repeat for all names and classes* 
+- This is the "training" procedure for NB
+  
+
+---
+class: middle
+# NB intuition: Genders from names (3/5)
+
+.pull-left-wide[
+- **What we have:** An estimate of `\(Pr(Name | Gender)\)`
+- **What we want:** An estimate of `\(Pr(Gender | Name)\)`
+
+- **Solution:** Bayes" law: `\(Pr(Gender | Name) = \frac{Pr(Name | Gender) Pr(Gender)}{Pr(Name)}\)`
+]
+
+---
+# NB intuition: Genders from names (4/5)
+
+*We will calculate the probability that "Carla" is female*
+
+--
+#### 1. Assume `\(Pr(Gender = \text{"Female"}) = 0.5\)` (Is this reasonable?)
+
+--
+#### 2. Calculate `\(Pr(Name = \text{"Carla"})\)`
+
 --
 
-```python
-# Shuffle features
-import random as r
-r.shuffle(labeled_names)
-```
+`$$Pr(Name) = \sum_{Gender} Pr(Name | Gender) Pr(Gender)$$`
 
 --
 
-```python
-# Train test split
-featuresets = [(gender_features(n), gender) for (n, gender) in labeled_names]
-train_set, test_set = featuresets[500:], featuresets[:500]
+`$$Pr(Name = \text{"Carla"}) = Pr(\text{"Carla"} | \text{"Female"}) Pr(\text{"Female"}) + Pr(\text{"Carla"} | \text{"Male"}) Pr(\text{"Male"})$$`
 
-# Train classifier
-classifier = nltk.NaiveBayesClassifier.train(train_set)
-```
 --
 
-```python
-classifier.classify(gender_features('Neo'))
-```
+`$$Pr(Name = \text{"Carla"}) = 0.2148 \times 0.5 + 0.0005 \times 0.5$$`
 
-```
-## 'male'
-```
+--
 
-```python
-classifier.classify(gender_features('Trinity'))
-```
+`$$Pr(Name = \text{"Carla"}) = 0.10765$$`
 
-```
-## 'female'
-```
+--
+#### 3. Retrieve `\(Pr(Name = \text{"Carla"} | Gender = \text{"Female"}) = 0.2148\)` from "training"
 
 
 ---
-# Getting genders from names (cont.)
+# NB intuition: Genders from names (5/5)
+
+--
+#### 4. Putting it all together
+
 --
 
-```python
-print(nltk.classify.accuracy(classifier, test_set))
-```
+`$$Pr(Gender = \text{"Female"} | Name = \text{"Carla"}) = \frac{Pr(\text{"Carla"} | \text{"Female"}) Pr(\text{"Female"})}{Pr(\text{"Carla"})}$$`
 
-```
-## 0.758
-```
+--
+
+`$$Pr(Gender = \text{"Female"} | Name = \text{"Carla"}) = \frac{0.2148 \times 0.5}{0.10765}$$`
+
+--
+
+`$$Pr(Gender = \text{"Female"} | Name = \text{"Carla"}) = \frac{0.10740}{0.10765}$$`
+
+
+--
+### Result:
+
+`$$Pr(Gender = \text{"Female"} | Name = \text{"Carla"}) = 0.998$$`
+
+
+*Note: Simple to automate and **fast** to compute*
 
 ---
 # A real application 
@@ -273,18 +294,6 @@ print(nltk.classify.accuracy(classifier, test_set))
 .pull-right-narrow[
 ![Census](https://upload.wikimedia.org/wikipedia/commons/9/9a/Folket%C3%A6lling-1840.jpg)
 *Census data, 1840, wikimedia*
-]
-
----
-class: inverse, middle
-# [Breaking the HISCO Barrier: AI and Occupational Data Standardization*](https://raw.githack.com/christianvedels/Presentations/main/HISCO/Slides_flash.html) 
-### *Conference presentation: An example of the kind of research I do with things you learn about in this course*
-
-.footnote[
-\* *it's a link, that you can click!*
-.small123[
-[More details](https://raw.githack.com/christianvedels/Guest_Lectures_and_misc_talks/main/HISCO/Slides.html)
-]
 ]
 
 
@@ -309,10 +318,10 @@ class: inverse, middle
 # Function to extract word type as a feature
 def word_type_feature(word):
     pos_tag = nltk.pos_tag([word])[0][1]
-    return {'word_type': pos_tag}
+    return {"word_type": pos_tag}
 
 # Example usage
-print(word_type_feature('dog'))
+print(word_type_feature("dog"))
 ```
 
 ```
@@ -335,7 +344,7 @@ def count_vectorizer_feature(corpus):
     return dict(zip(feature_names, X.toarray()[0]))
 
 # Example usage
-corpus = ['This is the first document.', 'This document is the second document.']
+corpus = ["This is the first document.", "This document is the second document."]
 print(count_vectorizer_feature(corpus))
 ```
 
@@ -354,10 +363,10 @@ from afinn import Afinn
 def afinn_sentiment_feature(text):
     afinn = Afinn()
     sentiment_score = afinn.score(text)
-    return {'afinn_sentiment': sentiment_score}
+    return {"afinn_sentiment": sentiment_score}
 
 # Example usage
-print(afinn_sentiment_feature('This was just great. Pretty amazing.'))
+print(afinn_sentiment_feature("This was just great. Pretty amazing."))
 ```
 
 ```
@@ -371,10 +380,10 @@ print(afinn_sentiment_feature('This was just great. Pretty amazing.'))
 ```python
 # Function to extract text length as a feature
 def text_length_feature(text):
-    return {'text_length': len(text)}
+    return {"text_length": len(text)}
 
 # Example usage
-print(text_length_feature('This is a short text.'))
+print(text_length_feature("This is a short text."))
 ```
 
 ```
@@ -389,10 +398,10 @@ print(text_length_feature('This is a short text.'))
 # Function to extract number of words as a feature
 def word_count_feature(text):
     words = nltk.word_tokenize(text)
-    return {'word_count': len(words)}
+    return {"word_count": len(words)}
 
 # Example usage
-print(word_count_feature('This is an example sentence.'))
+print(word_count_feature("This is an example sentence."))
 ```
 
 ```
@@ -408,10 +417,10 @@ print(word_count_feature('This is an example sentence.'))
 def avg_word_length_feature(text):
     words = nltk.word_tokenize(text)
     avg_length = sum(len(word) for word in words) / len(words) if len(words) &gt; 0 else 0
-    return {'avg_word_length': avg_length}
+    return {"avg_word_length": avg_length}
 
 # Example usage
-print(avg_word_length_feature('This is a demonstration of average word length.'))
+print(avg_word_length_feature("This is a demonstration of average word length."))
 ```
 
 ```
@@ -427,12 +436,12 @@ print(avg_word_length_feature('This is a demonstration of average word length.')
 def specific_word_feature(text, target_words):
     features = {}
     for word in target_words:
-        features[f'contains_{word}'] = (word in text.lower())
+        features[f"contains_{word}"] = (word in text.lower())
     return features
 
 # Example usage
-text = 'This is a sample text with some specific words.'
-target_words = ['sample', 'specific']
+text = "This is a sample text with some specific words."
+target_words = ["sample", "specific"]
 print(specific_word_feature(text, target_words))
 ```
 
@@ -442,7 +451,7 @@ print(specific_word_feature(text, target_words))
 
 ---
 # Feature extraction
-### 8: Zipf's law features
+### 8: Zipf"s law features
 
 ```python
 # ... Zipf coefficient from coding challenge 2
@@ -458,13 +467,13 @@ from transformers import pipeline
 
 # Function for zero-shot classification
 def zero_shot_classification(text, labels):
-    classifier = pipeline('zero-shot-classification')
+    classifier = pipeline("zero-shot-classification")
     result = classifier(text, labels)
-    return {label: score for label, score in zip(result['labels'], result['scores'])}
+    return {label: score for label, score in zip(result["labels"], result["scores"])}
 
 # Example usage
-text = 'The movie was captivating and full of suspense.'
-labels = ['exciting', 'dull', 'intellectual']
+text = "The movie was captivating and full of suspense."
+labels = ["exciting", "dull", "intellectual"]
 print(zero_shot_classification(text, labels))
 ```
 
@@ -475,14 +484,25 @@ print(zero_shot_classification(text, labels))
 ## Using a pipeline without specifying a model name and revision in production is not recommended.
 ```
 
+---
+class: inverse, middle
+# [Breaking the HISCO Barrier: AI and Occupational Data Standardization*](https://raw.githack.com/christianvedels/OccCANINE/refs/heads/dev/Project_dissemination/HISCO%20Slides/Slides.html) 
+### *Conference presentation: An example of the kind of research I do with things you learn about in this course*
+
+.footnote[
+\* *it"s a link, that you can click!*
+.small123[
+[More details](https://raw.githack.com/christianvedels/Guest_Lectures_and_misc_talks/main/HISCO/Slides.html)
+]
+]
 
 ---
 class: inverse, middle
 # Coding challenge: 
-## 'Building a news classifier'
+## "Building a news classifier"
 [Click here to submit](https://forms.gle/WmSEkZn8WH1fiDjE6 )
 
-<div class="countdown" id="timer_730c5e46" data-update-every="10" data-blink-colon="true" tabindex="0" style="top:35%;right:0;">
+<div class="countdown" id="timer_7be8b004" data-update-every="10" data-blink-colon="true" tabindex="0" style="top:35%;right:0;">
 <div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
 <code class="countdown-time"><span class="countdown-digits minutes">35</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
@@ -513,7 +533,8 @@ Bentzen, J. S., Boberg-Fazlic, N., Sharp, P., Skovsgaard, C. V., &amp; Vedel, C.
 <script>var slideshow = remark.create({
 "highlightStyle": "github",
 "highlightLines": true,
-"countIncrementalSlides": false
+"countIncrementalSlides": false,
+"ratio": "16:9"
 });
 if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
   window.dispatchEvent(new Event('resize'));
