@@ -1,16 +1,6 @@
 # Week 3 Coding Challenge: Emotions from tweets
 
-**Submit here: [Challenge Submission Form](https://forms.gle/WmSEkZn8WH1fiDjE6)**
-    
-+ Each bullet solved: 5 points  
-+ Submitting on time: 10 points  
-
-**Additional requirement: Code must execute out of the box.**
-
 ## Challenge Details
-
-### 1. In 35 minutes
-
 - Run the following simple ZeroShotClassification:
 
 ```
