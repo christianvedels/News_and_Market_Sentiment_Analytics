@@ -16,7 +16,7 @@ from scipy.stats import linregress
 def ZipfIt(textID):
     # Load and preprocess the text
     file_path = f'Coding_challenge_data/Texts/text{textID}.txt'
-    with open(file_path, 'r') as f:
+    with open(file_path, 'r', encoding="iso-8859-1") as f:
         text = f.read().lower()
         
     # Tokenize and count word frequencies
