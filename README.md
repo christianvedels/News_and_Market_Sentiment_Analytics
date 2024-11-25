@@ -9,7 +9,7 @@ Patel, A. A., & Arasanipalai, A. U. (2021). _Applied natural language processing
 However, NLP is fast-moving these years. So although we will draw many examples from the textbook, we will also cover a few other things. 
 
 ## Lecture structure
-Our lectures will generally follow this structure, which is roughly equally divided:
+Our lectures will generally follow this structure, which is roughly equally divided:  
 **Part 1:** Theoretical introduction  
 **Part 2:** Practical examples  
 **Part 3:** Coding challenge (follow-up from last time + challenge based on today's lecture)
