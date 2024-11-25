@@ -40,6 +40,6 @@ For the first lecture you have three tasks to do beforehand:
 ## Contact information
 **The course is taught by:**  
 *Christian Vedel,*  
-*christian@sam.sdu.dk,*  
-*Assistant Proffessor of Economic History,*  
+*christian-vs@sam.sdu.dk,*  
+*Assistant Proffessor of Economics,*  
 *Department of Economics*  
