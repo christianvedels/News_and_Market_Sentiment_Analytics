@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>News and Market Sentiment Analytics</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Christian Vedel,  Department of Economics   Email: christian-vs@sam.sdu.dk" />
+    <script src="libs/header-attrs-2.28/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+.title[
+# News and Market Sentiment Analytics
+]
+.subtitle[
+## Lecture 4: Classification pt 2
+]
+.author[
+### Christian Vedel,<br> Department of Economics<br><br> Email: <a href="mailto:christian-vs@sam.sdu.dk" class="email">christian-vs@sam.sdu.dk</a>
+]
+.date[
+### Updated 2024-11-26
+]
+
+---
+
+
+
+
+
+&lt;style type="text/css"&gt;
+.pull-left {
+  float: left;
+  width: 44%;
+}
+.pull-right {
+  float: right;
+  width: 44%;
+}
+.pull-right ~ p {
+  clear: both;
+}
+
+
+.pull-left-wide {
+  float: left;
+  width: 66%;
+}
+.pull-right-wide {
+  float: right;
+  width: 66%;
+}
+.pull-right-wide ~ p {
+  clear: both;
+}
+
+.pull-left-narrow {
+  float: left;
+  width: 30%;
+}
+.pull-right-narrow {
+  float: right;
+  width: 30%;
+}
+
+.small123 {
+  font-size: 0.80em;
+}
+
+.large123 {
+  font-size: 2em;
+}
+
+.red {
+  color: red
+}
+&lt;/style&gt;
+
+# Last time
+.pull-left[
+- SoTA text classification in news and market sentiments analytics
+- Off-the shelf models
+- Transfer learning
+]
+
+.pull-right-narrow[
+![Trees](Figures/Trees.jpg)
+]
+
+---
+# Today's lecture
+.pull-left[
+- Tokenization
+- Embedding space
+- The nuts and bolts of modern NLP
+- Guest lecture: Julius Koschnick, Assistant Professor
+]
+
+.pull-right-narrow[
+![Flows](Figures/0_Transformations, dataflows, magical, mathematical _esrgan-v1-x2plus.png)
+]
+
+
+---
+class: middle
+# Tokenization
+
+.pull-left[
+- The problem: 
+- Text is not numbers
+
+]
+
+.pull-right[
+### Example
+- "what is this sentence?"
+
+Some options:
+  - Characters level tokenizaiton `[ord(char) for char in text]`: `[119, 104, 97, 116, 32, 105, 115, ...]` 
+  - Word-level tokenization `["what", "is", "this", "sentence", "?"]`: `[5, 3, 2, 4, 99]`
+  - Subword-level tokenization `["what", "is", "this", "sen", "##tence", "?"]`: `[5, 3, 4, 7, 1, 11]`
+]
+
+---
+# Tokenization
+
+
+``` r
+# import spacy
+# nlp = spacy.load("en_core_web_sm") # Small Eng. model
+```
+
+
+``` r
+# nlp.pipeline # Contains the basic pipeline
+```
+
+
+``` r
+# # The pipeline can be heavy for very large data
+# # We can disable things we don't need
+# nlp = spacy.load("en_core_web_sm", disable=["parser","ner"])
+```
+
+
+``` r
+# # GPU can also help speeding up things
+# if spacy.prefer_gpu():
+#   print("Working on GPU")
+# else:
+#   print("No GPU found, working on CPU")
+```
+
+---
+# NER
+
+``` r
+# text = """
+#     Fisher Asset Management LLC lessened its holdings in Novo Nordisk A/S (NYSE:NVO - Free Report) by 0.5% during the third quarter, according to the company in its most recent Form 13F filing with the Securities &amp; Exchange Commission. The institutional investor owned 13,305,474 shares of the company's stock after selling 65,153 shares during the quarter. Fisher Asset Management LLC owned 0.30% of Novo Nordisk A/S worth $1,584,283,000 as of its most recent SEC filing.
+#   """
+# # Source: https://www.marketbeat.com/instant-alerts/fisher-asset-management-llc-sells-65153-shares-of-novo-nordisk-as-nysenvo-2024-11-25/ 
+```
+
+
+``` r
+# import spacy
+# nlp = spacy.load("en_core_web_sm")
+# doc = nlp(text)
+# spacy.displacy.render(doc, style ='ent')
+```
+
+
+---
+
+# Sentence embeddings is not just the mean of the word embeddings
+
+# KNN in embedding space
+
+
+# Training your own model (for embedding purposes)
+
+
+Maybe next time: https://huggingface.co/blog/getting-started-with-embeddings
+
+
+# Advanced RAG recipe: https://huggingface.co/learn/cookbook/en/advanced_rag 
+
+---
+# Text similarity measures
+
+- String distance* 
+- Document Term Matrix Distance*
+- Embedding distance
+
+
+.footnote[
+`\(^*\)` covered in more detail, later
+]
+
+---
+# Basic similarity measures
+String distance (divergence*): Hamming, Levenstein, Jaro-Winkler
+
+.footnote[
+`\(^*\)` formally speaking it is a divergence since it is not symmetrical.
+]
+
+---
+# Better similarity measure:
+
+Let `\(S(x,y)\)` be some similarity measure. `\(x\)` and `\(y\)` are some objects of interest, e.g. texts
+
+We want to obey the following:
+  - `\(S(x, y) = 1\)` if `\(x=y\)`: The same text should be 1
+  - `\(S(x, y) = -1\)` if `\(x=(-)y\)`: Completely opposite texts should be -1
+  - `\(S(x, y) = 0\)` if `\(x \perp y\)`: Unrelated objects should be 0
+  
+--
+Cosine similarity to the rescue 
+
+If we can represent `\(v(x)\)` and `\(v(y)\)` as vectors, then `\(cos(\theta_{v(x),v(y)})\)` represents such a simiarity measure.
+
+$$
+S_C\left(v(x), v(y)\right) = \frac{v(x)\cdot v(y)}{|v(x)||v(y)|}
+$$
+
+---
+# Cosine similarity
+
+.pull-left[
+### Intuition
+- Function of the 'angle' between concepts 
+- Things in the same 'direction' (0 degrees) are the same
+- Orthogonal things (90 degrees) are unrelated 
+- Opposites (180 degress) are opposites 
+
+### Construction
+- We need to turn text into vectors
+
+- Two approaches:
+  + Document Term Matrix (CountVectorizer in scikit learn)
+  + Embeddings
+]
+
+.pull-right[
+
+
+### DTM 
+- "he is happy"
+- "he is sad"
+
+| Document | happy | he | is | sad |
+|----------|-------|----|----|-----|
+| Doc1     | 1     | 1  | 1  | 0   |
+| Doc2     | 0     | 1  | 1  | 1   |
+
+]
+
+
+---
+# Embeddings are how zero shot classification works
+https://arxiv.org/abs/1909.00161
+https://joeddav.github.io/blog/2020/05/29/ZSL.html 
+
+---
+class: middle
+# Plan for the remaining 2 lectures:
+
+### Lecture 6: Text similarity and record linking (and maybe topic models)
+### Lecture 7: RAG systems and course evaluation
+### Lecture 8: Exam workshop
+
+
+---
+class: inverse, middle
+# Coding challenge: 
+## [Building a sentiment classifier](https://github.com/christianvedels/News_and_Market_Sentiment_Analytics/blob/main/Lecture%204%20-%20Classification%20pt%202/Coding_challenge_lecture4.md)
+
+---
+# Next time
+.pull-left[
+- Nuts and bolts: Tokenization and embeddings
+- Guest lecture: A case of creative use of model embeddings 
+]
+
+.pull-right[
+![Trees](Figures/Trees.jpg)
+]
+
+
+
+
+
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+<style>
+.logo {
+  background-image: url(SDU_logo.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+  position: absolute;
+  top: 1em;
+  right: 1em;
+  width: 125px;
+  height: 60px;
+  z-index: 0;
+}
+</style>
+
+<script>
+document
+  .querySelectorAll(
+    '.remark-slide-content' +
+    ':not(.title-slide)' +
+    // insert more to hide here
+    ':not(.inverse)' +
+    ':not(.hide-logo)'
+  )
+  .forEach(el => {
+    el.innerHTML += '<div class="logo"></div>';
+  });
+</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

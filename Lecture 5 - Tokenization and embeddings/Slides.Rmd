@@ -1,0 +1,292 @@
+---
+title: "News and Market Sentiment Analytics"
+subtitle: "Lecture 4: Classification pt 2"
+author: "Christian Vedel,<br> Department of Economics<br><br>
+Email: christian-vs@sam.sdu.dk"
+date: "Updated `r Sys.Date()`" 
+output:
+  xaringan::moon_reader:
+    includes:
+      after_body: insert-logo.html
+    self_contained: false
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: "16:9"
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+# knitr::opts_chunk$set(eval=TRUE, include=TRUE, cache=TRUE)
+# library(reticulate)
+# use_condaenv("sentimentF23")
+```
+
+
+```{css echo=FALSE}
+.pull-left {
+  float: left;
+  width: 44%;
+}
+.pull-right {
+  float: right;
+  width: 44%;
+}
+.pull-right ~ p {
+  clear: both;
+}
+
+
+.pull-left-wide {
+  float: left;
+  width: 66%;
+}
+.pull-right-wide {
+  float: right;
+  width: 66%;
+}
+.pull-right-wide ~ p {
+  clear: both;
+}
+
+.pull-left-narrow {
+  float: left;
+  width: 30%;
+}
+.pull-right-narrow {
+  float: right;
+  width: 30%;
+}
+
+.small123 {
+  font-size: 0.80em;
+}
+
+.large123 {
+  font-size: 2em;
+}
+
+.red {
+  color: red
+}
+```
+
+# Last time
+.pull-left[
+- SoTA text classification in news and market sentiments analytics
+- Off-the shelf models
+- Transfer learning
+]
+
+.pull-right-narrow[
+![Trees](Figures/Trees.jpg)
+]
+
+---
+# Today's lecture
+.pull-left[
+- Tokenization
+- Embedding space
+- The nuts and bolts of modern NLP
+- Guest lecture: Julius Koschnick, Assistant Professor
+]
+
+.pull-right-narrow[
+![Flows](Figures/0_Transformations, dataflows, magical, mathematical _esrgan-v1-x2plus.png)
+]
+
+
+---
+class: middle
+# Tokenization
+
+.pull-left[
+- The problem: 
+- Text is not numbers
+
+]
+
+.pull-right[
+### Example
+- "what is this sentence?"
+
+Some options:
+  - Characters level tokenizaiton `[ord(char) for char in text]`: `[119, 104, 97, 116, 32, 105, 115, ...]` 
+  - Word-level tokenization `["what", "is", "this", "sentence", "?"]`: `[5, 3, 2, 4, 99]`
+  - Subword-level tokenization `["what", "is", "this", "sen", "##tence", "?"]`: `[5, 3, 4, 7, 1, 11]`
+]
+
+---
+# Tokenization
+
+```{r}
+# import spacy
+# nlp = spacy.load("en_core_web_sm") # Small Eng. model
+```
+
+```{r}
+# nlp.pipeline # Contains the basic pipeline
+```
+
+```{r}
+# # The pipeline can be heavy for very large data
+# # We can disable things we don't need
+# nlp = spacy.load("en_core_web_sm", disable=["parser","ner"])
+```
+
+```{r}
+# # GPU can also help speeding up things
+# if spacy.prefer_gpu():
+#   print("Working on GPU")
+# else:
+#   print("No GPU found, working on CPU")
+```
+
+---
+# NER
+```{r}
+# text = """
+#     Fisher Asset Management LLC lessened its holdings in Novo Nordisk A/S (NYSE:NVO - Free Report) by 0.5% during the third quarter, according to the company in its most recent Form 13F filing with the Securities & Exchange Commission. The institutional investor owned 13,305,474 shares of the company's stock after selling 65,153 shares during the quarter. Fisher Asset Management LLC owned 0.30% of Novo Nordisk A/S worth $1,584,283,000 as of its most recent SEC filing.
+#   """
+# # Source: https://www.marketbeat.com/instant-alerts/fisher-asset-management-llc-sells-65153-shares-of-novo-nordisk-as-nysenvo-2024-11-25/ 
+```
+
+```{r}
+# import spacy
+# nlp = spacy.load("en_core_web_sm")
+# doc = nlp(text)
+# spacy.displacy.render(doc, style ='ent')
+```
+
+
+---
+
+# Sentence embeddings is not just the mean of the word embeddings
+
+# KNN in embedding space
+
+
+# Training your own model (for embedding purposes)
+
+
+Maybe next time: https://huggingface.co/blog/getting-started-with-embeddings
+
+
+# Advanced RAG recipe: https://huggingface.co/learn/cookbook/en/advanced_rag 
+
+---
+# Text similarity measures
+
+- String distance* 
+- Document Term Matrix Distance*
+- Embedding distance
+
+
+.footnote[
+$^*$ covered in more detail, later
+]
+
+---
+# Basic similarity measures
+String distance (divergence*): Hamming, Levenstein, Jaro-Winkler
+
+.footnote[
+$^*$ formally speaking it is a divergence since it is not symmetrical.
+]
+
+---
+# Better similarity measure:
+
+Let $S(x,y)$ be some similarity measure. $x$ and $y$ are some objects of interest, e.g. texts
+
+We want to obey the following:
+  - $S(x, y) = 1$ if $x=y$: The same text should be 1
+  - $S(x, y) = -1$ if $x=(-)y$: Completely opposite texts should be -1
+  - $S(x, y) = 0$ if $x \perp y$: Unrelated objects should be 0
+  
+--
+Cosine similarity to the rescue 
+
+If we can represent $v(x)$ and $v(y)$ as vectors, then $cos(\theta_{v(x),v(y)})$ represents such a simiarity measure.
+
+$$
+S_C\left(v(x), v(y)\right) = \frac{v(x)\cdot v(y)}{|v(x)||v(y)|}
+$$
+
+---
+# Cosine similarity
+
+.pull-left[
+### Intuition
+- Function of the 'angle' between concepts 
+- Things in the same 'direction' (0 degrees) are the same
+- Orthogonal things (90 degrees) are unrelated 
+- Opposites (180 degress) are opposites 
+
+### Construction
+- We need to turn text into vectors
+
+- Two approaches:
+  + Document Term Matrix (CountVectorizer in scikit learn)
+  + Embeddings
+]
+
+.pull-right[
+
+
+### DTM 
+- "he is happy"
+- "he is sad"
+
+| Document | happy | he | is | sad |
+|----------|-------|----|----|-----|
+| Doc1     | 1     | 1  | 1  | 0   |
+| Doc2     | 0     | 1  | 1  | 1   |
+
+$v_1 = [1, 1, 1, 0],\: v_2 =[0,1,1,1]$
+
+### Embedding space
+
+- $f(text)$ which outputs the semantic 'meaning' of the sentece
+- Turns out language models do this already. 
+]
+
+
+---
+# Embeddings are how zero shot classification works
+https://arxiv.org/abs/1909.00161
+https://joeddav.github.io/blog/2020/05/29/ZSL.html 
+
+---
+class: middle
+# Plan for the remaining 2 lectures:
+
+### Lecture 6: Text similarity and record linking (and maybe topic models)
+### Lecture 7: RAG systems and course evaluation
+### Lecture 8: Exam workshop
+
+
+---
+class: inverse, middle
+# Coding challenge: 
+## [Building a sentiment classifier](https://github.com/christianvedels/News_and_Market_Sentiment_Analytics/blob/main/Lecture%204%20-%20Classification%20pt%202/Coding_challenge_lecture4.md)
+
+---
+# Next time
+.pull-left[
+- Nuts and bolts: Tokenization and embeddings
+- Guest lecture: A case of creative use of model embeddings 
+]
+
+.pull-right[
+![Trees](Figures/Trees.jpg)
+]
+
+
+
+
+
+
