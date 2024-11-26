@@ -4,7 +4,7 @@
     <title>News and Market Sentiment Analytics</title>
     <meta charset="utf-8" />
     <meta name="author" content="Christian Vedel,  Department of Economics   Email: christian-vs@sam.sdu.dk" />
-    <script src="libs/header-attrs-2.28/header-attrs.js"></script>
+    <script src="libs/header-attrs-2.25/header-attrs.js"></script>
     <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
     <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
   </head>
@@ -16,7 +16,7 @@ class: center, middle, inverse, title-slide
 # News and Market Sentiment Analytics
 ]
 .subtitle[
-## Lecture 4: Classification pt 2
+## Lecture 5: Tokenization and Embedding
 ]
 .author[
 ### Christian Vedel,<br> Department of Economics<br><br> Email: <a href="mailto:christian-vs@sam.sdu.dk" class="email">christian-vs@sam.sdu.dk</a>
@@ -26,6 +26,9 @@ class: center, middle, inverse, title-slide
 ]
 
 ---
+
+
+
 
 
 
@@ -91,12 +94,13 @@ class: center, middle, inverse, title-slide
 ]
 
 ---
+class: middle
 # Today's lecture
 .pull-left[
 - Tokenization
 - Embedding space
 - The nuts and bolts of modern NLP
-- Guest lecture: Julius Koschnick, Assistant Professor
+- Guest lecture: Julius Koschnick, Assistant Professor: "NLP caught in the wild"
 ]
 
 .pull-right-narrow[
@@ -109,8 +113,7 @@ class: middle
 # Tokenization
 
 .pull-left[
-- The problem: 
-- Text is not numbers
+- The problem: Text is not numbers
 
 ]
 
@@ -125,87 +128,180 @@ Some options:
 ]
 
 ---
-# Tokenization
+class: middle
+# Tokenization in practice
 
 
-``` r
-# import spacy
-# nlp = spacy.load("en_core_web_sm") # Small Eng. model
+```python
+import spacy
+nlp = spacy.load("en_core_web_sm") # Small Eng. model
 ```
 
 
-``` r
-# nlp.pipeline # Contains the basic pipeline
+```python
+print_it(nlp.pipeline) # Contains the basic pipeline
 ```
 
-
-``` r
-# # The pipeline can be heavy for very large data
-# # We can disable things we don't need
-# nlp = spacy.load("en_core_web_sm", disable=["parser","ner"])
 ```
-
-
-``` r
-# # GPU can also help speeding up things
-# if spacy.prefer_gpu():
-#   print("Working on GPU")
-# else:
-#   print("No GPU found, working on CPU")
+## ('tok2vec', &lt;spacy.pipeline.tok2vec.Tok2Vec object at 0x00000198488876B0&gt;)
+## ('tagger', &lt;spacy.pipeline.tagger.Tagger object at 0x0000019841AD84D0&gt;)
+## ('parser', &lt;spacy.pipeline.dep_parser.DependencyParser object at 0x0000019849E70AC0&gt;)
+## ('attribute_ruler', &lt;spacy.pipeline.attributeruler.AttributeRuler object at 0x0000019849F97ED0&gt;)
+## ('lemmatizer', &lt;spacy.lang.en.lemmatizer.EnglishLemmatizer object at 0x0000019849E04650&gt;)
+## ('ner', &lt;spacy.pipeline.ner.EntityRecognizer object at 0x0000019849E70C10&gt;)
 ```
 
 ---
-# NER
+class: middle
+# Working with very large data
 
-``` r
-# text = """
-#     Fisher Asset Management LLC lessened its holdings in Novo Nordisk A/S (NYSE:NVO - Free Report) by 0.5% during the third quarter, according to the company in its most recent Form 13F filing with the Securities &amp; Exchange Commission. The institutional investor owned 13,305,474 shares of the company's stock after selling 65,153 shares during the quarter. Fisher Asset Management LLC owned 0.30% of Novo Nordisk A/S worth $1,584,283,000 as of its most recent SEC filing.
-#   """
-# # Source: https://www.marketbeat.com/instant-alerts/fisher-asset-management-llc-sells-65153-shares-of-novo-nordisk-as-nysenvo-2024-11-25/ 
+
+```python
+# The pipeline can be heavy for very large data
+# We can disable things we don't need
+nlp = spacy.load("en_core_web_sm", disable=["parser","ner"])
 ```
 
 
-``` r
-# import spacy
-# nlp = spacy.load("en_core_web_sm")
-# doc = nlp(text)
-# spacy.displacy.render(doc, style ='ent')
+```python
+# GPU can also help speeding up things
+if spacy.prefer_gpu():
+  print("Working on GPU")
+else:
+  print("No GPU found, working on CPU")
 ```
 
+```
+## No GPU found, working on CPU
+```
 
 ---
-
-# Sentence embeddings is not just the mean of the word embeddings
-
-# KNN in embedding space
-
-
-# Training your own model (for embedding purposes)
+class: middle
+# Tangent: Nanmed Entity Recognition (NER)
+.pull-left[
+*Fisher Asset Management LLC lessened its holdings in Novo Nordisk A/S (NYSE:NVO - Free Report) by 0.5% during the third quarter, according to the company in its most recent Form 13F filing with the Securities &amp; Exchange Commission. The institutional investor owned 13,305,474 shares of the company's stock after selling 65,153 shares during the quarter. Fisher Asset Management LLC owned 0.30% of Novo Nordisk A/S worth $1,584,283,000 as of its most recent SEC filing.*
 
 
-Maybe next time: https://huggingface.co/blog/getting-started-with-embeddings
+```python
+text = """
+    Fisher Asset Management LLC lessened its holdings in Novo Nordisk A/S (NYSE:NVO - Free Report) by 0.5% during the third quarter, according to the company in its most recent Form 13F filing with the Securities &amp; Exchange Commission. The institutional investor owned 13,305,474 shares of the company's stock after selling 65,153 shares during the quarter. Fisher Asset Management LLC owned 0.30% of Novo Nordisk A/S worth $1,584,283,000 as of its most recent SEC filing.
+  """
+# Source: https://www.marketbeat.com/instant-alerts/fisher-asset-management-llc-sells-65153-shares-of-novo-nordisk-as-nysenvo-2024-11-25/
+import spacy
+nlp = spacy.load("en_core_web_sm")
+doc = nlp(text)
+spacy.displacy.render(doc, style ='ent')
+```
+]
 
+--
 
-# Advanced RAG recipe: https://huggingface.co/learn/cookbook/en/advanced_rag 
-
----
-# Text similarity measures
-
-- String distance* 
-- Document Term Matrix Distance*
-- Embedding distance
-
-
-.footnote[
-`\(^*\)` covered in more detail, later
+.pull-right[
+.small123[
+&lt;div class="entities" style="line-height: 2.5; direction: ltr"&gt;&lt;/br&gt;    &lt;mark class="entity" style="background: #7aecec; padding: 0.45em 0.6em; margin: 0 0.25em; line-height: 1; border-radius: 0.35em;"&gt;    Fisher Asset Management    &lt;span style="font-size: 0.8em; font-weight: bold; line-height: 1; border-radius: 0.35em; vertical-align: middle; margin-left: 0.5rem"&gt;ORG&lt;/span&gt;&lt;/mark&gt; LLC lessened its holdings in &lt;mark class="entity" style="background: #7aecec; padding: 0.45em 0.6em; margin: 0 0.25em; line-height: 1; border-radius: 0.35em;"&gt;    Novo Nordisk A/S    &lt;span style="font-size: 0.8em; font-weight: bold; line-height: 1; border-radius: 0.35em; vertical-align: middle; margin-left: 0.5rem"&gt;ORG&lt;/span&gt;&lt;/mark&gt; (&lt;mark class="entity" style="background: #7aecec; padding: 0.45em 0.6em; margin: 0 0.25em; line-height: 1; border-radius: 0.35em;"&gt;    NYSE    &lt;span style="font-size: 0.8em; font-weight: bold; line-height: 1; border-radius: 0.35em; vertical-align: middle; margin-left: 0.5rem"&gt;ORG&lt;/span&gt;&lt;/mark&gt;:&lt;mark class="entity" style="background: #7aecec; padding: 0.45em 0.6em; margin: 0 0.25em; line-height: 1; border-radius: 0.35em;"&gt;    NVO - Free Report    &lt;span style="font-size: 0.8em; font-weight: bold; line-height: 1; border-radius: 0.35em; vertical-align: middle; margin-left: 0.5rem"&gt;ORG&lt;/span&gt;&lt;/mark&gt;) by &lt;mark class="entity" style="background: #e4e7d2; padding: 0.45em 0.6em; margin: 0 0.25em; line-height: 1; border-radius: 0.35em;"&gt;    0.5%    &lt;span style="font-size: 0.8em; font-weight: bold; line-height: 1; border-radius: 0.35em; vertical-align: middle; margin-left: 0.5rem"&gt;PERCENT&lt;/span&gt;&lt;/mark&gt; during &lt;mark class="entity" style="background: #bfe1d9; padding: 0.45em 0.6em; margin: 0 0.25em; line-height: 1; border-radius: 0.35em;"&gt;    the third quarter    &lt;span style="font-size: 0.8em; font-weight: bold; line-height: 1; border-radius: 0.35em; vertical-align: middle; margin-left: 0.5rem"&gt;DATE&lt;/span&gt;&lt;/mark&gt;, according to the company in its most recent &lt;mark class="entity" style="background: #aa9cfc; padding: 0.45em 0.6em; margin: 0 0.25em; line-height: 1; border-radius: 0.35em;"&gt;    Form 13F    &lt;span style="font-size: 0.8em; font-weight: bold; line-height: 1; border-radius: 0.35em; vertical-align: middle; margin-left: 0.5rem"&gt;PERSON&lt;/span&gt;&lt;/mark&gt; filing with &lt;mark class="entity" style="background: #7aecec; padding: 0.45em 0.6em; margin: 0 0.25em; line-height: 1; border-radius: 0.35em;"&gt;    the Securities &amp;amp; Exchange Commission    &lt;span style="font-size: 0.8em; font-weight: bold; line-height: 1; border-radius: 0.35em; vertical-align: middle; margin-left: 0.5rem"&gt;ORG&lt;/span&gt;&lt;/mark&gt;. The institutional investor owned &lt;mark class="entity" style="background: #e4e7d2; padding: 0.45em 0.6em; margin: 0 0.25em; line-height: 1; border-radius: 0.35em;"&gt;    13,305,474    &lt;span style="font-size: 0.8em; font-weight: bold; line-height: 1; border-radius: 0.35em; vertical-align: middle; margin-left: 0.5rem"&gt;CARDINAL&lt;/span&gt;&lt;/mark&gt; shares of the company\'s stock after selling &lt;mark class="entity" style="background: #e4e7d2; padding: 0.45em 0.6em; margin: 0 0.25em; line-height: 1; border-radius: 0.35em;"&gt;    65,153    &lt;span style="font-size: 0.8em; font-weight: bold; line-height: 1; border-radius: 0.35em; vertical-align: middle; margin-left: 0.5rem"&gt;CARDINAL&lt;/span&gt;&lt;/mark&gt; shares during &lt;mark class="entity" style="background: #bfe1d9; padding: 0.45em 0.6em; margin: 0 0.25em; line-height: 1; border-radius: 0.35em;"&gt;    the quarter    &lt;span style="font-size: 0.8em; font-weight: bold; line-height: 1; border-radius: 0.35em; vertical-align: middle; margin-left: 0.5rem"&gt;DATE&lt;/span&gt;&lt;/mark&gt;. &lt;mark class="entity" style="background: #7aecec; padding: 0.45em 0.6em; margin: 0 0.25em; line-height: 1; border-radius: 0.35em;"&gt;    Fisher Asset Management    &lt;span style="font-size: 0.8em; font-weight: bold; line-height: 1; border-radius: 0.35em; vertical-align: middle; margin-left: 0.5rem"&gt;ORG&lt;/span&gt;&lt;/mark&gt; &lt;mark class="entity" style="background: #7aecec; padding: 0.45em 0.6em; margin: 0 0.25em; line-height: 1; border-radius: 0.35em;"&gt;    LLC    &lt;span style="font-size: 0.8em; font-weight: bold; line-height: 1; border-radius: 0.35em; vertical-align: middle; margin-left: 0.5rem"&gt;ORG&lt;/span&gt;&lt;/mark&gt; owned &lt;mark class="entity" style="background: #e4e7d2; padding: 0.45em 0.6em; margin: 0 0.25em; line-height: 1; border-radius: 0.35em;"&gt;    0.30%    &lt;span style="font-size: 0.8em; font-weight: bold; line-height: 1; border-radius: 0.35em; vertical-align: middle; margin-left: 0.5rem"&gt;PERCENT&lt;/span&gt;&lt;/mark&gt; of &lt;mark class="entity" style="background: #7aecec; padding: 0.45em 0.6em; margin: 0 0.25em; line-height: 1; border-radius: 0.35em;"&gt;    Novo Nordisk A/S    &lt;span style="font-size: 0.8em; font-weight: bold; line-height: 1; border-radius: 0.35em; vertical-align: middle; margin-left: 0.5rem"&gt;ORG&lt;/span&gt;&lt;/mark&gt; worth $&lt;mark class="entity" style="background: #e4e7d2; padding: 0.45em 0.6em; margin: 0 0.25em; line-height: 1; border-radius: 0.35em;"&gt;    1,584,283,000    &lt;span style="font-size: 0.8em; font-weight: bold; line-height: 1; border-radius: 0.35em; vertical-align: middle; margin-left: 0.5rem"&gt;MONEY&lt;/span&gt;&lt;/mark&gt; as of its most recent &lt;mark class="entity" style="background: #7aecec; padding: 0.45em 0.6em; margin: 0 0.25em; line-height: 1; border-radius: 0.35em;"&gt;    SEC    &lt;span style="font-size: 0.8em; font-weight: bold; line-height: 1; border-radius: 0.35em; vertical-align: middle; margin-left: 0.5rem"&gt;ORG&lt;/span&gt;&lt;/mark&gt; filing.&lt;/br&gt;  &lt;/div&gt;
+]
 ]
 
 ---
+# Embeddings
+### One step back: What problem are we trying to solve?
+--
+
+### Original problem: Text similarity
+Is text `\(x\)` 'equal' to text `\(y\)`?
+--
+
+## Text similarity measures
+
+- String distance* 
+- Document Term Matrix Distance
+- Embedding distance
+
+.footnote[
+`\(^*\)` covered in more detail next time
+]
+
+---
+class: middle
 # Basic similarity measures
-String distance (divergence*): Hamming, Levenstein, Jaro-Winkler
+.pull-left-narrow[
+- String distance (divergence*): Hamming, Levenstein, Jaro-Winkler
+- More one these next time
+- For now just an example on the right
+]
+
+
+
+.pull-right-wide[
+.small123[
+
+```python
+from nltk.metrics import edit_distance
+
+# Original text
+text = "The cat sat on the met."
+
+# Misspelled word
+misspelled_word = "met"
+
+# Candidate correct words
+correct_words = ["mat", "mete", "meet", "meat"]
+
+# Select the word with the minimum Levenshtein Distance as the correction
+closest_word = min(correct_words, key=lambda word: edit_distance(misspelled_word, word))
+
+print(f"Closest Correct Spelling: {closest_word}")
+```
+
+```
+## Closest Correct Spelling: mat
+```
+]
+]
 
 .footnote[
 `\(^*\)` formally speaking it is a divergence since it is not symmetrical.
+]
+
+---
+class: middle
+# Levensthein distance
+
+.pull-left[
+- Most common basic string distance measure 
+- `\(O(mn)\)` complexity - you can run it 
+- Consists of edits: deletions, insertions, substitutions 
+]
+
+
+
+.pull-right[
+**Levensthein distance**  
+kitten `\(\rightarrow\)` sitting
+1. sitten (substitution of 's' for 'k')
+2. sittin (substitution of 'i' for 'e')
+3. sitting (insertion of 'g')
+]
+
+---
+class: middle
+# 10 problems with basic string similarity measures
+
+
+1. Silent ↔ Quiet: 0.3333
+2. Wealthy ↔ Affluent: 0.1250
+3. Start ↔ Commence: 0.000
+3. Help ↔ Assist: 0.000
+4. Angry ↔ Furious: 0.000
+5. Happy ↔ Joyful: 0.000
+6. Big ↔ Enormous: 0.000
+7. Small ↔ Tiny: 0.000
+8. Tired ↔ Exhausted: 0.2222
+9. Friend ↔ Companion: 0.1111
+
+
+.footnote[
+.small123[Similarity computed as the complement to Levenstein distance divided by the length of the longest string]
 ]
 
 ---
@@ -215,13 +311,13 @@ Let `\(S(x,y)\)` be some similarity measure. `\(x\)` and `\(y\)` are some object
 
 We want to obey the following:
   - `\(S(x, y) = 1\)` if `\(x=y\)`: The same text should be 1
-  - `\(S(x, y) = -1\)` if `\(x=(-)y\)`: Completely opposite texts should be -1
-  - `\(S(x, y) = 0\)` if `\(x \perp y\)`: Unrelated objects should be 0
+  - `\(S(x, y) = -1\)` if `\(x=-y\)`: Completely opposite texts should be -1
+  - `\(S(x, y) = 0\)` if `\(x \perp y\)`: Unrelated objects should be 0  
   
 --
-Cosine similarity to the rescue 
+### Cosine similarity to the rescue 
 
-If we can represent `\(v(x)\)` and `\(v(y)\)` as vectors, then `\(cos(\theta_{v(x),v(y)})\)` represents such a simiarity measure.
+If we can represent `\(v(x)\)` and `\(v(y)\)` as vectors, then `\(cos\left(\theta_{v(x),v(y)}\right)\)` represents such a simiarity measure.
 
 $$
 S_C\left(v(x), v(y)\right) = \frac{v(x)\cdot v(y)}{|v(x)||v(y)|}
@@ -257,13 +353,264 @@ $$
 | Doc1     | 1     | 1  | 1  | 0   |
 | Doc2     | 0     | 1  | 1  | 1   |
 
+`\(v_1 = [1, 1, 1, 0],\: v_2 =[0,1,1,1]\)`
+
+### Embedding space
+
+- `\(f(text)\)` which outputs the semantic 'meaning' of the sentece
+- Turns out language models do this already. 
+]
+
+---
+# Embeddings: The idea
+.pull-left[
+- Encode language such that semantics is encoded in vector operations
+- Embedding vectors can be manipulated algebraically
+- Example: `Emb(King) - Emb(Man) + Emb(Woman) = Emb(Queen)`
+]
+
+.pull-right[
+![Vector Arithmetic](Figures/manwomanqueenking.png)
+]
+
+---
+# Example: 10 problems (from earlier)
+
+.small123[
+.pull-left[
+
+```python
+import spacy
+from scipy.spatial.distance import cosine
+
+# Load the SpaCy language model
+nlp = spacy.load("en_core_web_lg")
+
+# Define the word pairs
+word_pairs = [
+    ("Silent", "Quiet"),
+    ("Wealthy", "Affluent"),
+    ("Start", "Commence"),
+    ("Help", "Assist"),
+    ("Angry", "Furious"),
+    ("Happy", "Joyful"),
+    ("Big", "Enormous"),
+    ("Small", "Tiny"),
+    ("Tired", "Exhausted"),
+    ("Friend", "Companion")
+]
+```
+]
+]
+
+.small123[
+.pull-right[
+
+```python
+# Compute cosine distances for each pair
+results = []
+for word1, word2 in word_pairs:
+    vector1 = nlp(word1.lower()).vector
+    vector2 = nlp(word2.lower()).vector
+    distance = cosine(vector1, vector2)
+    results.append((word1, word2, distance))
+    
+# Display results
+for word1, word2, distance in results:
+    print(f"{word1} ↔ {word2}: {distance:.4f}")
+```
+Silent ↔ Quiet: 0.4730  
+Wealthy ↔ Affluent: 0.2832  
+Start ↔ Commence: 0.4927  
+Help ↔ Assist: 0.2155  
+Angry ↔ Furious: 0.3772  
+Happy ↔ Joyful: 0.4924  
+Big ↔ Enormous: 0.4185  
+Small ↔ Tiny: 0.3168  
+Tired ↔ Exhausted: 0.3563  
+Friend ↔ Companion: 0.5452  
+]
+]
+
+---
+class: middle
+# Example: Farther - Man + Woman = Mother?
+.small-123[
+
+```python
+import spacy
+
+# Load the SpaCy language model
+nlp = spacy.load("en_core_web_lg")
+
+# Vectors for the terms
+vector_king = nlp("father").vector
+vector_man = nlp("man").vector
+vector_woman = nlp("woman").vector
+
+# Perform the vector arithmetic
+result_vector = vector_king - vector_man + vector_woman
+
+# Find the closest word to the result vector
+similar_words = nlp.vocab.vectors.most_similar(result_vector.reshape(1, -1), n=5)
+
+# Output the closest words
+for word_id, similarity in zip(similar_words[0][0], similar_words[2][0]):
+    word = nlp.vocab.strings[word_id]
+    print(f"{word}: {similarity:.4f}")
+```
+]
+
+---
+class: middle
+# Example: Farther - Man + Woman = Mother?
+### Result
+
+```python
+mother: 0.8018
+father: 0.7496
+grandmother: 0.7310
+birthmother: 0.7258
+daugther: 0.7162
+```
+
+---
+class: middle
+# Example: Paris - France + Italy = Rome?
+.small-123[
+
+```python
+import spacy
+
+# Load the SpaCy language model
+nlp = spacy.load("en_core_web_lg")
+
+# Vectors for the terms
+vector_paris = nlp("Paris").vector
+vector_france = nlp("France").vector
+vector_italy = nlp("Italy").vector
+
+# Perform the vector arithmetic
+result_vector = vector_paris - vector_france + vector_italy
+
+# Find the closest word to the result vector
+similar_words = nlp.vocab.vectors.most_similar(result_vector.reshape(1, -1), n=5)
+
+# Output the closest words
+for word_id, similarity in zip(similar_words[0][0], similar_words[2][0]):
+    word = nlp.vocab.strings[word_id]
+    print(f"{word}: {similarity:.4f}")
+```
+]
+
+---
+class: middle
+# Example: Paris - France + Italy = Rome?
+### Result:
+
+```python
+Paris: 0.7084
+Milan: 0.6993
+Bologna: 0.6938
+Rome: 0.6836
+Venice: 0.6710
+```
+
+---
+class: middle
+# Example: King - Man + woman = Queen?
+.small-123[
+
+```python
+import spacy
+
+# Load the SpaCy language model
+nlp = spacy.load("en_core_web_lg")
+
+# Vectors for the terms
+vector_king = nlp("king").vector
+vector_man = nlp("man").vector
+vector_woman = nlp("woman").vector
+
+# Perform the vector arithmetic
+result_vector = vector_king - vector_man + vector_woman
+
+# Find the closest word to the result vector
+similar_words = nlp.vocab.vectors.most_similar(result_vector.reshape(1, -1), n=20)
+
+# Output the closest words
+for word_id, similarity in zip(similar_words[0][0], similar_words[2][0]):
+    word = nlp.vocab.strings[word_id]
+    print(f"{word}: {similarity:.4f}")
+```
+]
+
+---
+class: middle
+# Example: King - Man + woman = Queen?
+### Result:
+.pull-left[.small123[
+
+```python
+1. king: 0.8490
+2. kings: 0.7189
+3. princes: 0.7097
+4. consort: 0.7074
+5. princeling: 0.7026
+6. monarch: 0.6899
+7. princelings: 0.6873
+8. princesses: 0.6814
+9. prince: 0.6563
+10. kingship: 0.6498
+```
+]
+]
+.pull-right[.small123[
+
+```python
+11. princess: 0.6481
+12. ruler: 0.6450
+13. consorts: 0.6377
+14. kingi: 0.6362
+15. princedom: 0.6355
+16. rulers: 0.6347
+17. kingii: 0.6259
+18. enthronement: 0.6236
+19. monarchical: 0.6206
+*20. queen: 0.6178
+```
+]
 ]
 
 
+
 ---
-# Embeddings are how zero shot classification works
-https://arxiv.org/abs/1909.00161
-https://joeddav.github.io/blog/2020/05/29/ZSL.html 
+class: middle
+# The simple (extraordinary) function of embedding spaces
+
+.pull-left[
+- The embedding representation of a piece of text is a mathematical representation of the ***meaning*** of that piece of text
+- This is one way of understanding large language models:
+  + Encoder: Encodes the meaning of the input in the embedding space
+  + Decoder: Since the meaning is represented, a decoder module can do important stuff with it e.g. predict next word, or classify the input
+- But we can also do other kinds of arithmetic with ideas 
+
+]
+
+
+--
+
+.pull-right[
+
+### Use cases
+- Compute measures of innovation 
+  + Obvious feature in sentiment stock prediction)
+- Drastically improve record linking ('John', 'Hans', 'Johannes')
+- Build zero-shot classifiers
+- Efficiently represent documents for RAG systems
+
+]
+
 
 ---
 class: middle
@@ -277,18 +624,7 @@ class: middle
 ---
 class: inverse, middle
 # Coding challenge: 
-## [Building a sentiment classifier](https://github.com/christianvedels/News_and_Market_Sentiment_Analytics/blob/main/Lecture%204%20-%20Classification%20pt%202/Coding_challenge_lecture4.md)
-
----
-# Next time
-.pull-left[
-- Nuts and bolts: Tokenization and embeddings
-- Guest lecture: A case of creative use of model embeddings 
-]
-
-.pull-right[
-![Trees](Figures/Trees.jpg)
-]
+## [Building a zero-shot classifier](https://github.com/christianvedels/News_and_Market_Sentiment_Analytics/blob/main/Lecture%204%20-%20Classification%20pt%202/Coding_challenge_lecture4.md)
 
 
 
