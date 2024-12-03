@@ -551,7 +551,6 @@ class: middle
 
 
 ---
-class: middle
 # Topic Modeling 
 .pull-left[
 - A common issue when dealing with text, is that we want to extract topics 
@@ -564,7 +563,9 @@ class: middle
   + K means - just in embedding space
 ]
 
-
+.pull-right[
+![Topicmodelling](Figures/Topics.png)
+]
 
 ---
 # K Means
