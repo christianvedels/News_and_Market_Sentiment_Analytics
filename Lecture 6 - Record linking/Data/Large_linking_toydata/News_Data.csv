@@ -1,0 +1,101 @@
+News_ID,Headline,Company,Date
+1,LinkedIn expands operations to Asia,Tesla,2021-02-11
+2,LinkedIn announces significant quarterly profit,Tesla,2022-01-22
+3,Microsoft experiences surge in market share,Meta,2021-01-04
+4,LinkedIn faces production challenges,NVIDIA,2020-04-16
+5,Meta acquires leading startup in the tech sector,Intel,2021-12-28
+6,Microsoft faces regulatory scrutiny,Apple,2022-08-30
+7,Netflix announces significant quarterly profit,AMD,2022-10-18
+8,AMD announces significant quarterly profit,SAP,2024-04-19
+9,Microsoft invests in renewable energy projects,Amazon,2022-07-03
+10,SAP invests in renewable energy projects,Oracle,2024-04-01
+11,LinkedIn faces production challenges,AMD,2022-11-25
+12,Apple faces production challenges,NVIDIA,2024-10-12
+13,Twitter announces significant quarterly profit,Intel,2021-03-23
+14,IBM announces significant quarterly profit,SAP,2023-03-27
+15,Apple acquires leading startup in the tech sector,Oracle,2023-04-07
+16,LinkedIn invests in renewable energy projects,AMD,2020-09-02
+17,AMD introduces groundbreaking AI tools,IBM,2020-10-06
+18,Microsoft invests in renewable energy projects,Amazon,2023-07-19
+19,LinkedIn faces regulatory scrutiny,NVIDIA,2023-04-26
+20,Tesla expands operations to Asia,Intel,2020-10-16
+21,Amazon faces regulatory scrutiny,Twitter,2023-05-06
+22,Microsoft acquires leading startup in the tech sector,Apple,2024-07-08
+23,Netflix introduces groundbreaking AI tools,NVIDIA,2021-10-03
+24,SAP launches innovative cloud solution,Microsoft,2022-04-30
+25,IBM expands operations to Asia,Netflix,2023-04-29
+26,Microsoft expands operations to Asia,SAP,2022-09-22
+27,Tesla faces production challenges,Google,2021-01-06
+28,Netflix announces significant quarterly profit,Intel,2021-09-18
+29,LinkedIn launches innovative cloud solution,IBM,2020-04-12
+30,AMD invests in renewable energy projects,Tesla,2021-06-07
+31,IBM faces regulatory scrutiny,Tesla,2022-08-22
+32,IBM expands operations to Asia,NVIDIA,2022-06-07
+33,Netflix experiences surge in market share,IBM,2020-03-12
+34,Apple faces production challenges,Meta,2022-10-06
+35,Tesla faces production challenges,NVIDIA,2023-04-20
+36,Netflix announces significant quarterly profit,Oracle,2022-02-07
+37,Apple introduces groundbreaking AI tools,Apple,2021-01-02
+38,Meta acquires leading startup in the tech sector,Microsoft,2021-02-01
+39,Netflix faces production challenges,LinkedIn,2021-01-18
+40,Tesla expands operations to Asia,Intel,2022-03-03
+41,NVIDIA acquires leading startup in the tech sector,Meta,2024-07-02
+42,Tesla expands operations to Asia,Tesla,2021-06-22
+43,Intel introduces groundbreaking AI tools,Google,2023-04-02
+44,Google expands operations to Asia,Microsoft,2023-12-12
+45,Tesla announces significant quarterly profit,Twitter,2020-04-19
+46,Microsoft expands operations to Asia,Oracle,2024-08-14
+47,Meta invests in renewable energy projects,AMD,2022-08-09
+48,Apple faces regulatory scrutiny,NVIDIA,2024-09-16
+49,AMD experiences surge in market share,AMD,2020-06-08
+50,NVIDIA experiences surge in market share,Netflix,2021-11-02
+51,Twitter introduces groundbreaking AI tools,NVIDIA,2022-10-25
+52,SAP acquires leading startup in the tech sector,Google,2024-09-28
+53,SAP acquires leading startup in the tech sector,Oracle,2023-12-02
+54,Twitter invests in renewable energy projects,SAP,2022-09-28
+55,Oracle launches innovative cloud solution,Amazon,2021-05-28
+56,LinkedIn experiences surge in market share,Meta,2021-04-10
+57,Apple invests in renewable energy projects,Amazon,2024-01-06
+58,Amazon faces regulatory scrutiny,Microsoft,2020-10-11
+59,LinkedIn faces regulatory scrutiny,Netflix,2024-01-06
+60,Netflix experiences surge in market share,Intel,2023-08-01
+61,Amazon announces significant quarterly profit,Google,2023-01-06
+62,Meta launches innovative cloud solution,SAP,2022-04-30
+63,Microsoft launches innovative cloud solution,Apple,2022-07-13
+64,Tesla unveils plans for futuristic headquarters,Oracle,2023-02-15
+65,AMD introduces groundbreaking AI tools,NVIDIA,2024-12-29
+66,SAP introduces groundbreaking AI tools,Netflix,2023-02-18
+67,Tesla experiences surge in market share,Netflix,2023-08-04
+68,SAP acquires leading startup in the tech sector,NVIDIA,2023-09-25
+69,Oracle faces regulatory scrutiny,Tesla,2023-03-14
+70,Google unveils plans for futuristic headquarters,Twitter,2021-09-15
+71,Apple expands operations to Asia,Apple,2022-04-23
+72,Microsoft experiences surge in market share,IBM,2021-03-30
+73,Meta unveils plans for futuristic headquarters,LinkedIn,2022-02-16
+74,Netflix launches innovative cloud solution,Netflix,2022-02-17
+75,NVIDIA experiences surge in market share,Tesla,2020-12-12
+76,LinkedIn introduces groundbreaking AI tools,Twitter,2021-07-28
+77,Apple introduces groundbreaking AI tools,Intel,2022-09-09
+78,Google faces regulatory scrutiny,Twitter,2024-11-22
+79,Netflix expands operations to Asia,Tesla,2024-07-29
+80,Microsoft faces production challenges,IBM,2020-12-26
+81,Meta expands operations to Asia,LinkedIn,2021-03-09
+82,Intel acquires leading startup in the tech sector,Twitter,2021-08-17
+83,Oracle acquires leading startup in the tech sector,Amazon,2024-07-07
+84,Intel acquires leading startup in the tech sector,LinkedIn,2021-12-27
+85,IBM expands operations to Asia,NVIDIA,2022-07-05
+86,Google unveils plans for futuristic headquarters,Meta,2021-10-07
+87,Microsoft faces production challenges,LinkedIn,2023-06-09
+88,AMD unveils plans for futuristic headquarters,Oracle,2022-07-03
+89,Google introduces groundbreaking AI tools,Intel,2022-06-23
+90,LinkedIn expands operations to Asia,Microsoft,2023-04-01
+91,Twitter acquires leading startup in the tech sector,Twitter,2021-05-03
+92,LinkedIn expands operations to Asia,Netflix,2020-11-27
+93,IBM unveils plans for futuristic headquarters,IBM,2022-04-21
+94,Meta faces production challenges,Apple,2022-08-02
+95,Oracle announces significant quarterly profit,Google,2021-08-17
+96,Apple experiences surge in market share,Apple,2021-08-27
+97,Amazon experiences surge in market share,Tesla,2021-09-25
+98,Twitter experiences surge in market share,Microsoft,2023-04-12
+99,Tesla unveils plans for futuristic headquarters,Apple,2022-12-14
+100,Meta announces significant quarterly profit,Intel,2020-03-03
