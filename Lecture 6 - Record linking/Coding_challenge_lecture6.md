@@ -13,7 +13,7 @@ The data to be used is simulated data, which can be found [here](https://github.
 2. Filter the financial data for all records where the ticker is "NVDA"
 3. In the news data, find all articles mentioning "NVIDIA" as the company.
 
-**Questions to Answer:**
+**Questions:**
 - How many records for "NVDA" are present in the financial dataset?
 - How many articles mention "NVIDIA" in the news dataset?
 
@@ -22,9 +22,9 @@ The data to be used is simulated data, which can be found [here](https://github.
 ### Part 2: Full Record Linking Challenge
 
 **Goal:**
-Build a system to link financial records to related news articles. 
+Build a system to link financial records to related news articles. Please consider data quality. 
 
-**Advanced Questions:**
+**Questions:**
 - How many financial records were successfully linked to news articles?
 - Are there financial records that do not have matching news articles? Why might this occur?
 - Are there news articles that do not link to any financial record? Why might this occur?
