@@ -50,16 +50,19 @@ if __name__ == "__main__":
         print(f"Sentence: {sentence}")
         print(f"Cosine similarity: {similarity[0][0]}")
 
-    # # Plot the similarities
-    # plt.figure(figsize=(10, 6))
-    # sns.barplot(x=list(range(len(sentences))), y=similarities)
-    # plt.xlabel('Sentence Index')
-    # plt.ylabel('Cosine Similarity')
-    # plt.title('Cosine Similarity between Mean Word Embeddings and Sentence Embeddings')
-    # plt.show()
+    # Plot the similarities
+    plt.figure(figsize=(10, 6))
+    sns.barplot(x=list(range(len(sentences))), y=similarities)
+    plt.xlabel('Sentence Index')
+    plt.ylabel('Cosine Similarity')
+    plt.title('Cosine Similarity between Mean Word Embeddings and Sentence Embeddings')
+    plt.show()
 
     # Example usage of zero-shot classifier
     labels = ["finance", "aviation", "construction work", "legal", "general"]
     for i, sentence in enumerate(sentences):
         predicted_label = zero_shot_classifier(sentence, labels)
         print(f"Predicted label for '{sentence}': {predicted_label}")
+
+    # Applying this zero shot classifier to Coding Challenge 1 is left as an exercise
+    # https://github.com/christianvedels/News_and_Market_Sentiment_Analytics/blob/main/Lecture%203%20-%20Classification%20pt%201/Coding_challenge_lecture3.md
