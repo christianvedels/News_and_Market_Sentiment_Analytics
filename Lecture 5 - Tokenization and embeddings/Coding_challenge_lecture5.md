@@ -3,7 +3,7 @@
 In these weeks coding challenge you are asked to use embeddings to build a zero-shot classifier
 
 1. Find a sensible model to get word and sentence embeddings on HuggingFace
-2. Would you expect the mean of the embeddings in a sentence to be approximately equal the the embedding of the entire sentence? Why? Please test with these sentences:
+2. Would you expect the mean of the embeddings of words in a sentence to be approximately equal the embedding of the entire sentence? Why? Please test with these sentences:
    + "He banked the plane sharply to avoid the ridge."
    + "He was a master banker because he built the best banks in the trench."
    + "He was a master banker - all accounts were kept in order."
