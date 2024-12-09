@@ -36,7 +36,7 @@ class: center, middle, inverse, title-slide
 ### Christian Vedel,<br> Department of Economics<br><br> Email: <a href="mailto:christian-vs@sam.sdu.dk" class="email">christian-vs@sam.sdu.dk</a>
 ]
 .date[
-### Updated 2024-12-03
+### Updated 2024-12-09
 ]
 
 ---
@@ -144,6 +144,8 @@ class: middle
 ![Flows](Figures/0_Transformations, dataflows, magical, mathematical _esrgan-v1-x2plus.png)
 ]
 
+
+
 ---
 
 class: middle
@@ -188,6 +190,8 @@ class: middle
 ![String Matching](Figures/String_similarity.png)
 ]
 
+
+
 ---
 # Example
 .panelset[
@@ -195,17 +199,99 @@ class: middle
 .panel-name[Financial data]
 
 
-<div class="datatables html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-5338d32be5933ba08ad5" style="width:100%;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-5338d32be5933ba08ad5">{"x":{"filter":"none","vertical":false,"data":[["1","2","3","4","5","6","7","8","9","10","11","12","13"],[101,102,103,104,105,106,107,108,109,110,111,112,113],["META","TSLA","AAPL","MSFT","TSLA","META","AAPL","MSFT","META","TSLA","NVDA","GOOGL","ORCL"],[5000,2000,1000,3000,2500,5200,1200,3100,5300,2600,6000,4000,500],["Q1 2024","Q1 2024","Q1 2024","Q1 2024","Q1 2024","Q2 2024","Q2 2024","Q2 2024","Q2 2024","Q2 2024","Q2 2024","Q2 2024","Q2 2024"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Record_ID<\/th>\n      <th>Ticker<\/th>\n      <th>Revenue<\/th>\n      <th>Quarter<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":6,"columnDefs":[{"className":"dt-right","targets":[1,3]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[6,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
+<div class="datatables html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-795e3f491df4a827a557" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-795e3f491df4a827a557">{"x":{"filter":"none","vertical":false,"data":[["1","2","3","4","5","6","7","8","9","10","11","12","13"],[101,102,103,104,105,106,107,108,109,110,111,112,113],["META","TSLA","AAPL","MSFT","TSLA","META","AAPL","MSFT","META","TSLA","NVDA","GOOGL","ORCL"],[5000,2000,1000,3000,2500,5200,1200,3100,5300,2600,6000,4000,500],["Q1 2024","Q1 2024","Q1 2024","Q1 2024","Q1 2024","Q2 2024","Q2 2024","Q2 2024","Q2 2024","Q2 2024","Q2 2024","Q2 2024","Q2 2024"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Record_ID<\/th>\n      <th>Ticker<\/th>\n      <th>Revenue<\/th>\n      <th>Quarter<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":6,"columnDefs":[{"className":"dt-right","targets":[1,3]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[6,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
 
 ]
 .panel[
 .panel-name[Headlines data]
 
 
-<div class="datatables html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-af639ca9e1b3c21232f0" style="width:100%;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-af639ca9e1b3c21232f0">{"x":{"filter":"none","vertical":false,"data":[["1","2","3","4","5","6","7","8","9","10"],[1,2,3,4,5,6,7,8,9,10],["Meta posts record quarterly earnings","Tesla announces new AI capabilities","Apple focuses on green energy","Microsoft faces antitrust concerns","Tesla reports strong sales growth","Meta expands its VR division","Spotify explores new podcast monetization models","Netflix launches new global ad-supported tier","Oracle plans to revive java game dominance","Alphabet will base future searches on mechanical computation"],["Meta","Tesla","Apple","Microsoft","Tesla","Meta","Spotify","Netflix","Oracle","Alphabet"],["2024-01-10","2024-01-12","2024-01-13","2024-01-14","2024-01-15","2024-01-16","2024-04-10","2024-04-15","2024-03-11","2024-03-12"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>News_ID<\/th>\n      <th>Headline<\/th>\n      <th>Company<\/th>\n      <th>Date<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":6,"columnDefs":[{"className":"dt-right","targets":1},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[6,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
+<div class="datatables html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-f37559262125b8b04a8b" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-f37559262125b8b04a8b">{"x":{"filter":"none","vertical":false,"data":[["1","2","3","4","5","6","7","8","9","10"],[1,2,3,4,5,6,7,8,9,10],["Meta posts record quarterly earnings","Tesla announces new AI capabilities","Apple focuses on green energy","Microsoft faces antitrust concerns","Tesla reports strong sales growth","Meta expands its VR division","Spotify explores new podcast monetization models","Netflix launches new global ad-supported tier","Oracle plans to revive java game dominance","Alphabet will base future searches on mechanical computation"],["Meta","Tesla","Apple","Microsoft","Tesla","Meta","Spotify","Netflix","Oracle","Alphabet"],["2024-01-10","2024-01-12","2024-01-13","2024-01-14","2024-01-15","2024-01-16","2024-04-10","2024-04-15","2024-03-11","2024-03-12"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>News_ID<\/th>\n      <th>Headline<\/th>\n      <th>Company<\/th>\n      <th>Date<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":6,"columnDefs":[{"className":"dt-right","targets":1},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[6,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
 
+]
+]
+
+---
+# String Distance Measures
+.pull-left[
+- **Common String Distance Metrics**:
+  + **Levenshtein Distance**: Counts insertions, deletions, and substitutions.
+  + **Jaro-Winkler**: Focuses on common prefixes.
+  + **Hamming Distance**: Simple metric for strings of equal length.
+
+]
+
+.pull-right-narrow[
+**Levenshtein Example**:  
+kitten → sitting  
+1. Sub 'k' → 's': `sitten`  
+2. Sub 'e' → 'i': `sittin`  
+3. Insert 'g': `sitting`
+]
+
+---
+# Jaro-Winkler Distance
+.pull-left[
+- Weighted similarity measure:
+
+  + Gives higher weight to common prefixes.
+  + More robust for small variations.
+Example: "jellyfish" vs. "smellyfish" 
+
+
+```python
+from nltk.metrics.distance import edit_distance, jaro_similarity
+
+# Strings to compare
+str1, str2 = "jellyfish", "smellyfish"
+str3, str4 = "jellyfish", "jellyfic"
+
+# Levenshtein distance
+lev_dist1 = edit_distance(str1, str2)
+lev_dist2 = edit_distance(str3, str4)
+
+# Jaro-Winkler similarity
+jw_sim1 = jaro_similarity(str1, str2)
+jw_sim2 = jaro_similarity(str3, str4)
+```
+]
+
+.pull-right[ 
+.small123[
+
+```python
+print(f"Levenshtein: {lev_dist1}")
+```
+
+```
+## Levenshtein: 2
+```
+
+```python
+print(f"Levenshtein: {lev_dist2}")
+```
+
+```
+## Levenshtein: 2
+```
+
+```python
+print(f"Jaro-Winkler: {jw_sim1}")
+```
+
+```
+## Jaro-Winkler: 0.8962962962962964
+```
+
+```python
+print(f"Jaro-Winkler: {jw_sim2}")
+```
+
+```
+## Jaro-Winkler: 0.8842592592592592
+```
 ]
 ]
 
@@ -259,12 +345,14 @@ class: middle
 - Start with 'TSLA' in Q1 2024
 - We can eliminate 'Spotify', 'Netflix', 'Oracle', 'Alphabet' by blocking (none in Q1)
 - `LevDist('TSLA', x) for x in ['Meta', 'Tesla', 'Apple', 'Microsoft']`
-  + [4, 4, 5, 9]: "TSLA" is equally likely to be "Meta" or "TSLA"
+  + [4, 4, 5, 9] 
+  + **"TSLA" is equally likely to be "Meta" or "Tesla"**
 --
 
 - Now we convert everything to lower case and repeat
 - `LevDist('tsla', x) for x in ['meta', 'tesla', 'apple', 'microsoft']`
-  + [3, 1, 4, 8]: "Tesla" is the most likely match to "TSLA"
+  + [3, 1, 4, 8] 
+  + **"Tesla" is now the most likely match to "TSLA"**
 
 **Takeaway:** Forgetting to lowercase completely ruined the matching
 
@@ -349,88 +437,6 @@ class: middle
   - Captures more true matches but increases computational cost.
   - Example: Blocking by exact dates can lead to excessive small blocks.
 - Theoretical optimum exists, but hard to find
-]
-
----
-# String Distance Measures
-.pull-left[
-- **Common String Distance Metrics**:
-  + **Levenshtein Distance**: Counts insertions, deletions, and substitutions.
-  + **Jaro-Winkler**: Focuses on common prefixes.
-  + **Hamming Distance**: Simple metric for strings of equal length.
-
-]
-
-.pull-right-narrow[
-**Levenshtein Example**:  
-kitten → sitting  
-1. Sub 'k' → 's': `sitten`  
-2. Sub 'e' → 'i': `sittin`  
-3. Insert 'g': `sitting`
-]
-
----
-# Jaro-Winkler Distance
-.pull-left[
-- Weighted similarity measure:
-
-  + Gives higher weight to common prefixes.
-  + More robust for small variations.
-Example: "jellyfish" vs. "smellyfish" 
-
-
-```python
-from nltk.metrics.distance import edit_distance, jaro_similarity
-
-# Strings to compare
-str1, str2 = "jellyfish", "smellyfish"
-str3, str4 = "jellyfish", "jellyfic"
-
-# Levenshtein distance
-lev_dist1 = edit_distance(str1, str2)
-lev_dist2 = edit_distance(str3, str4)
-
-# Jaro-Winkler similarity
-jw_sim1 = jaro_similarity(str1, str2)
-jw_sim2 = jaro_similarity(str3, str4)
-```
-]
-
-.pull-right[ 
-.small123[
-
-```python
-print(f"Levenshtein: {lev_dist1}")
-```
-
-```
-## Levenshtein: 2
-```
-
-```python
-print(f"Levenshtein: {lev_dist2}")
-```
-
-```
-## Levenshtein: 2
-```
-
-```python
-print(f"Jaro-Winkler: {jw_sim1}")
-```
-
-```
-## Jaro-Winkler: 0.8962962962962964
-```
-
-```python
-print(f"Jaro-Winkler: {jw_sim2}")
-```
-
-```
-## Jaro-Winkler: 0.8842592592592592
-```
-]
 ]
 
 ---
@@ -540,7 +546,7 @@ Would estimate intergenerational mobility if:
 class: middle
 
 # Advice
-1. **Avoid it**: Avoid having to do linking by providing unique ids to all your data. Tell team members, that they are seriously damaging data flows, if they don't
+1. **Avoid it**: Avoid having to do linking by providing unique ids to all your data. Tell team members, that they are potentially causing serious harm if they don't.
 2. **Accept defeat**: It will never be perfect. Instead you face a trade-off between false positives and false negatives as well as seleciton bias 
 3. **Efficient use of time**: Are you spending *3 weeks* developing something to save *3 days of manual work*? Then don't. 
 4. **Human-computer-hybrid**: Often it is useful to produce a (bad) link with string distance manually improve it. 
