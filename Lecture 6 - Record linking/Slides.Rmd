@@ -188,6 +188,60 @@ DT::datatable(df, options = list(pageLength = 6))
 ]
 ]
 
+---
+# String Distance Measures
+.pull-left[
+- **Common String Distance Metrics**:
+  + **Levenshtein Distance**: Counts insertions, deletions, and substitutions.
+  + **Jaro-Winkler**: Focuses on common prefixes.
+  + **Hamming Distance**: Simple metric for strings of equal length.
+
+]
+
+.pull-right-narrow[
+**Levenshtein Example**:  
+kitten → sitting  
+1. Sub 'k' → 's': `sitten`  
+2. Sub 'e' → 'i': `sittin`  
+3. Insert 'g': `sitting`
+]
+
+---
+# Jaro-Winkler Distance
+.pull-left[
+- Weighted similarity measure:
+
+  + Gives higher weight to common prefixes.
+  + More robust for small variations.
+Example: "jellyfish" vs. "smellyfish" 
+
+```{python}
+from nltk.metrics.distance import edit_distance, jaro_similarity
+
+# Strings to compare
+str1, str2 = "jellyfish", "smellyfish"
+str3, str4 = "jellyfish", "jellyfic"
+
+# Levenshtein distance
+lev_dist1 = edit_distance(str1, str2)
+lev_dist2 = edit_distance(str3, str4)
+
+# Jaro-Winkler similarity
+jw_sim1 = jaro_similarity(str1, str2)
+jw_sim2 = jaro_similarity(str3, str4)
+```
+]
+
+.pull-right[ 
+.small123[
+```{python}
+print(f"Levenshtein: {lev_dist1}")
+print(f"Levenshtein: {lev_dist2}")
+print(f"Jaro-Winkler: {jw_sim1}")
+print(f"Jaro-Winkler: {jw_sim2}")
+```
+]
+]
 
 ---
 # Linking steps
@@ -238,12 +292,14 @@ DT::datatable(df, options = list(pageLength = 6))
 - Start with 'TSLA' in Q1 2024
 - We can eliminate 'Spotify', 'Netflix', 'Oracle', 'Alphabet' by blocking (none in Q1)
 - `LevDist('TSLA', x) for x in ['Meta', 'Tesla', 'Apple', 'Microsoft']`
-  + [4, 4, 5, 9]: "TSLA" is equally likely to be "Meta" or "TSLA"
+  + [4, 4, 5, 9]
+  + **"TSLA" is equally likely to be "Meta" or "Tesla"**
 --
 
 - Now we convert everything to lower case and repeat
 - `LevDist('tsla', x) for x in ['meta', 'tesla', 'apple', 'microsoft']`
-  + [3, 1, 4, 8]: "Tesla" is the most likely match to "TSLA"
+  + [3, 1, 4, 8] 
+  + **"Tesla" is the most likely match to "TSLA"**
 
 **Takeaway:** Forgetting to lowercase completely ruined the matching
 
@@ -322,68 +378,18 @@ class: middle
 
 ### Trade-offs in Blocking
 - **Coarse Blocking**:
-  - Fewer comparisons but higher risk of missed matches.
-  - Example: Blocking by broad time periods may fail for late filings.
+  - E.g. year instead of exact date
+  - Risk of problematic matches
+  - Lower probability of false negative matches 
+  - High recall
 - **Fine Blocking**:
-  - Captures more true matches but increases computational cost.
-  - Example: Blocking by exact dates can lead to excessive small blocks.
-- Theoretical optimum exists, but hard to find
+  - E.g. exact date
+  - Captures more true matches but misses many relevant matches
+  - High precision
+- Theoretical optimum (given preferences) exists, but hard to find
 ]
 
----
-# String Distance Measures
-.pull-left[
-- **Common String Distance Metrics**:
-  + **Levenshtein Distance**: Counts insertions, deletions, and substitutions.
-  + **Jaro-Winkler**: Focuses on common prefixes.
-  + **Hamming Distance**: Simple metric for strings of equal length.
 
-]
-
-.pull-right-narrow[
-**Levenshtein Example**:  
-kitten → sitting  
-1. Sub 'k' → 's': `sitten`  
-2. Sub 'e' → 'i': `sittin`  
-3. Insert 'g': `sitting`
-]
-
----
-# Jaro-Winkler Distance
-.pull-left[
-- Weighted similarity measure:
-
-  + Gives higher weight to common prefixes.
-  + More robust for small variations.
-Example: "jellyfish" vs. "smellyfish" 
-
-```{python}
-from nltk.metrics.distance import edit_distance, jaro_similarity
-
-# Strings to compare
-str1, str2 = "jellyfish", "smellyfish"
-str3, str4 = "jellyfish", "jellyfic"
-
-# Levenshtein distance
-lev_dist1 = edit_distance(str1, str2)
-lev_dist2 = edit_distance(str3, str4)
-
-# Jaro-Winkler similarity
-jw_sim1 = jaro_similarity(str1, str2)
-jw_sim2 = jaro_similarity(str3, str4)
-```
-]
-
-.pull-right[ 
-.small123[
-```{python}
-print(f"Levenshtein: {lev_dist1}")
-print(f"Levenshtein: {lev_dist2}")
-print(f"Jaro-Winkler: {jw_sim1}")
-print(f"Jaro-Winkler: {jw_sim2}")
-```
-]
-]
 
 ---
 class: middle, inverse
