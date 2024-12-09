@@ -9,8 +9,6 @@
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.cluster import KMeans
 from nltk.corpus import gutenberg
-from nltk.corpus import stopwords
-from nltk.stem import WordNetLemmatizer
 import random
 import numpy as np
 import matplotlib.pyplot as plt
@@ -24,17 +22,13 @@ def main():
     paragraphs = [paragraph for file_id in gutenberg.fileids() for paragraph in gutenberg.paras(file_id)]
     random.shuffle(paragraphs)  # Shuffling for variety
 
-    # Load lemmatizer
-    lemmatizer = WordNetLemmatizer()
-    stop_words = set(stopwords.words('english'))
-
     cleaned_paragraphs = []
     for paragraph in paragraphs:
         # Tokenize and lemmatize using spaCy
         doc = nlp(' '.join(paragraph[0]).lower())
         lemmatized_tokens = [token.lemma_ for token in doc if token.is_alpha]
         # Remove stop words
-        filtered_tokens = [token for token in lemmatized_tokens if token not in stop_words]
+        filtered_tokens = [token for token in lemmatized_tokens if not nlp.vocab[token].is_stop]
         cleaned_paragraphs.append(' '.join(filtered_tokens))
 
     # Step 1: Create Bag of Words (BoW) representation
