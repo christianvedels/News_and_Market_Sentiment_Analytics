@@ -1,0 +1,238 @@
+---
+title: "News and Market Sentiment Analytics"
+subtitle: "Lecture 6: Record Linking and Topic Models"
+author: "Christian Vedel,<br> Department of Economics<br><br>
+Email: christian-vs@sam.sdu.dk"
+date: "Updated `r Sys.Date()`" 
+output:
+  xaringan::moon_reader:
+    includes:
+      after_body: insert-logo.html
+    self_contained: false
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: "16:9"
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(eval=TRUE, include=TRUE, cache=FALSE)
+library(reticulate)
+use_condaenv("sentimentF23")
+```
+
+```{r xaringan-panelset, echo=FALSE}
+xaringanExtra::use_panelset()
+```
+
+```{r xaringan-tile-view, echo=FALSE}
+xaringanExtra::use_tile_view()
+```
+
+```{r xaringanExtra, echo = FALSE}
+xaringanExtra::use_progress_bar(color = "#808080", location = "top")
+```
+
+```{python include=FALSE}
+def print_it(x):
+  for i in x: print(i)
+```
+
+```{css echo=FALSE}
+.pull-left {
+  float: left;
+  width: 44%;
+}
+.pull-right {
+  float: right;
+  width: 44%;
+}
+.pull-right ~ p {
+  clear: both;
+}
+
+
+.pull-left-wide {
+  float: left;
+  width: 66%;
+}
+.pull-right-wide {
+  float: right;
+  width: 66%;
+}
+.pull-right-wide ~ p {
+  clear: both;
+}
+
+.pull-left-narrow {
+  float: left;
+  width: 30%;
+}
+.pull-right-narrow {
+  float: right;
+  width: 30%;
+}
+
+.small123 {
+  font-size: 0.80em;
+}
+
+.large123 {
+  font-size: 2em;
+}
+
+.red {
+  color: red
+}
+```
+
+# Last time
+.pull-left[
+**Two tedious common tasks:**
+- Record Linking
+- Topic Modeling 
+]
+
+.pull-right-narrow[
+![Trees](Figures/Trees.jpg)
+]
+
+---
+class: middle
+# Today's lecture
+.pull-left[
+- RAGs
+- Course evaluation
+]
+
+.pull-right-narrow[
+![Flows](Figures/0_Transformations, dataflows, magical, mathematical _esrgan-v1-x2plus.png)
+]
+
+---
+# Motivaiton for the course 
+
+.pull-left[
+- *It's all about information*
+- Text is data. Data is text. 
+- Applications: Business, Finance, Research, Software Development, Psychology, Linguistics, Business Intelligence, Policy Evaluation 
+- In a world of LLMs you want to understand what is happening behind the fancy interface 
+- The techniques live inside crazy sci-fi technologies, that you can learn. E.g. [literal mind reading](https://www.nature.com/articles/s41593-023-01304-9)
+]
+
+.pull-right[
+![Counterexample](Figures/machine_learning.png)
+*Counter-example to what we will be doing*
+*[[xkcd.com/1838]](xkcd.com/1838)*
+]
+
+---
+# Efficient Market Hypothesis (EMH)
+
+.pull-left[
+*If you can buy cheaply something which is more valuable than its price, you can profit (arbitrage). But ...*
+1. We all have access to the same information 
+2. Everyone is interested in maximum profits
+3. Everyone buys the undervalued assets 
+4. Prices increases until the advantages is gone 
+
+]
+.pull-right[
+![Efficient Market](Figures/stonks.jpeg)
+
+
+### Implications:
+- If any 'whole' in the market occurs it is closed within milliseconds 
+- We cannot invest better than anyone else 
+- Investing in what a chicken poops on is better than listening to an 'expert'
+]
+
+---
+
+# Information Extraction in Financial Markets
+
+.pull-left[
+- The NLP promise is to be able to extract information 
+- News about firms changes the expected returns on assets 
+- [NVIDIA News](https://youtu.be/U0dHDr0WFmQ?si=EKAQgBiTekQhxl0u)
+- If the expected returns on an asset increases or decreases there is an opportunity for arbitrage if prices have not changed
+- NLP tools potentially allow us to be ahead 
+- EMH dissallows open source implementations: You need to improve on the methods you get here
+- **Timing is key**
+]
+
+.pull-right[
+![Information Extraction](Figures/big_stonks.jpg)
+]
+
+---
+class: middle
+# RAGs
+- The modern approach to sentiment analysis
+- Potent context awareness
+- 'simple' networks of LLMs
+
+
+---
+class: middle
+
+# RAG basics
+- **Query**: Question you want answered. E.g. "Is the market bullish or bearish?"
+- **Augmentation**: We want to augment this query with relevant information
+- **Retrieval**: We retrieve relevant documents for the query
+- **Generation**: We use this information to generate an answer. E.g. "bull"
+- **R  A  G**
+
+---
+class: middle
+
+# RAG applications
+- Sentiment analysis
+- Systematic document review
+- Legal discovery / case review
+- LLM magic. E.g. ChatGPT o1
+
+---
+class: middle
+# Retrieval
+- **Library:** Need to define and source a library. E.g. all press releases, etc.
+- For any given query, we need to find a relevant match document in the library
+- Approaches: Lessons from [Record Linking](https://raw.githack.com/christianvedels/News_and_Market_Sentiment_Analytics/refs/heads/main/Lecture%206%20-%20Record%20linking/Slides.html) + Searching embedding space
+
+---
+class: middle
+# Retrieval
+- **Query**: "How is NVIDIA doing?"
+- **Library**: Press releases. Among which "NVIDIA releases devastating news"
+- **Embedding approach**:
+  + Embed the entire library
+  + Embed the query
+  + Find minimum cosine distance
+- **Other approaches**:
+  + Run entity recognition from e.g. spaCy
+- **Trick**: Embed everything in the library beforehand and store it in a vector library
+
+---
+class: middle
+# Augementation
+- You simply prompt the LLM with the added documents as context.
+- You can consider prompt tuning as in [arxiv.org/abs/2310.04027](https://arxiv.org/abs/2310.04027)
+- It is hard to get LLMs to behave:
+  + *"Please for the love of everything you hold dear, just say 'yes' or 'no'. Otherwise I will forever hold you in contempt and fire you in shame. If you write ONLY 'yes' or 'no', you are my favorite employee and I will give you a huge bonus"*
+
+
+
+---
+class: inverse, middle
+# Coding challenge: 
+## [Linking in practice](https://github.com/christianvedels/News_and_Market_Sentiment_Analytics/blob/main/Lecture%206%20-%20Record%20linking/Coding_challenge_lecture6.md)
+
+
+
+
+
+
