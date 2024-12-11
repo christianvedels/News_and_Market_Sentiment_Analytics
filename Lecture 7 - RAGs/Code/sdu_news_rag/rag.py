@@ -12,7 +12,7 @@ class sduNewsRag():
         self.model = AutoModel.from_pretrained(model_name_embedding).to("cuda")
         self.news = []
         self.news_vectors = None
-        self.zero_shot_classifier = pipeline("zero-shot-classification", model="facebook/bart-large-mnli")
+        self.zero_shot_classifier = pipeline("zero-shot-classification", model="facebook/bart-large-mnli", device="cpu") # No capacity left
 
 
     def embed_text(self, text):

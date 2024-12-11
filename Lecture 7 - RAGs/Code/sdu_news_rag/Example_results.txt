@@ -1,0 +1,29 @@
+Response:
+
+from sdu_news_rag.rag import sduNewsRag
+
+# Suppose we have some financial news snippets (load larger library for better results)
+news_corpus = [
+    "The company's share price soared after positive quarterly earnings.",
+    "European markets opened lower today, signaling investor pessimism.",
+    "The newly appointed CEO announced major cost-cutting measures.",
+    "US tech stocks rallied following strong consumer demand.",
+    "NVIDIA's acquisition of ARM is facing regulatory scrutiny.",
+    "Apple's new product launch was met with mixed reviews.",
+]
+
+rag = sduNewsRag()
+rag.vector_lib(news_corpus)
+
+user_question = "What is the sentiment around Apple today?"
+
+
+response_text:
+"While Apple's new product launch generated some buzz, the overall sentiment around the tech giant today can be described as mixed. The launch, which included the unveiling of a new iPhone and a few other devices, received both positive and negative feedback from analysts, investors, and tech enthusiasts. Some praised the design and features of the new products, while others criticized the lack of major innovations and the high price points. It remains to be seen how the market will react to these new releases, but for now, it's safe to say that the sentiment around Apple is uncertain and somewhat cautious."
+
+
+sentiment
+"Neut is the most appropriate sentiment for Apple's launch. While there were positive aspects, such as the praise for the design and features, there were also negative feedback, such as the lack of major innovations and high price points. The market's reaction is still uncertain, making the sentiment around Apple mixed and cautious. Therefore, 'neut' is the most accurate label to describe the current sentiment."
+
+conclusion:
+{'sequence': "Neut is the most appropriate sentiment for Apple...e label to describe the current sentiment.', 'labels': ['neutral', 'bull', 'bear'], 'scores': [0.9783405661582947, 0.015107889659702778, 0.006551502738147974]}
