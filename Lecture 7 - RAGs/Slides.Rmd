@@ -105,8 +105,9 @@ def print_it(x):
 class: middle
 # Today's lecture
 .pull-left[
-- RAGs
+- RAGs: Back to the original purpose
 - Course evaluation
+- Short lecture - still recovering
 ]
 
 .pull-right-narrow[
@@ -221,15 +222,75 @@ class: middle
 # Augementation
 - You simply prompt the LLM with the added documents as context.
 - You can consider prompt tuning as in [arxiv.org/abs/2310.04027](https://arxiv.org/abs/2310.04027)
+
+
+---
+class: middle
+
+.pull-left-wide[
+# Generation
 - It is hard to get LLMs to behave:
   + *"Please for the love of everything you hold dear, just say 'yes' or 'no'. Otherwise I will forever hold you in contempt and fire you in shame. If you write ONLY 'yes' or 'no', you are my favorite employee and I will give you a huge bonus"*
+]
 
 
 
 ---
-class: inverse, middle
-# Coding challenge: 
-## [Linking in practice](https://github.com/christianvedels/News_and_Market_Sentiment_Analytics/blob/main/Lecture%206%20-%20Record%20linking/Coding_challenge_lecture6.md)
+class: middle
+# A very simple RAG
+### ['SDU News RAG'](https://github.com/christianvedels/News_and_Market_Sentiment_Analytics/tree/main/Lecture%207%20-%20RAGs/Code)
+
+#### Basic structure:
+- Query: Questions about the market
+- Library: News headlines
+- Retrieval: Base on BERT embeddings
+- Generation: 
+  + Expert (analysis) $\rightarrow$ Censor $\rightarrow$ Expert (conclusion) $\rightarrow$ Zero-shot mapping to 'bear', 'bull', 'neural'
+
+---
+class: middle
+# Course evaluation
+
+.pull-left[
+- **Keep, Add, Drop (KAD)**
+- [Link to online form](https://forms.gle/RRnTbEsdBzKYrtrWA)
+]
+
+.pull-right[
+![KAT](Figures/KAT.png)
+*A 'KAD'*
+]
+
+
+---
+class: middle
+
+# Exam workshop
+
+.pull-left[
+- Will be held online on Monday 10:00-12:00
+- Zoom link will be available on itslearning
+
+### Format of the workshop
+- 5-10 min. presentation on what you are working on
+- Room for asking questions from your peers
+- **This will not impact your grade in any way**
+- My feedback will be limited but I will try to facilitate useful peer feedback.
+]
+
+
+.pull-right[
+### What you have to do
+1. Have a look at the exam
+2. Decide on a project you want to work on
+3. Send me an email before Friday [christian-vs@sam.sdu.dk]
+    + "Hi Christian, I will be working on [x]. I would like to give a 5-10 min. presentation on what I have been working on, on Monday".
+
+- If noone is interested, we will of course just cancel.
+    + No shame if it is not useful to you. Then I believe, that you know how to spend your exam time most wisely. 
+]
+
+
 
 
 

@@ -96,6 +96,7 @@ class sduNewsRag():
         while censor_response == "no": # Run until censor is satisfied, "yes"
 
             # Generate response from the LLM
+            print(f"Generating response attempt {iters+1}...")
             response = self.finance_expert(combined_prompt)
 
             # Extract answer only
@@ -123,32 +124,14 @@ class sduNewsRag():
                 break
 
         # Determine sentiment
+        print(f"Determining sentiment...")
         sentiment = self.bull_bear_sentiment(response_text)
 
         # One shot classification of sentiment
-        self.zero_shot_classifier(
-            "I have a problem with my iphone that needs to be resolved asap!",
+        print(f"Concluding sentiment...")
+        conclusion = self.zero_shot_classifier(
+            sentiment,
             candidate_labels=["bull", "neutral", "bear"],
         )
 
-        return sentiment, response_text, retrieved_docs
-
-if __name__ == "__main__":
-    # Suppose we have some financial news snippets
-    news_corpus = [
-        "The company's share price soared after positive quarterly earnings.",
-        "European markets opened lower today, signaling investor pessimism.",
-        "The newly appointed CEO announced major cost-cutting measures.",
-        "US tech stocks rallied following strong consumer demand.",
-        "NVIDIA's acquisition of ARM is facing regulatory scrutiny.",
-        "Apple's new product launch was met with mixed reviews.",
-    ]
-
-    rag = sduNewsRag()
-    rag.vector_lib(news_corpus)
-
-    user_question = "What is the sentiment around the American tech industry right now?"
-    sentiment, response, retrieved_docs = rag.query_rag(user_question)
-    print("User Question:", user_question)
-    print("Retrieved Documents:", retrieved_docs)
-    print("LLM Response:", response)
+        return conclusion, sentiment, response_text, retrieved_docs
