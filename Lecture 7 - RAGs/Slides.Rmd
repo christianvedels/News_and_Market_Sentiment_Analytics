@@ -1,6 +1,6 @@
 ---
 title: "News and Market Sentiment Analytics"
-subtitle: "Lecture 6: Record Linking and Topic Models"
+subtitle: "Lecture 7: RAGs"
 author: "Christian Vedel,<br> Department of Economics<br><br>
 Email: christian-vs@sam.sdu.dk"
 date: "Updated `r Sys.Date()`" 
