@@ -137,7 +137,7 @@ class: center, inverse, middle
 - Write me emails
   + .orange[christian-vs@sam.sdu.dk]
 - We can make office hours if you want it. 
-- Second time teaching this course. But most of it completely changed from last year. Most of this course is adaptable.
+- Third time teaching this course. But most of it completely changed from last year. Most of this course is adaptable.
 
 [Who are you? https://forms.gle/5Dk1pkCQdd4XYmgW8](https://forms.gle/5Dk1pkCQdd4XYmgW8)
 
