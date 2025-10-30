@@ -492,7 +492,7 @@ class: middle
 > "That would have been splendid. It would have been absolutely amazing. The best there ever was. But it was not."
 
 - 'best': 3, 'amazing': 4, 'splendid': 3
-- (Note how it relates to the exercise - does modern transformer based sentiment agree?)
+- (Note how it relates to the coding challenge - does modern transformer based sentiment agree?)
 
 ]
 
