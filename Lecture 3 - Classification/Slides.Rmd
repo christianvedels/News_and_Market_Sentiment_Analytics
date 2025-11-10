@@ -821,18 +821,12 @@ unfreeze_layers(model, num_layers_to_unfreeze=2)
 ---
 class: inverse, middle
 # Coding challenge: 
-## [Building a sentiment classifier](https://github.com/christianvedels/News_and_Market_Sentiment_Analytics/blob/main/Lecture%204%20-%20Classification%20pt%202/Coding_challenge_lecture4.md)
-
----
-class: inverse, middle
-# Coding challenge: 
-## [Zero-Shot classification](https://github.com/christianvedels/News_and_Market_Sentiment_Analytics/blob/main/Lecture%203%20-%20Classification%20pt%201/Coding_challenge_lecture3.md)
+## [Building a sentiment classifier](https://github.com/christianvedels/News_and_Market_Sentiment_Analytics/blob/main/Lecture%204%20-%20Classification%20pt%202/Coding_challenge_lecture3.md)
 
 ---
 # Next time
 .pull-left[
 - Nuts and bolts: Tokenization and embeddings
-- Guest lecture: A case of creative use of model embeddings 
 ]
 
 .pull-right[
