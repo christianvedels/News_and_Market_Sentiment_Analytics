@@ -1,4 +1,4 @@
-# Week 4 Coding Challenge: Training your own sentiment classifier
+# Week 3 Coding Challenge: Training your own sentiment classifier
 
 1. Build a classification model based on a simple LSTM architecture and train it on data from:  https://www.kaggle.com/datasets/marklvl/sentiment-labelled-sentences-data-set
    
