@@ -2,6 +2,9 @@ import pandas as pd
 import spacy
 import matplotlib.pyplot as plt
 
+# import os
+# os.chdir(r"D:\Dropbox\Teaching\News_and_Market_Sentiment_Analytics\2025\News_and_Market_Sentiment_Analytics")
+
 # Define a function to calculate sentiment score using AFINN
 def afinn_sentiment(text):
     doc = nlp(text)
