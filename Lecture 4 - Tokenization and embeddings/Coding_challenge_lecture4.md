@@ -21,30 +21,31 @@ References regarding zero-shot classification:
 ### Hint 1 (for sentence versus word embeddings)
 
 For a sentence with tokens $w_1, \dots, w_n$ and token embeddings $e_i = f(w_i)$, the mean word embedding is
-$$
-\bar e = \frac{1}{n} \sum_{i=1}^n e_i.
-$$
+
+$$\bar e = \frac{1}{n} \sum_{i=1}^n e_i.$$
 
 Many models instead output a sentence embedding $s = f(\text{sentence})$ via a special token or pooling. You can compare how close these are with cosine similarity
-$$
-\cos(\bar e, s) = \frac{\bar e \cdot s}{\|\bar e\| \,\|s\|}.
-$$
+
+$$\cos(\bar e, s) = \frac{\bar e \cdot s}{\|\bar e\| \,\|s\|}.$$
 
 *If* $\bar{e} = s$ *then* $\cos(\bar e, s) = 1$. Is this realistic for the sentences above?
 
 
 ### Hint 2 (for the zero-shot classifier)
 Given an input sentence $x$ with embedding $v_x = f(x)$ and a set of label prompts $\ell_1, \dots, \ell_K$ (e.g. “This news is positive.”, “This news is negative.”), compute label embeddings
+
 $$
 v_k = f(\ell_k), \quad k = 1, \dots, K.
 $$
 
 The cosine similarity between $x$ and label $k$ is
+
 $$
 \cos(v_x, v_k) = \frac{v_x \cdot v_k}{\|v_x\| \,\|v_k\|}.
 $$
 
 A simple zero-shot classifier chooses the label with highest cosine similarity:
+
 $$
 \hat{k}(x) = \arg\max_{k \in \{1, \dots, K\}} \cos(v_x, v_k).
 $$
