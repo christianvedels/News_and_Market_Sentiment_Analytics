@@ -160,3 +160,5 @@ if __name__ == "__main__":
     print(f"\nAccuracy of Naïve Bayes model on 1787 data: {100*round(accuracy, 4)}%")
     print(f"Corrected for unfound names: {100*round(accuracy*N_kept/N_all, 4)}%")
 
+
+# %%

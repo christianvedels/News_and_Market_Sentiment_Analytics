@@ -638,7 +638,7 @@ class: middle
 ]
 
 .pull-right[
-## Transerlearning
+## Transferlearning
 - *We can adapt models to out needs*
 
 #### Advantages
