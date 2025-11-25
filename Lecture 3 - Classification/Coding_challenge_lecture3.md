@@ -6,5 +6,5 @@
 
 3. Try to measure the agreement between your sentiment classifier and the one from lecture 1.
 
-3. Bonus: Try using BERT (or similar) instead of LSTM. 
+4. Try using BERT (or similar) instead of LSTM. 
 
