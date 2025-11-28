@@ -443,7 +443,7 @@ print(zero_shot_classification(text, labels))
 
 ---
 class: inverse, middle
-# [Breaking the HISCO Barrier: AI and Occupational Data Standardization*](https://raw.githack.com/christianvedels/OccCANINE/refs/heads/dev/Project_dissemination/HISCO%20Slides/Slides.html) 
+## [Breaking the HISCO Barrier: Automatic Occupational Standardization with OccCANINE*](https://raw.githack.com/christianvedels/OccCANINE/refs/heads/update_paper/Project_dissemination/HISCO%20Slides/Slides.html#1) 
 ### *Conference presentation: An example of the kind of research I do with things you learn about in this course*
 
 .footnote[
@@ -816,7 +816,25 @@ unfreeze_layers(model, num_layers_to_unfreeze=2)
 ```
 
 
+---
+# [Exam info](https://github.com/christianvedels/News_and_Market_Sentiment_Analytics/blob/main/Exam/Format_of_the_exam.md)
 
+.pull-left[
+- The exam will cover *skills* from the course
+- Very open form
+- 3-4 datasets with relevant data
+- 2-4 example questions for each (but you can also do something else with the data)
+- You pick *one* dataset to work with
+- Usually fun stuff
+- Exams are a game: You show me (in a way that can be trusted by outsiders) that you have learned something in this course
+]
+
+.pull-right[
+### Example question
+- Given this source of data [link to data] do one of the following:
+  a. Build a sentiment classifier for financial news and validate appropriately 
+  b. How much context is needed? Can we build faster models with similar performance?
+]
 
 ---
 class: inverse, middle
