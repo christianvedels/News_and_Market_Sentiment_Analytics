@@ -353,7 +353,7 @@ $v_1 = [1, 1, 1, 0],\: v_2 =[0,1,1,1]$
 ]
 
 .pull-right-narrow[
-- *As a happy coincidence, this is how neural networks work internally anyway!* (At leat it's one way of understanding it)
+- *As a happy coincidence, this is how neural networks work internally anyway!* (At least it's one way of understanding it)
 ]
 
 ---
