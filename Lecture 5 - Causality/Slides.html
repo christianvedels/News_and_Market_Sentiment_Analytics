@@ -165,9 +165,9 @@ Question we’ll keep asking:
 .small123[
 We’ll look at three small scripts:
 
-- `Code/liberation_day.py`  
-- `Code/deepseek.py`  
-- `Code/technews_and_AI_stocks.py`
+- [`Code/liberation_day.py`](https://github.com/christianvedels/News_and_Market_Sentiment_Analytics/blob/main/Lecture%205%20-%20Causality/Code/liberation_day.py)  
+- [`Code/deepseek.py`](https://github.com/christianvedels/News_and_Market_Sentiment_Analytics/blob/main/Lecture%205%20-%20Causality/Code/deepseek.py)
+- [`Code/technews_and_AI_stocks.py`](https://github.com/christianvedels/News_and_Market_Sentiment_Analytics/blob/main/Lecture%205%20-%20Causality/Code/technews_and_AI_stocks.py)
 ]
 ]
 
@@ -185,7 +185,8 @@ class: middle
 - New tariff announcement (“Liberation Day”)  
 - Broad US indices around the date
 
-- Code: `Code/liberation_day.py`
+- Code: [`Code/liberation_day.py`](https://github.com/christianvedels/News_and_Market_Sentiment_Analytics/blob/main/Lecture%205%20-%20Causality/Code/liberation_day.py)  
+
 ]
 
 .pull-right[
@@ -207,7 +208,7 @@ class: middle
 - Chinese AI startup releases ultra-cheap model  
 - NVDA loses record \$590B in one day  
 
-- Code: `Code/deepseek.py`
+- Code: [`Code/deepseek.py`](https://github.com/christianvedels/News_and_Market_Sentiment_Analytics/blob/main/Lecture%205%20-%20Causality/Code/deepseek.py)
 ]
 
 .pull-right[
@@ -229,7 +230,7 @@ class: middle
 - Sam Altman publicly worries about an **AI bubble**  
 - Magnificent 7 (AI-heavy tech) around that date
 
-- Code: `Code/technews_and_AI_stocks.py`
+- Code: [`Code/technews_and_AI_stocks.py`](https://github.com/christianvedels/News_and_Market_Sentiment_Analytics/blob/main/Lecture%205%20-%20Causality/Code/technews_and_AI_stocks.py)
 ]
 
 .pull-right[
@@ -250,7 +251,7 @@ class: middle
 .pull-left-wide[
 In all three cases we informally say:
 
-&gt; “News moved the market.”
+&gt; "News moved the market."
 
 But many rival stories fit the same plots:
 
@@ -274,8 +275,8 @@ Today we’ll:
 - Say you’ll revisit them when talking about DAGs and Granger causality.
 
 ---
-
-class: middle
+&lt;br&gt;
+&lt;br&gt;
 # Toy example: Ice cream and drowning
 
 .pull-left[
@@ -292,6 +293,8 @@ class: middle
   &gt; Does buying ice cream **cause** drowning?
   
 ]
+
+--
 
 .pull-right[
 
@@ -500,7 +503,7 @@ class: middle
 .pull-left[
 Let `\(X\)`, `\(Y\)` and `\(Z\)` be (sets of) nodes in a DAG.
 
-We say **$X$ and `\(Y\)` are d-separated by `\(Z\)`**  
+We say `\(X\)` and `\(Y\)` are d-separated by `\(Z\)`
 if **every path** between any node in `\(X\)` and any node in `\(Y\)` is **blocked** when we condition on `\(Z\)`.
 
 A path is **blocked** if it contains at least one node that blocks it, using these rules:
@@ -537,7 +540,7 @@ class: middle
 .pull-left-wide[
 1. **Causal structures are assumptions**
 
-   - The DAG is your **story** about the world  
+   - Every story about you data implies a DAG
    - Data can support or contradict it indirectly,  
      but you can’t “prove” the arrows from correlations alone  
    - (Speculation: some causal structure might **emerge** in very large ML systems, but we’re not there yet in this course)
@@ -585,11 +588,8 @@ class: middle
 
 **Tasks**
 
-1. Draw a DAG for `\((X, Y, T)\)`  
-2. Decide if `\(X\)` and `\(Y\)` are d-separated:
-
-   - (a) Given **nothing**  
-   - (b) Given `\(M\)`
+1. Draw a DAG for `\((X, Y, M)\)`  
+2. Find a d-sep of *X* and *Y*
 ]
 
 
@@ -627,13 +627,11 @@ You believe:
 ]
 
 .pull-right-narrow[
-**Questions**
+**Question**
 
 - Do `\(X\)` and `\(Y\)` remain associated  
-  when we **control for** `\(M\)`?
-
-- In practice: if you regress `\(Y\)` on `\(X\)` and `\(M\)`,  
-  what are you doing to the `\(X \rightarrow M \rightarrow Y\)` path?
+  when we **adjust for** `\(M\)`?
+- Would we get the effect of `\(X\)` on `\(Y\)`?
 ]
 
 ???
@@ -804,176 +802,11 @@ Links to earlier part:
 
 
 ---
-class: middle
-# A returns series for AR/MA
-
-.pull-left[
-- We need a **time series** `\(R_t\)`  
-
-- Example:
-
-  - Daily close for SPY (S&amp;P 500 ETF)  
-  - Compute daily log returns
-
-- This will be our toy `\(Y_t\)` for AR/MA:
-  - `\(Y_t = R_t\)`
-]
+class: inverse, middle
+# Coding challenge: 
+## [News and Market Sentiment Analysis](https://github.com/christianvedels/News_and_Market_Sentiment_Analytics/blob/main/Lecture%205%20-%20Causality/coding_challenge_5.md)
 
 
-
-???
-
-- Emphasise that any other asset/index would work.
-- Mention that we use **returns**, not raw prices, to be closer to stationarity.
-
----
-class: middle
-# AR(1) in practice
-
-.pull-left[
-We estimate:
-
-`$$R_t = \phi_1 R_{t-1} + \varepsilon_t$$`
-
-- Use `statsmodels` ARIMA with `order=(1,0,0)`  
-- No trend term (focus on the autoregressive part)
-
-Interpretation of `\(\hat\phi_1\)`:
-
-- `\(\hat\phi_1 \approx 0\)`: little persistence  
-- `\(\hat\phi_1 &gt; 0\)`: momentum  
-- `\(\hat\phi_1 &lt; 0\)`: mean reversion
-]
-
-
-???
-
-- Ask: “Do daily SPY returns show strong AR(1) structure?”
-- Point out that for many liquid assets, `\(\hat\phi_1\)` is small.
-
-
----
-class: middle
-# MA(1) in practice
-
-.pull-left[
-Now we estimate:
-
-`$$R_t = \mu + \varepsilon_t + \theta_1 \varepsilon_{t-1}$$`
-
-- Use `statsmodels` ARIMA with `order=(0,0,1)`  
-- `\(\theta_1\)` captures how **yesterday’s shock** spills into today
-
-Interpretation:
-
-- `\(|\hat\theta_1|\)` small: shocks die quickly  
-- Larger `\(|\hat\theta_1|\)`: stronger short-run structure in returns
-]
-
-???
-
-- Compare AR(1) vs MA(1) estimates.
-- You can ask: “Which one seems to capture more structure in this series?”
-
----
-class: middle
-# AR(1) vs MA(1): fitted vs actual
-
-.pull-left[
-- Plot:
-
-  - Actual returns `\(R_t\)`  
-  - AR(1) fitted values `\(\hat R^{\text{AR}}_t\)`  
-  - MA(1) fitted values `\(\hat R^{\text{MA}}_t\)`
-
-- Just for a short window (e.g. 200 days)
-
-- The point is **intuition**, not perfect fit.
-]
-
-
-???
-
-- Emphasise that returns are noisy; we don’t expect a perfect visual fit.
-- The goal is to show that AR/MA capture *some* temporal structure.
-
----
-class: middle
-# Granger causality with news and returns
-
-.pull-left[
-We now have two time series:
-
-- `\(H_t\)`: **news sentiment** index  
-  (e.g. daily average sentiment from headlines)
-
-- `\(R_t\)`: **stock return**  
-  (e.g. daily log return on an ETF or index)
-
-Question:
-
-&gt; Does past sentiment `\(H_{t-1}, H_{t-2}, \dots\)`  
-&gt; help predict `\(R_t\)` once we already use past `\(R\)`?
-
-]
-
-.pull-right-narrow[
-- This is a **Granger causality** question:
-
-  - “Does `\(H\)` add forecasting power for `\(R\)`  
-    beyond lagged `\(R\)` itself?”
-
-- In practice we will:
-
-  - Build `\(H_t\)` from news (earlier lectures)  
-  - Build `\(R_t\)` from prices  
-  - Compare models with and without lagged `\(H\)`
-]
-
-???
-
-- Remind them: `\(H_t\)` can be any reasonable summary of news (mean sentiment, share of negative headlines, etc.).
-- Emphasise that the focus is on **predictive content** of `\(H\)` for `\(R\)`.
-
----
-class: middle
-# What Granger can (and cannot) tell us
-
-.pull-left[
-**What it can tell us**
-
-- Does past `\(H\)` improve forecasts of `\(R\)`?  
-- Does past `\(R\)` improve forecasts of `\(H\)`?  
-- For which lags `\(p\)` is the effect strongest?
-
-Useful for:
-
-- Designing **forecasting models**  
-- Understanding **lead–lag** patterns
-]
-
-.pull-right-narrow[
-**What it cannot (by itself) tell us**
-
-- The full structural **DAG** behind `\(H\)` and `\(R\)`  
-- Whether a third process `\(M_t\)` drives both  
-- What happens under a true **intervention**  
-  (e.g. “no negative AI news today”)
-
-For that we still need:
-
-- DAG thinking (confounders, colliders, etc.)  
-- Domain knowledge and controls  
-- Sometimes natural experiments or instruments
-]
-
-???
-
-- Tie back to Pearl’s ladder:
-  - Granger lives mostly at "association with a time arrow".
-- Good closing line:
-  - “Granger tells us *who moves first* in a predictive sense;  
-    causal DAGs help us think about *why*.”
 
 
 
