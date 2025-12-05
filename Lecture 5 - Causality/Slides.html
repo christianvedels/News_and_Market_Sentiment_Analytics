@@ -116,7 +116,7 @@ class: center, middle, inverse, title-slide
 
 .pull-left[
 - Tokenization and embedding spaces  
-- *Coding challenge:* zero-shot sentiment classifier with embeddings
+- *Coding challenge:* zero-shot classifier with embeddings
 ]
 
 .pull-right-narrow[
@@ -133,9 +133,10 @@ class: center, middle, inverse, title-slide
 - Why **causality** in news &amp; markets?  
 - Directed Acyclic Graphs (DAGs)  
 - **d-separation** and conditional independence  
-- Time series: AR and MA models  
-- **Granger causality**  
-- Coding challenge: data-driven causal analysis
+- Brief(est ever) into to time series Econometrics:
+  + AR and MA
+  + *Granger causality*
+- Tools to reaon about data
 ]
 
 ???
@@ -292,6 +293,10 @@ Today we’ll:
 
   &gt; Does buying ice cream **cause** drowning?
   
+  
+- Give it a try: [Data available here](https://raw.githubusercontent.com/christianvedels/News_and_Market_Sentiment_Analytics/refs/heads/main/Lecture%205%20-%20Causality/Code/icecream_kills.csv)
+
+
 ]
 
 --
@@ -507,14 +512,10 @@ We say `\(X\)` and `\(Y\)` are d-separated by `\(Z\)`
 if **every path** between any node in `\(X\)` and any node in `\(Y\)` is **blocked** when we condition on `\(Z\)`.
 
 A path is **blocked** if it contains at least one node that blocks it, using these rules:
-]
 
-.pull-right-narrow[
+.small123[
 - **Chain / fork**  
-
-  `$$X \rightarrow M \rightarrow Y, \quad
-    X \leftarrow M \rightarrow Y$$  
-
+  `$$X \rightarrow M \rightarrow Y, \quad X \leftarrow M \rightarrow Y$$`  
   Path is blocked if we **condition on `\(M\)`**.
 
 - **Collider**  
@@ -522,8 +523,22 @@ A path is **blocked** if it contains at least one node that blocks it, using the
   `$$X \rightarrow M \leftarrow Y$$`  
 
   Path is blocked if we do **not** condition on `\(M\)`  
-  or any descendant of `\(M\)`.  
-  Conditioning on a collider **opens** the path.
+  (or any descendant of `\(M\)`). Conditioning on a collider **opens** the path.
+]
+
+]
+
+
+--
+
+.pull-right-narrow[
+
+&gt; d-sep'ed nodes are conditionally independent:
+
+  `$$X \perp Y \mid Z$$`
+  
+&gt; *Guides us in choosing adjustment sets for valid inference*
+
 ]
 
 ???
@@ -753,12 +768,12 @@ We’ll:
 
 - Show a simple AR(1) and MA(1) in code  
 - Fit them to a returns series  
-- Use them as a **baseline** before we add news/sentiment
+- **Please** use this as only a starting point. There is **much** more to this. (Including reinventing LSTM and Transformers) 
 ]
 
 ???
 
-- Emphasise: “These are just glorified linear regressions on lags.”
+- Emphasise: "These are just glorified linear regressions on lags."
 - Mention that you’ll keep it at AR(1)/MA(1) for intuition, not full ARIMA theory.
 
 
@@ -793,12 +808,14 @@ Links to earlier part:
 
 - Granger `\(\neq\)` full causal proof,  
   but it’s a **useful diagnostic** in time series.
+  
+- The idea extends to fancier prediction models
 ]
 
 ???
 
-- Flag explicitly: “This is a *forecast-based* notion of causality.”
-- Good time to remind them: “Cause must come before effect in time.”
+- Flag explicitly: "This is a *forecast-based* notion of causality."
+- Good time to remind them: "Cause must come before effect in time."
 
 
 ---
