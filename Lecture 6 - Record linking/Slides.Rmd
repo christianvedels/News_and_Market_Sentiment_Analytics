@@ -601,7 +601,7 @@ class: middle
   + Metrics: Sum of squared errors
   + Criterion: Elbow point
   
-**See [Lecture 8 - Remaining topics/Code/K_means_topic_modelling.py](https://github.com/christianvedels/News_and_Market_Sentiment_Analytics/blob/main/Lecture%208%20-%20Remaining%20topics/Code/K_means_topic_modelling.py)**
+**See [Lecture 6 - Record linking/Code/K_means_topic_modelling.py](https://github.com/christianvedels/News_and_Market_Sentiment_Analytics/blob/main/Lecture%206%20-%20Record%20linking/Code/K_means_topic_modelling.py)**
 ]
 
 ]
@@ -652,7 +652,7 @@ MacKay (2003), p. 286
   + Use some evaluation metric to choose the optimal number of topics.
   + Criterion: Elbow point
   
-**See [Lecture 8 - Remaining topics/Code/LDA_topic_modelling.py](https://github.com/christianvedels/News_and_Market_Sentiment_Analytics/blob/main/Lecture%208%20-%20Remaining%20topics/Code/LDA_topic_modelling.py)**
+**See [Lecture 6 - Record linking/Code/LDA_topic_modelling.py](https://github.com/christianvedels/News_and_Market_Sentiment_Analytics/blob/main/Lecture%206%20-%20Record%20linking/Code/LDA_topic_modelling.py)**
 ]
 
 ]
@@ -698,7 +698,7 @@ Can be estimated with Markov Chain Monte Carlo. E.g. Gibbs sampling
 - Fine-tune or use pre-trained models for diverse downstream tasks.
 - Create embeddings for each sentence in the dataset.
 
-[Lecture 8 - Remaining topics/Code/Embedding_topic_modelling.py](https://github.com/christianvedels/News_and_Market_Sentiment_Analytics/blob/main/Lecture%208%20-%20Remaining%20topics/Code/Embedding_topic_modelling.py)
+[Lecture 6 - Record linking/Code/Embedding_topic_modelling.py](https://github.com/christianvedels/News_and_Market_Sentiment_Analytics/blob/main/Lecture%206%20-%20Record%20linking/Code/Embedding_topic_modelling.py)
 
 ]
 
@@ -712,7 +712,7 @@ Can be estimated with Markov Chain Monte Carlo. E.g. Gibbs sampling
 ]
 
 .footnote[
-For more SoTA approaches see [Avrim & Haghtalab (2016)](https://arxiv.org/abs/1611.01259) and its papers that cite it.  
+For more SoTA approaches see [Avrim & Haghtalab (2016)](https://arxiv.org/abs/1611.01259) and its papers that cite it (check e.g. [researchrabbit.ai/](https://www.researchrabbit.ai/))  
 Consider topic modelling as an encoder decoder task, where the encoder is forced to sample from a topic distribution. 
 ]
 
