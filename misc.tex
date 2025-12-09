@@ -1,0 +1,19 @@
+\subsection{Variance} 
+By definition the variance of a weighted mean is given by 
+\begin{equation}
+    \hat{y}_k = \sum_{i=1}^n w_{ik} y_i,\quad \sum_{i=1}^n w_{ik} = 1
+\end{equation}
+Assuming the $y_i$ are uncorrelated with variances $\sigma_i^2 = \mathrm{Var}(y_i)$, the variance of $\hat{y}_k$ is
+\begin{equation}
+    \mathrm{Var}(\hat{y}_k) = \sum_{i=1}^n w_{ik}^2 \,\sigma_i^2.
+\end{equation}
+More generally, if $\Sigma$ is the covariance matrix of $y=(y_1,\dots,y_n)^\top$ and $w_k=(w_{1k},\dots,w_{nk})^\top$, then
+\begin{equation}
+    \mathrm{Var}(\hat{y}_k) = w_k^\top \Sigma\, w_k.
+\end{equation}
+
+% If all components share a common variance \sigma^2 and are independent:
+% \mathrm{Var}(\hat{y}_k) = \sigma^2 \sum_i w_{ik}^2.
+
+
+
