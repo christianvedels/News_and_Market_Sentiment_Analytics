@@ -107,7 +107,6 @@ class: middle
 .pull-left[
 - RAGs: Back to the original purpose
 - Course evaluation
-- Short lecture - still recovering
 ]
 
 .pull-right-narrow[
@@ -231,6 +230,7 @@ class: middle
 # Generation
 - It is hard to get LLMs to behave:
   + *"Please for the love of everything you hold dear, just say 'yes' or 'no'. Otherwise I will forever hold you in contempt and fire you in shame. If you write ONLY 'yes' or 'no', you are my favorite employee and I will give you a huge bonus"*
+- (*Or restrict output space - available in some models.*)
 ]
 
 
@@ -246,6 +246,10 @@ class: middle
 - Retrieval: Base on BERT embeddings
 - Generation: 
   + Expert (analysis) $\rightarrow$ Censor $\rightarrow$ Expert (conclusion) $\rightarrow$ Zero-shot mapping to 'bear', 'bull', 'neural'
+  
+.footnote[
+Confused about classes? Check [Code/Simple_class_example.py]()
+]
 
 ---
 class: middle
