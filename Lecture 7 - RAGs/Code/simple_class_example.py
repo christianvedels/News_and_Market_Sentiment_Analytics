@@ -35,7 +35,7 @@ print(my_greeter())  # Same as my_greeter.__call__()
 print(my_greeter())
 
 # Change greeting
-print(my_greeter("Goddag"))
+print(my_greeter("Good afternoon"))
 
 # Check the state
 print(f"Total greetings: {my_greeter.greeting_count}")
