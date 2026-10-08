@@ -11,3 +11,4 @@ Lecture 7 - Sentiment analysis/Code/fine_tuned_sentiment_model
 Coding_challenge/Week 7/Solution/fine_tuned_sentiment_model/pytorch_model.bin
 
 misc_gitignored/
+.vscode/
