@@ -510,6 +510,29 @@ class: middle
 ]
 
 ---
+class: middle
+# Evidence of a world model?
+
+.pull-left-wide[
+.small123[
+- **Space and time:** Llama-2 encodes where places are and when events happened as linear directions in its activations (Gurnee & Tegmark, 2023)
+- **A board game seen only as text:** A GPT trained only on Othello move sequences builds an internal map of the board. Edit the map and the predicted move changes (Li et al., 2023)
+- **"Platonism":** As models grow, their representations converge across architectures and even across images and text. Perhaps because they all model the same reality (Huh et al., 2024)
+- **Planning ahead:** When Claude 3.5 Haiku writes a rhyming couplet, it picks the rhyme word ("rabbit") before writing the line. Suppress that feature and the line ends differently ("habit") (Lindsey et al., 2025)
+]
+]
+
+--
+
+.pull-left-wide[
+.small123[
+- **But:** A model trained on New York taxi rides gives good directions, yet the street map implied by its answers is incoherent, and it breaks down when forced to take detours (Vafa et al., 2024)
+]
+
+**What do you think?**
+]
+
+---
 # Course plan
 .small123[*Preliminary: This plan will be revised along the way, also based on your answers in the form. What do you think?*]
 
@@ -693,6 +716,12 @@ Firth, J.R. (1957). "A synopsis of linguistic theory 1930–1955". Studies in Li
 
 Gurnee, W., & Tegmark, M. (2023). Language Models Represent Space and Time. https://arxiv.org/abs/2310.02207
 
+Huh, M., Cheung, B., Wang, T., & Isola, P. (2024). Position: The Platonic Representation Hypothesis. ICML 2024, PMLR 235:20617–20642. https://arxiv.org/abs/2405.07987
+
+Li, K., Hopkins, A. K., Bau, D., Viégas, F., Pfister, H., & Wattenberg, M. (2023). Emergent World Representations: Exploring a Sequence Model Trained on a Synthetic Task. ICLR 2023. https://arxiv.org/abs/2210.13382
+
+Lindsey, J., et al. (2025). On the Biology of a Large Language Model. Transformer Circuits Thread. https://transformer-circuits.pub/2025/attribution-graphs/biology.html
+
 Pearl, J. (2019). The seven tools of causal inference, with reflections on machine learning. Communications of the ACM, 62(3), 54–60. https://doi.org/10.1145/3241036
 ]
 
@@ -707,6 +736,8 @@ Rosenblatt, F. (1958). The perceptron: A probabilistic model for information sto
 Roweis, S. T., Saul, L. K. (2000). "Nonlinear Dimensionality Reduction by Locally Linear Embedding". Science, 290(5500), 2323–6. https://doi.org/10.1126/science.290.5500.2323
 
 Searle, J. (1980), "Minds, Brains and Programs", Behavioral and Brain Sciences, 3(3), 417–457. https://doi.org/10.1017/S0140525X00005756
+
+Vafa, K., Chen, J. Y., Rambachan, A., Kleinberg, J., & Mullainathan, S. (2024). Evaluating the World Model Implicit in a Generative Model. NeurIPS 2024. https://arxiv.org/abs/2406.03689
 
 Vaswani, A., Shazeer, N., Parmar, N., Uszkoreit, J., Jones, L., Gomez, A. N., Kaiser, L., & Polosukhin, I. (2017). Attention Is All You Need. https://arxiv.org/abs/1706.03762
 
