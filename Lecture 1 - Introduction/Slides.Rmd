@@ -242,22 +242,6 @@ class: middle
 ]
 
 ---
-class: middle
-# How we work with AI in this course
-
-.pull-left-wide[
-- **Use it.** Chatbots and coding agents are part of how NLP work is done today
-- **Cite it.** SDU's rule: Generative AI is allowed in written take-home exams, if you declare how you used it ([SDU guidance](https://sdunet.dk/en/undervisning-og-eksamen/uddannelse/vejledning))
-- **Check it.** Run the code, look at the data, read what it changed
-- I will regularly **show** you how I work with coding agents (e.g. Claude Code)
-  + You are never required to pay for anything. Every challenge and the exam can be solved with free tools
-]
-
-.pull-right-narrow[
-![Robot](Figures/Function_robot.png)
-]
-
----
 # Preparation
 .pull-left[
 - Read other literature assigned.
@@ -579,6 +563,22 @@ class: middle
 
 .pull-left-wide[
 .large123[**What do you think?**]
+]
+
+---
+class: middle
+# How we work with AI in this course
+
+.pull-left-wide[
+- **Use it.** Chatbots and coding agents are part of how NLP work is done today
+- **Cite it.** SDU's rule: Generative AI is allowed in written take-home exams, if you declare how you used it ([SDU guidance](https://sdunet.dk/en/undervisning-og-eksamen/uddannelse/vejledning))
+- **Check it.** Run the code, look at the data, read what it changed
+- I will regularly **show** you how I work with coding agents (e.g. Claude Code)
+  + You are never required to pay for anything. Every challenge and the exam can be solved with free tools
+]
+
+.pull-right-narrow[
+![Robot](Figures/Function_robot.png)
 ]
 
 ---
