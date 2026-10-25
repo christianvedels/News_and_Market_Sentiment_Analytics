@@ -359,10 +359,10 @@ class: inverse, middle, center
 ---
 # The promise of AI
 .pull-left[
-- The idea of the mechanic 'nightingale' ([HC] Andersen, 1844)
+- The idea of the mechanic 'nightingale' ([HC] Andersen, [1844](https://www.hcandersen-homepage.dk/?page_id=2257))
   + **Idea:** The mechanic version can never be as good because it is mechanic
-  + Reaches far back e.g. Descartes (1637) writes about automata in 'Discourse on the Method'
-- Can machines think? The idea of the Turing test (1950/60s)
+  + Reaches far back e.g. Descartes ([1637](https://www.gutenberg.org/ebooks/59)) writes about automata in 'Discourse on the Method'
+- Can machines think? The idea of the Turing test ([Turing, 1950](https://doi.org/10.1093/mind/LIX.236.433))
   + If machines can think, they will respond convincingly in conversation
 
 ]
@@ -376,7 +376,7 @@ class: inverse, middle, center
 # Early rule-based systems
 .pull-left[
 - We can model behaviour by *if then* statements
-- ELIZA (Weizenbaum, 1966):
+- ELIZA ([Weizenbaum, 1966](https://doi.org/10.1145/365153.365168)):
   + The earliest convincing chatbot
   + Looks for keywords and otherwise writes something generic or repeats something from earlier
 - 1980's was the peak of rule based systems
@@ -397,7 +397,7 @@ class: inverse, middle, center
 # The philosophical/linguistic problem
 .pull-left[
 - Can we distinguish reasoning from imitation?
-  + Chinese room problem (Searle, 1980)
+  + Chinese room problem ([Searle, 1980](https://doi.org/10.1017/S0140525X00005756))
 - What is the nature of language?
   + Innateness vs. Empiricism (Chomsky vs. Vienna circle*)
   + Innateness `\(\rightarrow\)` rule-based NLP
@@ -418,7 +418,7 @@ Reichenbach, Wittgenstein [(Wikipedia)](https://en.wikipedia.org/wiki/Vienna_Cir
 ---
 # 90s computer power - 60s maths
 .pull-left[
-- **Empiricist problem**: Statistics alone can only predict - not understand structure. Mathematical limitation (Pearl, 2019)
+- **Empiricist problem**: Statistics alone can only predict - not understand structure. Mathematical limitation ([Pearl, 2019](https://doi.org/10.1145/3241036))
 - But we can phrase language problems as prediction problems
 - Black box circumvents innateness
 - We just need to estimate: `$$P(word|\{text\},\theta)$$`
@@ -440,13 +440,13 @@ Reichenbach, Wittgenstein [(Wikipedia)](https://en.wikipedia.org/wiki/Vienna_Cir
 # History of Neural Networks for NLP
 .pull-left-wide[
 .small123[
-- **'Perceptron'** neural network (Rosenblatt, .orange[1958])
-- **Long-Short-term memory** remembers and forgets previous words and letters (Hochreiter, Schmidhuber, .orange[1997])
-- A rule-based trick: **Word embeddings:** Queens, Kings, men, women (Firth, .orange[1957] - But applied from .orange[2000/2010s]; Roweis &amp; Saul, .orange[2000])
-- **Transformers**: 'Attention Is All You Need' (Vaswani, .orange[2017])
-- **Masked models**: E.g. BERT (Devlin et al, .orange[2019])
+- **'Perceptron'** neural network ([Rosenblatt, 1958](https://doi.org/10.1037/h0042519))
+- **Long-Short-term memory** remembers and forgets previous words and letters ([Hochreiter &amp; Schmidhuber, 1997](https://doi.org/10.1162/neco.1997.9.8.1735))
+- A rule-based trick: **Word embeddings:** Queens, Kings, men, women (Firth, .orange[1957] - But applied from .orange[2000/2010s]; [Roweis &amp; Saul, 2000](https://doi.org/10.1126/science.290.5500.2323))
+- **Transformers**: 'Attention Is All You Need' ([Vaswani et al., 2017](https://arxiv.org/abs/1706.03762))
+- **Masked models**: E.g. BERT ([Devlin et al., 2019](https://aclanthology.org/N19-1423/))
   + "He is a [MASK] dog." `\(\rightarrow\)`  "He is a [smelly] dog."
-- **GPT**: Radford &amp; Narasimhan (.orange[2018]): What if we make models really large? E.g. 175 billion parameters and train it on 499 Billion tokens (GPT-3)
+- **GPT**: [Radford &amp; Narasimhan (2018)](https://api.semanticscholar.org/CorpusID:49313245): What if we make models really large? E.g. 175 billion parameters and train it on 499 Billion tokens (GPT-3)
 - **What is a good answer?**: ChatGPT etc. (.orange[2022]) trains a separate neural network to tell good from bad answers - reinforcement learning.
 - **Huggingface**: Sharing of various transformer models.
 - **Reasoning and agents** (.orange[2024-26]): Models that plan, call tools and write and run code. Open-weight models you can run yourself
@@ -521,7 +521,7 @@ class: middle
 
 .pull-left-wide[
 - **Yann LeCun** (Turing Award 2018, Meta's chief AI scientist until 2025): Next-word prediction on text is not enough
-  + Intelligence needs a **world model**: An internal model of how the world works, learned by observing it, used to predict and plan (LeCun, 2022)
+  + Intelligence needs a **world model**: An internal model of how the world works, learned by observing it, used to predict and plan ([LeCun, 2022](https://openreview.net/pdf?id=BZ5a1r-kVsf))
   + 2025: Left Meta to found AMI Labs (Paris) to build world models. Seed round of about $1 billion
 ]
 
@@ -539,10 +539,10 @@ class: middle
 
 .pull-left-wide[
 .small123[
-- **Space and time:** Llama-2 encodes where places are and when events happened as linear directions in its activations (Gurnee &amp; Tegmark, 2023)
-- **A board game seen only as text:** A GPT trained only on Othello move sequences builds an internal map of the board. Edit the map and the predicted move changes (Li et al., 2023)
-- **"Platonism":** As models grow, their representations converge across architectures and even across images and text. Perhaps because they all model the same reality (Huh et al., 2024)
-- **Planning ahead:** When Claude 3.5 Haiku writes a rhyming couplet, it picks the rhyme word ("rabbit") before writing the line. Suppress that feature and the line ends differently ("habit") (Lindsey et al., 2025)
+- **Space and time:** Llama-2 encodes where places are and when events happened as linear directions in its activations ([Gurnee &amp; Tegmark, 2023](https://arxiv.org/abs/2310.02207))
+- **A board game seen only as text:** A GPT trained only on Othello move sequences builds an internal map of the board. Edit the map and the predicted move changes ([Li et al., 2023](https://arxiv.org/abs/2210.13382))
+- **"Platonism":** As models grow, their representations converge across architectures and even across images and text. Perhaps because they all model the same reality ([Huh et al., 2024](https://arxiv.org/abs/2405.07987))
+- **Planning ahead:** When Claude 3.5 Haiku writes a rhyming couplet, it picks the rhyme word ("rabbit") before writing the line. Suppress that feature and the line ends differently ("habit") ([Lindsey et al., 2025](https://transformer-circuits.pub/2025/attribution-graphs/biology.html))
 ]
 ]
 
@@ -563,7 +563,7 @@ class: middle
 # So: Do language models think?
 
 .pull-left-wide[
-- **But:** A model trained on New York taxi rides gives good directions, yet the street map implied by its answers is incoherent, and it breaks down when forced to take detours (Vafa et al., 2024)
+- **But:** A model trained on New York taxi rides gives good directions, yet the street map implied by its answers is incoherent, and it breaks down when forced to take detours ([Vafa et al., 2024](https://arxiv.org/abs/2406.03689))
 - Passing a test `\(\neq\)` having the model of the world we think it has
 ]
 
@@ -769,9 +769,11 @@ Firth, J.R. (1957). "A synopsis of linguistic theory 1930–1955". Studies in Li
 
 Gurnee, W., &amp; Tegmark, M. (2023). Language Models Represent Space and Time. https://arxiv.org/abs/2310.02207
 
+Hochreiter, S., &amp; Schmidhuber, J. (1997). Long Short-Term Memory. Neural Computation, 9(8), 1735–1780. https://doi.org/10.1162/neco.1997.9.8.1735
+
 Huh, M., Cheung, B., Wang, T., &amp; Isola, P. (2024). Position: The Platonic Representation Hypothesis. ICML 2024, PMLR 235:20617–20642. https://arxiv.org/abs/2405.07987
 
-LeCun, Y. (2022). A Path Towards Autonomous Machine Intelligence. Position paper, OpenReview.
+LeCun, Y. (2022). A Path Towards Autonomous Machine Intelligence. Position paper, version 0.9.2, OpenReview. https://openreview.net/pdf?id=BZ5a1r-kVsf
 
 Li, K., Hopkins, A. K., Bau, D., Viégas, F., Pfister, H., &amp; Wattenberg, M. (2023). Emergent World Representations: Exploring a Sequence Model Trained on a Synthetic Task. ICLR 2023. https://arxiv.org/abs/2210.13382
 
@@ -791,6 +793,8 @@ Rosenblatt, F. (1958). The perceptron: A probabilistic model for information sto
 Roweis, S. T., Saul, L. K. (2000). "Nonlinear Dimensionality Reduction by Locally Linear Embedding". Science, 290(5500), 2323–6. https://doi.org/10.1126/science.290.5500.2323
 
 Searle, J. (1980), "Minds, Brains and Programs", Behavioral and Brain Sciences, 3(3), 417–457. https://doi.org/10.1017/S0140525X00005756
+
+Turing, A. M. (1950). Computing Machinery and Intelligence. Mind, 59(236), 433–460. https://doi.org/10.1093/mind/LIX.236.433
 
 Vafa, K., Chen, J. Y., Rambachan, A., Kleinberg, J., &amp; Mullainathan, S. (2024). Evaluating the World Model Implicit in a Generative Model. NeurIPS 2024. https://arxiv.org/abs/2406.03689
 
