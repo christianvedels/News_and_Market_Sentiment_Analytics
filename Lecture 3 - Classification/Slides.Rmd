@@ -284,7 +284,7 @@ $$Pr(Gender = \text{"Female"} | Name = \text{"Carla"}) = 0.998$$
 
 ---
 # Simple Naïve Bayes to identify gender
-[Lecture 3 - Classification pt 1/Code/Gender_classification_all_Danish_names.py](https://github.com/christianvedels/News_and_Market_Sentiment_Analytics/blob/main/Lecture%203%20-%20Classification/Code/Gender_classification_all_Danish_names.py)
+[Lecture 3 - Classification pt 1/Code/Gender_classification_all_Danish_names.py](https://github.com/christianvedels/News_and_Market_Sentiment_Analytics/blob/old2025/Lecture%203%20-%20Classification/Code/Gender_classification_all_Danish_names.py)
 
 - Using modern name/gender data to build a classifier that works in 1787
 
@@ -817,7 +817,7 @@ unfreeze_layers(model, num_layers_to_unfreeze=2)
 
 
 ---
-# [Exam info](https://github.com/christianvedels/News_and_Market_Sentiment_Analytics/blob/main/Exam/Format_of_the_exam.md)
+# [Exam info](https://github.com/christianvedels/News_and_Market_Sentiment_Analytics/blob/old2025/Exam/Format_of_the_exam.md)
 
 .pull-left[
 - The exam will cover *skills* from the course
@@ -839,7 +839,7 @@ unfreeze_layers(model, num_layers_to_unfreeze=2)
 ---
 class: inverse, middle
 # Coding challenge: 
-## [Building a sentiment classifier](https://github.com/christianvedels/News_and_Market_Sentiment_Analytics/blob/main/Lecture%203%20-%20Classification/Coding_challenge_lecture3.md)
+## [Building a sentiment classifier](https://github.com/christianvedels/News_and_Market_Sentiment_Analytics/blob/old2025/Lecture%203%20-%20Classification/Coding_challenge_lecture3.md)
 
 ---
 # Next time

@@ -11,10 +11,10 @@ This challenge is all about practicing some text wrangling skills. We will apply
 outputs the slope of the Zipf regression. 
 
 - Run this function on 'Texts': [Texts on
-GitHub](https://github.com/christianvedels/News_and_Market_Sentiment_Analytics/tree/main/Lecture%202%20-%20Data%20wrangling%20with%20text/Coding_challenge_data/Texts)
+GitHub](https://github.com/christianvedels/News_and_Market_Sentiment_Analytics/tree/old2025/Lecture%202%20-%20Data%20wrangling%20with%20text/Coding_challenge_data/Texts)
 
 - Use the outputs to classify real from fake texts. Test the quality
-against ['Answers.csv'](https://github.com/christianvedels/News_and_Market_Sentiment_Analytics/blob/main/Lecture%202%20-%20Data%20wrangling%20with%20text/Coding_challenge_data/Answer.csv). You are not allowed to use anything in
+against ['Answers.csv'](https://github.com/christianvedels/News_and_Market_Sentiment_Analytics/blob/old2025/Lecture%202%20-%20Data%20wrangling%20with%20text/Coding_challenge_data/Answer.csv). You are not allowed to use anything in
 'Answers.csv' as training data.
 
 

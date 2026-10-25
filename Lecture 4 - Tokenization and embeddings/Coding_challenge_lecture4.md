@@ -11,7 +11,7 @@ In these weeks coding challenge you are asked to use embeddings to build a zero-
    + "This is just a regular old sentence."  
    (Please derive and use proper metric to test the similarity - work off the hint below)
 2. What does your results for 2 tell you about the effectiveness of bag of word models?
-3. Build a zero shot classifier using cosine distance. And use it to to repeat [coding challenge 3](https://github.com/christianvedels/News_and_Market_Sentiment_Analytics/blob/main/Lecture%203%20-%20Classification%20pt%201/Coding_challenge_lecture3.md)
+3. Build a zero shot classifier using cosine distance. And use it to to repeat [coding challenge 3](https://github.com/christianvedels/News_and_Market_Sentiment_Analytics/blob/old2025/Lecture%203%20-%20Classification/Coding_challenge_lecture3.md)
 
 References regarding zero-shot classification: 
 - https://arxiv.org/abs/1909.00161

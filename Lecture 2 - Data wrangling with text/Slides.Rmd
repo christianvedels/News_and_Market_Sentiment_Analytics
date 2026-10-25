@@ -522,14 +522,14 @@ class: middle
 # Simple(st) sentiment analysis
 *I will demonstrate a simple sentiment analysis in Python*
 
-[Lecture 2 - Data wrangling with text/Code/Simple_sentiment.py](https://github.com/christianvedels/News_and_Market_Sentiment_Analytics/blob/main/Lecture%202%20-%20Data%20wrangling%20with%20text/Code/Simple_sentiment.py)
+[Lecture 2 - Data wrangling with text/Code/Simple_sentiment.py](https://github.com/christianvedels/News_and_Market_Sentiment_Analytics/blob/old2025/Lecture%202%20-%20Data%20wrangling%20with%20text/Code/Simple_sentiment.py)
 
 ---
 class: middle
 # The Zipf Mystery
 *We will use basic NLP tools to investigate Zipfs law in the Gutenberg Corpus*
 
-[Lecture 2 - Data wrangling with text/Code/Zipf.py](https://github.com/christianvedels/News_and_Market_Sentiment_Analytics/blob/main/Lecture%202%20-%20Data%20wrangling%20with%20text/Code/Zipf.py)
+[Lecture 2 - Data wrangling with text/Code/Zipf.py](https://github.com/christianvedels/News_and_Market_Sentiment_Analytics/blob/old2025/Lecture%202%20-%20Data%20wrangling%20with%20text/Code/Zipf.py)
 
 **Zipf's law:**  
 
@@ -538,7 +538,7 @@ $$F_n = \frac{F_1}{n}$$
 ---
 class: inverse, middle
 # Coding challenge: 
-## [The Zipf Mystery](https://github.com/christianvedels/News_and_Market_Sentiment_Analytics/blob/main/Lecture%202%20-%20Data%20wrangling%20with%20text/Coding_challenge_lecture2.md)
+## [The Zipf Mystery](https://github.com/christianvedels/News_and_Market_Sentiment_Analytics/blob/old2025/Lecture%202%20-%20Data%20wrangling%20with%20text/Coding_challenge_lecture2.md)
 
 ---
 # Next time

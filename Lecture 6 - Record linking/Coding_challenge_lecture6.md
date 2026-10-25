@@ -2,7 +2,7 @@
 
 In this week's coding challenge, you are tasked with solving a record-linking problem using the provided datasets. This problem requires you to identify relationships between the financial data and the news articles. We will start with a simple exercise to warm up and then progress to the main linking challenge.
 
-The data to be used is simulated data, which can be found [here](https://github.com/christianvedels/News_and_Market_Sentiment_Analytics/tree/main/Lecture%206%20-%20Record%20linking/Data/Large_linking_toydata)
+The data to be used is simulated data, which can be found [here](https://github.com/christianvedels/News_and_Market_Sentiment_Analytics/tree/old2025/Lecture%206%20-%20Record%20linking/Data/Large_linking_toydata)
 
 ---
 
