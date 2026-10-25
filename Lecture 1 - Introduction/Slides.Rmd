@@ -585,7 +585,6 @@ Reichenbach, Wittgenstein [(Wikipedia)](https://en.wikipedia.org/wiki/Vienna_Cir
 - **Space and time:** Llama-2 encodes where places are and when events happened as linear directions in its activations ([Gurnee & Tegmark, 2023](https://arxiv.org/abs/2310.02207))
 - **A board game seen only as text:** A GPT trained only on Othello move sequences builds an internal map of the board. Edit the map and the predicted move changes ([Li et al., 2023](https://arxiv.org/abs/2210.13382))
 - **"Platonism":** As models grow, their representations converge across architectures and even across images and text. Perhaps because they all model the same reality ([Huh et al., 2024](https://arxiv.org/abs/2405.07987))
-- **Planning ahead:** When Claude 3.5 Haiku writes a rhyming couplet, it picks the rhyme word ("rabbit") before writing the line. Suppress that feature and the line ends differently ("habit") ([Lindsey et al., 2025](https://transformer-circuits.pub/2025/attribution-graphs/biology.html))
 ]
 ]
 
@@ -825,8 +824,6 @@ Huh, M., Cheung, B., Wang, T., & Isola, P. (2024). Position: The Platonic Repres
 LeCun, Y. (2022). A Path Towards Autonomous Machine Intelligence. Position paper, version 0.9.2, OpenReview. https://openreview.net/pdf?id=BZ5a1r-kVsf
 
 Li, K., Hopkins, A. K., Bau, D., Viégas, F., Pfister, H., & Wattenberg, M. (2023). Emergent World Representations: Exploring a Sequence Model Trained on a Synthetic Task. ICLR 2023. https://arxiv.org/abs/2210.13382
-
-Lindsey, J., et al. (2025). On the Biology of a Large Language Model. Transformer Circuits Thread. https://transformer-circuits.pub/2025/attribution-graphs/biology.html
 
 Pearl, J. (2019). The seven tools of causal inference, with reflections on machine learning. Communications of the ACM, 62(3), 54–60. https://doi.org/10.1145/3241036
 ]
