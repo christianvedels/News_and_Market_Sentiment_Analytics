@@ -2,6 +2,8 @@
 
 # Week 1 Coding Challenge: Skipping ahead to the end
 
+*Everything here runs for free on [Google Colab](https://colab.research.google.com/) (`transformers` is preinstalled) or on your own laptop. You are welcome to use AI tools. If you do, note how you used them, and make sure you understand and can run the result.*
+
 ### 1. Your computer can read
 
 - Use transformers to run a sentiment analysis on a sentence in less than 20 lines of code.
@@ -25,6 +27,11 @@ classifier = pipeline([insert task name])
 - Visualize how the sentiment of "Notes from the Underground" evolves through the entire book. (It might be handy to estimate a moving average of e.g. 50 sentences to 'smooth' out the sentence by sentence sentiment.)
 
 Resources: ["Notes from the Underground" by Fyodor Dostoyevsky](https://www.gutenberg.org/cache/epub/600/pg600.txt)
+
+### 3. But is it right?
+- Pick 20 random sentences from the book and label them yourself (positive / negative).
+- How often does the model agree with you? Which sentences does it get wrong, and why?
+- Would you trust the curve from part 2 more or less after doing this?
 
 **Extra:** You can also try with ["Pride and Prejudice" by Jane Austen](https://www.gutenberg.org/files/1342/1342-0.txt)
 #### Hint 1

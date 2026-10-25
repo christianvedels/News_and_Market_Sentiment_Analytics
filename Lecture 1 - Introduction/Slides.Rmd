@@ -3,7 +3,7 @@ output:
   xaringan::moon_reader:
     seal: false
     includes:
-      after_body: insert-logo.html
+      after_body: [insert-logo.html, slide-numbers.html]
     self_contained: false
     lib_dir: libs
     nature:
@@ -11,10 +11,22 @@ output:
       highlightLines: true
       countIncrementalSlides: false
       ratio: '16:9'
-editor_options: 
+editor_options:
   chunk_output_type: console
 ---
 class: center, inverse, middle
+
+```{r xaringan-panelset, echo=FALSE}
+xaringanExtra::use_panelset()
+```
+
+```{r xaringan-tile-view, echo=FALSE}
+xaringanExtra::use_tile_view()
+```
+
+```{r xaringanExtra, echo = FALSE}
+xaringanExtra::use_progress_bar(color = "#808080", location = "top")
+```
 
 ```{css echo=FALSE}
 .pull-left {
@@ -74,6 +86,32 @@ class: center, inverse, middle
 .green {
   color: green
 }
+
+/* Painting slide: text box over a full-bleed image */
+.overlay-box {
+  background: rgba(0, 0, 0, 0.62);
+  color: #fff;
+  padding: 0.6em 1.1em;
+  border-radius: 6px;
+  display: inline-block;
+}
+.overlay-box h1, .overlay-box h2 {
+  color: #fff;
+  margin: 0.2em 0 0.3em 0;
+}
+.overlay-spoiler {
+  margin-top: 0.8em;
+}
+.overlay-credit {
+  position: absolute;
+  bottom: 12px;
+  left: 20px;
+  font-size: 0.55em;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.55);
+  padding: 2px 8px;
+  border-radius: 4px;
+}
 ```
 
 
@@ -81,9 +119,9 @@ class: center, inverse, middle
 # News and Market Sentiment Analytics
 ## Lecture 1: Introduction
 
-### Christian Vedel,<br>Department of Economics
+### Christian Vedel,<br>Department of Economics, University of Southern Denmark
 
-### Email: [christian-vs@sam.sdu.dk](christian-vs@sam.sdu.dk)
+### Email: [christian-vs@sam.sdu.dk](mailto:christian-vs@sam.sdu.dk)
 
 ### Updated `r Sys.Date()`
 
@@ -92,52 +130,76 @@ class: center, inverse, middle
 .footnote[
 .left[
 .small123[
-*Please beware. I work on these slides until the last minute before the lecture and push most changes along the way. Until the actual lecture, this is just a draft*  
+*Please beware. I work on these slides until the last minute before the lecture and push most changes along the way. Until the actual lecture, this is just a draft*
 ]
 ]
 ]
 
 ---
+class: middle
 # Today's lecture
-.pull-left[
-- Course overview
-- The Efficient Market Hypothesis 
-- How did we get to ChatGPT? (And what are the implications)
-- Expectations
+.pull-left-wide[
+**What this course is, how we will work, and how we got to ChatGPT**
+
+- **Your homework:** What do you want to learn?
+- **Course overview:** Content, tools, AI, exam
+- **Markets and information:** The Efficient Market Hypothesis
+- **History:** How did we get to ChatGPT? (And what are the implications)
+- **Setup** and the first coding challenge
 ]
 
-.pull-right[
-![Illustration](Figures/Chearth.jpg)
+.pull-right-narrow[
+![Trees](Figures/Trees1.jpg)
 ]
 
 ---
-# Motivaiton for the course 
+class: middle
+# Your homework: What do you want to learn?
+
+.pull-left-wide[
+**Before today you were asked to:**
+1. Read Chapter 1 of PA2021
+2. Watch *Is ChatGPT high-tech plagiarism?*
+3. Think about which skills you want from this course
+]
+
+--
+
+.pull-left-wide[
+**Let us talk about it (10 min.)**
+- What skills do you want to leave with? Finance? Applied NLP for any job? Research?
+- Is ChatGPT high-tech plagiarism? Does your answer change if it writes code?
+- I will adapt the course plan to your answers
+]
+
+---
+# Motivation for the course
 
 .pull-left[
 - *It's all about information*
-- Text is data. Data is text. 
-- Applications: Business, Finance, Research, Software Development, Psychology, Linguistics, Business Intelligence, Policy Evaluation 
-- In a world of LLMs you want to understand what is happening behind the fancy interface 
+- Text is data. Data is text.
+- Applications: Business, Finance, Research, Software Development, Psychology, Linguistics, Business Intelligence, Policy Evaluation
+- In a world of LLMs you want to understand what is happening behind the fancy interface
 - The techniques live inside crazy sci-fi technologies, that you can learn. E.g. [literal mind reading](https://www.nature.com/articles/s41593-023-01304-9)
 ]
 
 .pull-right[
 ![Counterexample](Figures/machine_learning.png)
 *Counter-example to what we will be doing*
-*[[xkcd.com/1838]](xkcd.com/1838)*
+*[[xkcd.com/1838]](https://xkcd.com/1838)*
 ]
 
 ---
 # About me - Christian Vedel
 .pull-left[
-- Economic Historian - freshly minted PhD (2023)
-- Research at the intersection between machine learning and economic history 
-- A genuine interest in language, linguistics and etymology  
-  + All though you will find my texts riddled with typos and grammatical errors 
+- Economic Historian, PhD (2023)
+- Research at the intersection between machine learning and economic history
+- A genuine interest in language, linguistics and etymology
+  + Although you will find my texts riddled with typos and grammatical errors
 - Write me emails
   + .orange[christian-vs@sam.sdu.dk]
-- We can make office hours if you want it. 
-- Third time teaching this course. But most of it completely changed from last year. Most of this course is adaptable.
+- We can make office hours if you want it.
+- Fourth time teaching this course. Much of it changes every year, and most of it is adaptable.
 
 [Who are you? https://forms.gle/5Dk1pkCQdd4XYmgW8](https://forms.gle/5Dk1pkCQdd4XYmgW8)
 
@@ -146,6 +208,10 @@ class: center, inverse, middle
 .pull-right[
 ![Thesis](Figures/Defence.jpeg)
 .small123[*PhD defence, 2023-09-25*]
+
+.small123[
+**Recent working papers:** [arXiv 2606.28063](https://arxiv.org/abs/2606.28063), [arXiv 2402.13604](https://arxiv.org/abs/2402.13604), [arXiv 2408.00885](https://arxiv.org/abs/2408.00885)
+]
 ]
 
 ---
@@ -157,33 +223,73 @@ class: center, inverse, middle
   + 45 min. of practical coding challenge
 - **Book:**
   + We will use 'PA2021' - Patel, A. A., & Arasanipalai, A. U. (2021). _Applied natural language processing in the enterprise_. O'Reilly Media. https://www.oreilly.com/library/view/applied-natural-language/9781492062561/
+  + Plus research articles along the way
 - **Exam:**
-  + One week project in December (?) 
+  + One-week take-home project in December (dates follow)
 - **Course content:**
-  + Low level NLP tools + applications 
-  + Transformers $\rightarrow$ Basics $\rightarrow$ Transformers
+  + Low level NLP tools + applications
+  + Transformers $\rightarrow$ Basics $\rightarrow$ Transformers $\rightarrow$ Agents
 - **Course plan:**
   + Continuously updated
 - **Slides:**
-  + The night before the lecture 
+  + The night before the lecture
   + Slides do not cover everything I say. Please bring a notepad and a pen.
 - **Course description:**
-  + https://odin.sdu.dk/sitecore/index.php?a=fagbesk&id=156413&lang=en  
-  + Course plan
+  + https://odin.sdu.dk/sitecore/index.php?a=fagbesk&id=156413&lang=en
   + [GitHub](https://github.com/christianvedels/News_and_Market_Sentiment_Analytics)
 ]
 
-  
 ---
-# Preperation
+class: middle
+# Tools: Free by design
+
+.pull-left-wide[
+- **No API credits are provided in this course**
+  + To be frank: I think the university is moving too slowly here
+- Everything we do runs on **free, open-weight models**
+  + On your own laptop or on [Google Colab](https://colab.research.google.com/) (free GPU)
+]
+
+--
+
+.pull-left-wide[
+**This is not only a limitation:**
+- Open-weight models are what many European firms run on sensitive data (GDPR)
+- You see what happens under the hood. Not just a fancy interface
+- Everything you build can be reproduced by anyone, for free
+]
+
+---
+class: middle
+# How we work with AI in this course
+
+.pull-left-wide[
+- **Use it.** Chatbots and coding agents are part of how NLP work is done today
+- **Cite it.** SDU's rule: Generative AI is allowed in written take-home exams, if you declare how you used it ([SDU guidance](https://sdunet.dk/en/undervisning-og-eksamen/uddannelse/vejledning))
+- **Check it.** Run the code, look at the data, read what it changed
+- I will regularly **show** you how I work with coding agents (e.g. Claude Code)
+  + You are never required to pay for anything. Every challenge and the exam can be solved with free tools
+]
+
+.pull-right-narrow[
+![Robot](Figures/Function_robot.png)
+]
+
+---
+class: middle, center
+# Live demo
+### A coding agent takes on part 1 of today's coding challenge
+
+---
+# Preparation
 .pull-left[
-- Read other literature assigned. 
-- Read assigned PA2021 chapter. 
-- Make sure you understand what is happening. 
+- Read other literature assigned.
+- Read assigned PA2021 chapter.
+- Make sure you understand what is happening.
 - Please go off tangents. Tangents are the best - if not for this specific course.
 
 **Coding challenge:**
-- Will be challenging 
+- Will be challenging
 - Mistakes are great
 - Make sure that you understand and can run the solution
 - **Random selection**
@@ -199,10 +305,10 @@ class: center, inverse, middle
 
 .pull-left[
 *If you can buy cheaply something which is more valuable than its price, you can profit (arbitrage). But ...*
-1. We all have access to the same information 
+1. We all have access to the same information
 2. Everyone is interested in maximum profits
-3. Everyone buys the undervalued assets 
-4. Prices increases until the advantages is gone 
+3. Everyone buys the undervalued assets
+4. Prices increase until the advantage is gone
 
 ]
 .pull-right[
@@ -210,8 +316,8 @@ class: center, inverse, middle
 
 
 ### Implications:
-- If any 'whole' in the market occurs it is closed within milliseconds 
-- We cannot invest better than anyone else 
+- If any 'hole' in the market occurs it is closed within milliseconds
+- We cannot invest better than anyone else
 - Investing in what a chicken poops on is better than listening to an 'expert'
 ]
 
@@ -220,19 +326,127 @@ class: center, inverse, middle
 # Information Extraction in Financial Markets
 
 .pull-left[
-- The NLP promise is to be able to extract information 
-- News about firms changes the expected returns on assets 
+- The NLP promise is to be able to extract information
+- News about firms changes the expected returns on assets
 - [NVIDIA News](https://youtu.be/U0dHDr0WFmQ?si=EKAQgBiTekQhxl0u)
 - If the expected returns on an asset increases or decreases there is an opportunity for arbitrage if prices have not changed
-- NLP tools potentially allow us to be ahead 
-- EMH dissallows open source implementations: You need to improve on the methods you get here
+- NLP tools potentially allow us to be ahead
+- EMH disallows open source implementations: You need to improve on the methods you get here
 - **Timing is key**
 ]
 
 .pull-right[
 ![Information Extraction](Figures/big_stonks.jpg)
 ]
-  
+
+---
+# .red[Raise your hand 1: Trading on sentiment]
+
+```{r rh1-countdown, echo=FALSE}
+library(countdown)
+countdown(0, 20, top=TRUE)
+```
+
+.pull-left-wide[
+**Q1.** Your sentiment model labels financial headlines correctly 90% of the time. Can you make money trading on it?
+
+- **A)** Yes. 90% is far better than a coin flip, so the edge is large — *accuracy is the edge*
+- **B)** No. The EMH says that no strategy can ever beat the market — *the market is always right*
+- **C)** Only if it extracts information that prices have not yet absorbed — *speed and novelty*
+]
+
+--
+
+.pull-left-wide[
+**Q2.** An LLM predicts next-day stock returns from 2019 headlines remarkably well in a backtest. What is the most worrying explanation?
+
+- **A)** Headlines from 2019 are too old to say anything about markets today — *stale data*
+- **B)** The LLM was trained on text from after 2019, so it may already know what happened — *look-ahead*
+- **C)** The model fits noise, as any flexible model does in a small sample — *overfitting*
+]
+
+```{r rh1-answers, eval=FALSE, include=FALSE}
+# ANSWERS
+#
+# Q1: Answer C — accuracy is not an edge; new information is.
+#   A: Tempting because 90% sounds high. But if the market already priced the news,
+#      a perfectly accurate label earns nothing. Accuracy is necessary, not sufficient.
+#   B: Tempting because it is the EMH slide we just saw. But the EMH in practice
+#      is about information already being in prices; faster or better extraction
+#      can still earn something (until everyone does it, cf. Lopez-Lira & Tang).
+#   C: Correct. The model must read the news faster or extract something the
+#      market has not yet priced. Timing is key.
+#
+# Q2: Answer B — look-ahead bias.
+#   A: Tempting: old data may be less relevant, but that would make the backtest
+#      look worse, not better.
+#   B: Correct. LLMs trained on later text can "remember" how 2019 played out
+#      (Glasserman & Lin 2024; Lopez-Lira & Tang). Test only on text after the
+#      training cutoff. Teaser for lecture 5.
+#   C: Tempting and a real concern, but it does not explain a remarkably good
+#      out-of-sample-looking backtest as well as leaked knowledge does.
+```
+
+---
+# .red[Practice 1: Be the sentiment model]
+
+.pull-left-wide[
+Label each headline **positive**, **negative** or **neutral** for the company's stock. Then we compare with a model.
+
+1. *"Company beats quarterly earnings expectations"*
+2. *"Shares rose 2%, far less than analysts had hoped"*
+3. *"CEO steps down to spend more time with family"*
+4. *"Regulator approves the merger, with conditions"*
+5. *"That would have been splendid. But it was quite the opposite."*
+
+**How often do you agree with your neighbour?**
+]
+
+.pull-right-narrow[
+.small123[*Illustrative headlines, not real news*]
+]
+
+```{r practice1-answer, eval=FALSE, include=FALSE}
+# TEACHER NOTES
+# There is no single right answer for 2-4; that is the point.
+# - 1: positive (easy).
+# - 2: positive words ("rose"), negative news (below expectations). Off-the-shelf
+#      models often say positive.
+# - 3: neutral-to-negative depending on context; a classic euphemism.
+# - 4: mixed. "Approves" is positive, "with conditions" may be negative.
+# - 5: the Dostoevsky-style sentence from Coding challenge 1: negative.
+# Take-away: humans disagree too, so agreement between humans is the ceiling for
+# any model, and evaluating a model needs hand-labelled examples.
+# Live check:
+#   from transformers import pipeline
+#   clf = pipeline("sentiment-analysis")
+#   clf(["Company beats quarterly earnings expectations", ...])
+```
+
+---
+# Will AI make you more productive? How would we know?
+
+.pull-left[
+**Experienced software developers (METR, 2025)**
+- Randomised: AI tools allowed or not, on real tasks
+- With AI they were **19% slower**
+- ... while believing AI had made them **20% faster**
+]
+
+.pull-right[
+**Danish workers (Humlum & Vestergaard, 2026)**
+- 25,000 workers, 7,000 workplaces, register data
+- Chatbots widely adopted, workers report time savings
+- **No effect on earnings or hours** (rules out more than 2%)
+- Instead: tasks are reorganised
+]
+
+.footnote[
+.small123[
+*How can both be true, and how do we measure it properly? That is lecture 5 (causality).*
+]
+]
+
 ---
 class: inverse, middle, center
 
@@ -242,10 +456,10 @@ class: inverse, middle, center
 # The promise of AI
 .pull-left[
 - The idea of the mechanic 'nightingale' ([HC] Andersen, 1844)
-  + **Idea:** The mechanic version can never be as good because it is mechanic 
-  + Reaches far back e.g. Descartes (1637) writes about automata in 'Discourse and Methods' 
+  + **Idea:** The mechanic version can never be as good because it is mechanic
+  + Reaches far back e.g. Descartes (1637) writes about automata in 'Discourse on the Method'
 - Can machines think? The idea of the Turing test (1950/60s)
-  + If machines can think, they will respond convincingly in conversation 
+  + If machines can think, they will respond convincingly in conversation
 
 ]
 
@@ -257,20 +471,20 @@ class: inverse, middle, center
 ---
 # Early rule-based systems
 .pull-left[
-- We can model behaviour by *if then* statements 
+- We can model behaviour by *if then* statements
 - ELIZA (Weizenbaum, 1966):
   + The earliest convincing chatbot
   + Looks for keywords and otherwise writes something generic or repeats something from earlier
-- 1980's was the peak of rule based systems 
+- 1980's was the peak of rule based systems
   + Based on linguistic theory
-  + Grammar 
+  + Grammar
   + Morphology
   + Semantics
 ]
 
 .pull-right[
 ![ELIZA](Figures/ELIZA_conversation.png)
-*ELIZA Conversation (Wikimedia Commons)* 
+*ELIZA Conversation (Wikimedia Commons)*
 ![Semantic](Figures/Semantic_Net.svg)
 *Semantic net*
 ]
@@ -278,17 +492,17 @@ class: inverse, middle, center
 ---
 # The philosophical/linguistic problem
 .pull-left[
-- Can we distinguish reasoning from immitation? 
-  + Chinese room problem (Seale, 1980) 
-- What is the nature of language? 
+- Can we distinguish reasoning from imitation?
+  + Chinese room problem (Searle, 1980)
+- What is the nature of language?
   + Innateness vs. Empiricism (Chomsky vs. Vienna circle*)
-  + Innateness $\rightarrow$ rule-based NLP 
-  + Empiricism $\rightarrow$ 'empirical' (learning) methods 
+  + Innateness $\rightarrow$ rule-based NLP
+  + Empiricism $\rightarrow$ 'empirical' (learning) methods
 - ChatGPT is a big score for the Empiricist hypothesis
 ]
 
 .footnote[
-\* E.g. (of names you might know) Gödel, Popper, 
+\* E.g. (of names you might know) Gödel, Popper,
 Reichenbach, Wittgenstein [(Wikipedia)](https://en.wikipedia.org/wiki/Vienna_Circle#Overview_of_the_members_of_the_Vienna_Circle)
 ]
 
@@ -300,17 +514,17 @@ Reichenbach, Wittgenstein [(Wikipedia)](https://en.wikipedia.org/wiki/Vienna_Cir
 # 90s computer power - 60s maths
 .pull-left[
 - **Empiricist problem**: Statistics alone can only predict - not understand structure. Mathematical limitation (Pearl, 2019)
-- But we can phrase language problems as predictions problems 
-- Black box circumvents innateness 
+- But we can phrase language problems as prediction problems
+- Black box circumvents innateness
 - We just need to estimate: $$P(word|\{text\},\theta)$$
 - E.g. "He is a [word]"
-- Choose $\theta$ to minimize predicition errors
+- Choose $\theta$ to minimize prediction errors
 - Could be based on e.g. a [universal function approximator](https://en.wikipedia.org/wiki/Universal_approximation_theorem) like a neural network
 
 ]
 
 .pull-right[
-![DancingBaby](Figures/giphy.gif)   
+![DancingBaby](Figures/giphy.gif)
 .small123[*Crazy realistic 90s dancing baby*]
 
 
@@ -318,21 +532,24 @@ Reichenbach, Wittgenstein [(Wikipedia)](https://en.wikipedia.org/wiki/Vienna_Cir
 
 
 ---
-# History of Neural Networks for NLP 
+# History of Neural Networks for NLP
 .pull-left-wide[
+.small123[
 - **'Perceptron'** neural network (Rosenblatt, .orange[1958])
-- **Long-Short-term memory** remembers and forgets previous words and letters (Hochreiter, Schmidhuber, .orange[1997]) 
+- **Long-Short-term memory** remembers and forgets previous words and letters (Hochreiter, Schmidhuber, .orange[1997])
 - A rule-based trick: **Word embeddings:** Queens, Kings, men, women (Firth, .orange[1957] - But applied from .orange[2000/2010s]; Roweis & Saul, .orange[2000])
-- **Tranformers**: 'Attention Is All You Need' (Vaswani, .orange[2017])
+- **Transformers**: 'Attention Is All You Need' (Vaswani, .orange[2017])
 - **Masked models**: E.g. BERT (Devlin et al, .orange[2019])
   + "He is a [MASK] dog." $\rightarrow$  "He is a [smelly] dog."
 - **GPT**: Radford & Narasimhan (.orange[2018]): What if we make models really large? E.g. 175 billion parameters and train it on 499 Billion tokens (GPT-3)
-- **What is a good answer?**: ChatGPT etc. (.orange[2022]) trains a sepperate neural network to tell good from bad answers - reinforcement learning.
+- **What is a good answer?**: ChatGPT etc. (.orange[2022]) trains a separate neural network to tell good from bad answers - reinforcement learning.
 - **Huggingface**: Sharing of various transformer models.
+- **Reasoning and agents** (.orange[2024-26]): Models that plan, call tools and write and run code. Open-weight models you can run yourself
+]
 ]
 
 .pull-right-narrow[
-![Trees](Figures/Trees.jpg)
+<img src="Figures/Trees.jpg" width="75%"/>
 ]
 
 ---
@@ -340,21 +557,42 @@ class: middle
 # Three types of NLP
 
 1. **Structural, rules-based:** *ELIZA*
-  + Still has supprisingly many uses. E.g. regex but also generally in financial applications where time is important
-2. **Statistical, structural-inspired:** *Latent Dirichlet Allocation* 
+  + Still has surprisingly many uses. E.g. regex but also generally in financial applications where time is important
+2. **Statistical, structural-inspired:** *Latent Dirichlet Allocation*
   + What any NLP/ML class was about ~5 years ago. What I have learned
   + Worth knowing because there is *so* much of it out there
-3. **Statistical, black box:** *Transformer models* 
+3. **Statistical, black box:** *Transformer models*
   + What we will focus on for the most part
+
+---
+class: middle
+# This course traces the field
+
+.small123[
+| Year | Focus of this course |
+| ---- | -------------------- |
+| 2021-22 | Text as data: preprocessing, dictionaries, bag-of-words, topic models (LDA) |
+| 2023 | Classical NLP with NLTK: lexical resources, grammar, classification, first transformers |
+| 2024 | Transformers: off-the-shelf models, fine-tuning, embeddings, record linking, RAGs |
+| 2025 | + Causality. RAGs as small networks of LLMs: early agentic work |
+| **2026** | **+ Agentic workflows, LLMs as annotators, evaluation, productivity effects of AI** |
+]
+
+--
+
+.pull-left-wide[
+- The basics did not go away: Bag-of-words is still the fastest baseline and embeddings sit inside every LLM
+- What changed is what we build on top of them
+]
 
 ---
 # Open questions
 .pull-left[
-- Do language models think? 
-- What is consciousness? 
+- Do language models think?
+- What is consciousness?
 - Should LLMs be allowed for exams?
-  + (Please use it for this one!) 
-  + [Link to SDU's policy](https://sdunet.dk/en/undervisning-og-eksamen/nyheder/2024/0628_gai)
+  + (Please use it for this one!)
+  + [SDU's guidance on generative AI](https://sdunet.dk/en/undervisning-og-eksamen/uddannelse/vejledning)
 
 **What do you think?**
 ]
@@ -372,62 +610,54 @@ class: middle
 .small123[*What do you think?*]
 
 .small123[
-| Date       | Topic                         |
-| ---------- | ----------------------------- |
-| 2025-10-24 | Introduction                  |
-| 2025-MM-DD | Text wrangling                |
-| 2025-MM-DD | Classification                |
-| 2025-MM-DD | Tokenization and Embeddings   |
-| 2025-MM-DD | Causality                     |
-| 2025-MM-DD | Topic of your choice          |
-| 2025-MM-DD | Sentiment analysis using RAGs |
-| 2025-MM-DD | Exam workshop                 |
+| Kolding    | Odense     | Topic                                 |
+| ---------- | ---------- | ------------------------------------- |
+| 2026-10-26 | 2026-10-28 | Introduction                          |
+| 2026-11-02 | 2026-11-06 | Data wrangling with text              |
+| 2026-11-09 | 2026-11-13 | Classification                        |
+| 2026-11-16 | 2026-11-20 | Tokenization and embeddings           |
+| 2026-11-23 | 2026-11-27 | Causality (and the productivity of AI)|
+| 2026-11-30 | 2026-12-04 | Linking and extracting: text to tables|
+| 2026-12-07 | 2026-12-11 | From RAG to agents                    |
+| 2026-12-14 | 2026-12-18 | Exam workshop                         |
 ]
 
 ---
 class: inverse, middle, center
 
-# Miscellaneous 
+# Miscellaneous
 
 ---
 # Setup
 .pull-left[
-- `spaCy` and `transformers` 
+- `spaCy` and `transformers`
 - I use VS Code - but feel free to use something else
 
-#### Conda environment
-
+#### Easiest start: Google Colab
+- [colab.research.google.com](https://colab.research.google.com/): Free GPU, nothing to install
+- `transformers` is preinstalled. For spaCy:
 ```{r eval=FALSE, include=TRUE}
-conda create --name sentimentF24
-conda activate sentimentF24
-conda install numpy matplotlib pandas seaborn requests
-conda install spyder
+!pip install spacy
+!python -m spacy download en_core_web_sm
 ```
-
 ]
 
 .pull-right[
 
-#### spaCy
-Download everything with the following python code    
+#### Local: Conda environment
+.small123[
 ```{r eval=FALSE, include=TRUE}
-conda install -c conda-forge spacy
-conda install -c conda-forge cupy
+conda create -n sentiment2026 python=3.12
+conda activate sentiment2026
+pip install numpy pandas matplotlib
+pip install seaborn requests
+pip install torch transformers spacy
 python -m spacy download en_core_web_sm
 ```
-
-#### Install pytorch to run on cuda 11.8*
-```{r eval=FALSE, include=TRUE}
-conda install pytorch torchvision torchaudio pytorch-cuda=11.8 -c pytorch -c nvidia
-pip install transformers
-```
- 
 ]
 
-.footnote[
-.small123[
-  *Without a GPU? See https://pytorch.org/get-started/locally/ 
-]
+- GPU? Pick the right `torch` install command at [pytorch.org](https://pytorch.org/get-started/locally/)
+
 ]
 
 ---
@@ -435,7 +665,7 @@ pip install transformers
 
 .pull-left-narrow[
 - We want to write code which runs out of the box on any system
-- We don't want to edit long paths. We want it to work.  
+- We don't want to edit long paths. We want it to work.
 
 ]
 
@@ -443,15 +673,15 @@ pip install transformers
 
 .pull-right-wide[
 .small123[
-.red[**Bad:**] 
+.red[**Bad:**]
 ```{python eval=FALSE}
 pd.read_csv('C:/Users/Christian/Dropbox/Teaching/News_and_Market_Sentiment_Analytics/2024/News_and_Market_Sentiment_Analytics/Lecture_2_-_Lexical_resources/Data/Novo_Nordisk_News.csv')
-``` 
+```
 
 .green[**Good:**]
 ```{python eval=FALSE}
 pd.read_csv('Data/Novo_Nordisk_News.csv')
-``` 
+```
 
 ]
 ]
@@ -463,14 +693,14 @@ pd.read_csv('Data/Novo_Nordisk_News.csv')
 --
 
 1. Save scripts to relevant folder
-2. Run things from main 
+2. Run things from main
 
 ```{python eval=FALSE}
 import pandas as pd
 
 def some_function(x):
   x + 1
-  
+
 def some_other_function(x):
   x + 2
 
@@ -478,7 +708,7 @@ if __name__ == "__main__":
   df = pd.read_csv('Data/Novo_Nordisk_News.csv')
   df = some_function(df)
   df = some_other_function(df)
-``` 
+```
 
 
 ---
@@ -492,6 +722,7 @@ class: middle
   + Everyone presents at least once
   + Random pick* at the beginning of each lecture
   + Just brief presentations: Here is what I did, how I did it + here is what I had trouble with
+  + Used AI? Show how. That is a useful thing to share
 ]
 
 .footnote[
@@ -499,18 +730,32 @@ $^*$*Don't worry, you can opt out each time by writing me an email or just letti
 ]
 
 ---
+class: inverse, middle
+# Coding challenge:
+## ['Skipping ahead to the end'](https://github.com/christianvedels/News_and_Market_Sentiment_Analytics/blob/main/Lecture%201%20-%20Introduction/Coding_challenge1.md)
+
+---
 # Before next time
 .pull-left[
+- Solve the [coding challenge](https://github.com/christianvedels/News_and_Market_Sentiment_Analytics/blob/main/Lecture%201%20-%20Introduction/Coding_challenge1.md)
+
 - Read [Text Wrangling with Python](https://blog.devgenius.io/text-wrangling-with-python-a-comprehensive-guide-to-nlp-and-nltk-f7553e713291)
-  
-  
+
 - Watch ['The Zipf Mystery'](https://youtu.be/fCn8zs912OE?si=xVMA63kt9M99Qvjx)
+
+- Next time: Data wrangling with text
 ]
 
 
 .pull-right[
-![Trees](Figures/Trees1.jpg)
+<img src="Figures/Trees1.jpg" width="85%"/>
 ]
+
+---
+name: appendix
+class: middle, center, appendix
+
+# Appendix
 
 ---
 # Resources
@@ -526,14 +771,8 @@ $^*$*Don't worry, you can opt out each time by writing me an email or just letti
 - Think about how you structure your directory for this course (and in general)
 - Examples: [OccCANINE](https://github.com/christianvedels/OccCANINE), [This course](https://github.com/christianvedels/News_and_Market_Sentiment_Analytics/)
 
-- *More advanced approaches*  
+- *More advanced approaches*
   + [Microsoft Team Data Science Project](https://learn.microsoft.com/en-us/azure/architecture/data-science-process/overview),  [Cookiecutter](https://drivendata.github.io/cookiecutter-data-science/), [Cookiecutter youtube video](https://youtu.be/5VjuG5lliYU?si=oci0h0gNiTWciQ_I)
-
----
-class: inverse, middle
-# Coding challenge: 
-## ['Skipping ahead to the end'](https://github.com/christianvedels/News_and_Market_Sentiment_Analytics/blob/main/Lecture%201%20-%20Introduction/Coding_challenge1.md)
-
 
 ---
 ## References (1/2)
@@ -541,7 +780,9 @@ class: inverse, middle
 .small123[
 Andersen, H. C. (1844). The Nightingale. https://www.hcandersen-homepage.dk/?page_id=2257
 
-Devlin, J., Chang, M.-W., Lee, K., & Toutanova, K. (2019). BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding. In Proceedings of the 2019 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies, Volume 1 (Long and Short Papers), pages 4171–4186, Minneapolis, Minnesota. Association for Computational Linguistics.
+Becker, J., Rush, N., Barnes, E., & Rein, D. (2025). Measuring the Impact of Early-2025 AI on Experienced Open-Source Developer Productivity. METR. https://arxiv.org/abs/2507.09089
+
+Devlin, J., Chang, M.-W., Lee, K., & Toutanova, K. (2019). BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding. In Proceedings of NAACL-HLT 2019, pages 4171–4186. Association for Computational Linguistics.
 
 Descartes, R. (1637). Discourse on the Method of Rightly Conducting One's Reason and of Seeking Truth in the Sciences (J. Veitch, Trans.). EBook-No. 59. https://www.gutenberg.org/ebooks/59
 
@@ -549,17 +790,19 @@ Firth, J.R. (1957). "A synopsis of linguistic theory 1930–1955". Studies in Li
 
 Gurnee, W., & Tegmark, M. (2023). Language Models Represent Space and Time. https://arxiv.org/abs/2310.02207
 
+Humlum, A., & Vestergaard, E. (2026). Still Waters, Rapid Currents: Early Labor Market Transformation under Generative AI. NBER Working Paper 33777 (revised March 2026). https://www.nber.org/papers/w33777
+
 Pearl, J. (2019). The seven tools of causal inference, with reflections on machine learning. Communications of the ACM, 62(3), 54–60. https://doi.org/10.1145/3241036
-
-Radford, A., & Narasimhan, K. (2018). Improving Language Understanding by Generative Pre-Training. https://api.semanticscholar.org/CorpusID:49313245
-
-Rosenblatt, F. (1958). The perceptron: A probabilistic model for information storage and organization in the brain. Psychological Review, 65(6), 386–408. https://doi.org/10.1037/h0042519
 ]
 
 
 ---
 ## References (2/2)
 .small123[
+Radford, A., & Narasimhan, K. (2018). Improving Language Understanding by Generative Pre-Training. https://api.semanticscholar.org/CorpusID:49313245
+
+Rosenblatt, F. (1958). The perceptron: A probabilistic model for information storage and organization in the brain. Psychological Review, 65(6), 386–408. https://doi.org/10.1037/h0042519
+
 Roweis, S. T., Saul, L. K. (2000). "Nonlinear Dimensionality Reduction by Locally Linear Embedding". Science, 290(5500), 2323–6. https://doi.org/10.1126/science.290.5500.2323
 
 Searle, J. (1980), "Minds, Brains and Programs", Behavioral and Brain Sciences, 3(3), 417–457. https://doi.org/10.1017/S0140525X00005756
