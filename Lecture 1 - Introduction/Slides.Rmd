@@ -141,7 +141,6 @@ class: middle
 .pull-left-wide[
 **What this course is, how we will work, and how we got to ChatGPT**
 
-- **Your homework:** What do you want to learn?
 - **Course overview:** Content, tools, AI, exam
 - **Markets and information:** The Efficient Market Hypothesis
 - **History:** How did we get to ChatGPT? (And what are the implications)
@@ -150,26 +149,6 @@ class: middle
 
 .pull-right-narrow[
 ![Trees](Figures/Trees1.jpg)
-]
-
----
-class: middle
-# Your homework: What do you want to learn?
-
-.pull-left-wide[
-**Before today you were asked to:**
-1. Read Chapter 1 of PA2021
-2. Watch *Is ChatGPT high-tech plagiarism?*
-3. Think about which skills you want from this course
-]
-
---
-
-.pull-left-wide[
-**Let us talk about it (10 min.)**
-- What skills do you want to leave with? Finance? Applied NLP for any job? Research?
-- Is ChatGPT high-tech plagiarism? Does your answer change if it writes code?
-- I will adapt the course plan to your answers
 ]
 
 ---
@@ -202,6 +181,7 @@ class: middle
 - Fourth time teaching this course. Much of it changes every year, and most of it is adaptable.
 
 [Who are you? https://forms.gle/5Dk1pkCQdd4XYmgW8](https://forms.gle/5Dk1pkCQdd4XYmgW8)
+.small123[*Including: What do you want to learn from this course? I will adapt the plan to your answers*]
 
 ]
 
@@ -276,11 +256,6 @@ class: middle
 ]
 
 ---
-class: middle, center
-# Live demo
-### A coding agent takes on part 1 of today's coding challenge
-
----
 # Preparation
 .pull-left[
 - Read other literature assigned.
@@ -340,54 +315,6 @@ class: middle, center
 ]
 
 ---
-# .red[Raise your hand 1: Trading on sentiment]
-
-```{r rh1-countdown, echo=FALSE}
-library(countdown)
-countdown(0, 20, top=TRUE)
-```
-
-.pull-left-wide[
-**Q1.** Your sentiment model labels financial headlines correctly 90% of the time. Can you make money trading on it?
-
-- **A)** Yes. 90% is far better than a coin flip, so the edge is large — *accuracy is the edge*
-- **B)** No. The EMH says that no strategy can ever beat the market — *the market is always right*
-- **C)** Only if it extracts information that prices have not yet absorbed — *speed and novelty*
-]
-
---
-
-.pull-left-wide[
-**Q2.** An LLM predicts next-day stock returns from 2019 headlines remarkably well in a backtest. What is the most worrying explanation?
-
-- **A)** Headlines from 2019 are too old to say anything about markets today — *stale data*
-- **B)** The LLM was trained on text from after 2019, so it may already know what happened — *look-ahead*
-- **C)** The model fits noise, as any flexible model does in a small sample — *overfitting*
-]
-
-```{r rh1-answers, eval=FALSE, include=FALSE}
-# ANSWERS
-#
-# Q1: Answer C — accuracy is not an edge; new information is.
-#   A: Tempting because 90% sounds high. But if the market already priced the news,
-#      a perfectly accurate label earns nothing. Accuracy is necessary, not sufficient.
-#   B: Tempting because it is the EMH slide we just saw. But the EMH in practice
-#      is about information already being in prices; faster or better extraction
-#      can still earn something (until everyone does it, cf. Lopez-Lira & Tang).
-#   C: Correct. The model must read the news faster or extract something the
-#      market has not yet priced. Timing is key.
-#
-# Q2: Answer B — look-ahead bias.
-#   A: Tempting: old data may be less relevant, but that would make the backtest
-#      look worse, not better.
-#   B: Correct. LLMs trained on later text can "remember" how 2019 played out
-#      (Glasserman & Lin 2024; Lopez-Lira & Tang). Test only on text after the
-#      training cutoff. Teaser for lecture 5.
-#   C: Tempting and a real concern, but it does not explain a remarkably good
-#      out-of-sample-looking backtest as well as leaked knowledge does.
-```
-
----
 # .red[Practice 1: Be the sentiment model]
 
 .pull-left-wide[
@@ -422,30 +349,6 @@ Label each headline **positive**, **negative** or **neutral** for the company's 
 #   clf = pipeline("sentiment-analysis")
 #   clf(["Company beats quarterly earnings expectations", ...])
 ```
-
----
-# Will AI make you more productive? How would we know?
-
-.pull-left[
-**Experienced software developers (METR, 2025)**
-- Randomised: AI tools allowed or not, on real tasks
-- With AI they were **19% slower**
-- ... while believing AI had made them **20% faster**
-]
-
-.pull-right[
-**Danish workers (Humlum & Vestergaard, 2026)**
-- 25,000 workers, 7,000 workplaces, register data
-- Chatbots widely adopted, workers report time savings
-- **No effect on earnings or hours** (rules out more than 2%)
-- Instead: tasks are reorganised
-]
-
-.footnote[
-.small123[
-*How can both be true, and how do we measure it properly? That is lecture 5 (causality).*
-]
-]
 
 ---
 class: inverse, middle, center
@@ -499,6 +402,7 @@ class: inverse, middle, center
   + Innateness $\rightarrow$ rule-based NLP
   + Empiricism $\rightarrow$ 'empirical' (learning) methods
 - ChatGPT is a big score for the Empiricist hypothesis
+- **What do you think?** Is ChatGPT high-tech plagiarism? (The video you watched for today)
 ]
 
 .footnote[
@@ -507,7 +411,7 @@ Reichenbach, Wittgenstein [(Wikipedia)](https://en.wikipedia.org/wiki/Vienna_Cir
 ]
 
 .pull-right[
-![Lightbulb](Figures/Light_bulb.jpg)
+<img src="Figures/Light_bulb.jpg" width="75%"/>
 ]
 
 ---
@@ -733,6 +637,7 @@ $^*$*Don't worry, you can opt out each time by writing me an email or just letti
 class: inverse, middle
 # Coding challenge:
 ## ['Skipping ahead to the end'](https://github.com/christianvedels/News_and_Market_Sentiment_Analytics/blob/main/Lecture%201%20-%20Introduction/Coding_challenge1.md)
+### We start together: I solve part 1 live with a coding agent
 
 ---
 # Before next time
@@ -780,8 +685,6 @@ class: middle, center, appendix
 .small123[
 Andersen, H. C. (1844). The Nightingale. https://www.hcandersen-homepage.dk/?page_id=2257
 
-Becker, J., Rush, N., Barnes, E., & Rein, D. (2025). Measuring the Impact of Early-2025 AI on Experienced Open-Source Developer Productivity. METR. https://arxiv.org/abs/2507.09089
-
 Devlin, J., Chang, M.-W., Lee, K., & Toutanova, K. (2019). BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding. In Proceedings of NAACL-HLT 2019, pages 4171–4186. Association for Computational Linguistics.
 
 Descartes, R. (1637). Discourse on the Method of Rightly Conducting One's Reason and of Seeking Truth in the Sciences (J. Veitch, Trans.). EBook-No. 59. https://www.gutenberg.org/ebooks/59
@@ -789,8 +692,6 @@ Descartes, R. (1637). Discourse on the Method of Rightly Conducting One's Reason
 Firth, J.R. (1957). "A synopsis of linguistic theory 1930–1955". Studies in Linguistic Analysis: 1–32. Reprinted in F.R. Palmer, ed. (1968). Selected Papers of J.R. Firth 1952–1959. London: Longman.
 
 Gurnee, W., & Tegmark, M. (2023). Language Models Represent Space and Time. https://arxiv.org/abs/2310.02207
-
-Humlum, A., & Vestergaard, E. (2026). Still Waters, Rapid Currents: Early Labor Market Transformation under Generative AI. NBER Working Paper 33777 (revised March 2026). https://www.nber.org/papers/w33777
 
 Pearl, J. (2019). The seven tools of causal inference, with reflections on machine learning. Communications of the ACM, 62(3), 54–60. https://doi.org/10.1145/3241036
 ]
