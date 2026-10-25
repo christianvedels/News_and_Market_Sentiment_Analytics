@@ -87,6 +87,26 @@ xaringanExtra::use_progress_bar(color = "#808080", location = "top")
   color: green
 }
 
+/* Reflection question, revealed at the end of a slide */
+.reflect {
+  position: absolute;
+  bottom: 95px;
+  left: 64px;
+  width: 48%;
+  padding: 0.3em 0 0.3em 0.6em;
+  border-left: 4px solid #808080;
+  background: rgba(255, 255, 255, 0.92);
+}
+.reflect-right {
+  position: absolute;
+  bottom: 95px;
+  right: 64px;
+  width: 40%;
+  padding: 0.3em 0 0.3em 0.6em;
+  border-left: 4px solid #808080;
+  background: rgba(255, 255, 255, 0.92);
+}
+
 /* Painting slide: text box over a full-bleed image */
 .overlay-box {
   background: rgba(0, 0, 0, 0.62);
@@ -357,6 +377,12 @@ class: inverse, middle, center
 *Generated in beta.dreamstudio.ai*
 ]
 
+--
+
+.reflect[
+**Reflect:** If a chatbot fools you for five minutes of conversation, what has it actually shown?
+]
+
 ---
 # Early rule-based systems
 .pull-left[
@@ -378,6 +404,12 @@ class: inverse, middle, center
 *Semantic net*
 ]
 
+--
+
+.reflect[
+**Reflect:** Where would hand-written rules still beat an LLM in finance today?
+]
+
 ---
 # The philosophical/linguistic problem
 .pull-left[
@@ -388,7 +420,6 @@ class: inverse, middle, center
   + Innateness $\rightarrow$ rule-based NLP
   + Empiricism $\rightarrow$ 'empirical' (learning) methods
 - ChatGPT is a big score for the Empiricist hypothesis
-- **What do you think?** Is ChatGPT high-tech plagiarism? (The video you watched for today)
 ]
 
 .footnote[
@@ -398,6 +429,12 @@ Reichenbach, Wittgenstein [(Wikipedia)](https://en.wikipedia.org/wiki/Vienna_Cir
 
 .pull-right[
 <img src="Figures/Light_bulb.jpg" width="75%"/>
+]
+
+--
+
+.reflect[
+**Reflect:** Is ChatGPT high-tech plagiarism? (The video you watched for today)
 ]
 
 ---
@@ -420,6 +457,11 @@ Reichenbach, Wittgenstein [(Wikipedia)](https://en.wikipedia.org/wiki/Vienna_Cir
 
 ]
 
+--
+
+.reflect-right[
+**Reflect:** If a model only ever predicts the next word, where would "understanding" have to come from?
+]
 
 ---
 # History of Neural Networks for NLP
@@ -442,8 +484,14 @@ Reichenbach, Wittgenstein [(Wikipedia)](https://en.wikipedia.org/wiki/Vienna_Cir
 <img src="Figures/Trees.jpg" width="75%"/>
 ]
 
+--
+
+.reflect[
+**Reflect:** Which step mattered most for ChatGPT: The architecture, the scale, or the human feedback?
+]
+
 ---
-class: middle
+<br>
 # Three types of NLP
 
 1. **Structural, rules-based:** *ELIZA*
@@ -453,6 +501,12 @@ class: middle
   + Worth knowing because there is *so* much of it out there
 3. **Statistical, black box:** *Transformer models*
   + What we will focus on for the most part
+
+--
+
+.reflect[
+**Reflect:** You must score 1 million headlines per second. Which type do you pick, and what do you give up?
+]
 
 ---
 <br>
@@ -473,6 +527,12 @@ class: middle
 .pull-left-wide[
 - The basics did not go away: Bag-of-words is still the fastest baseline and embeddings sit inside every LLM
 - What changed is what we build on top of them
+]
+
+--
+
+.reflect[
+**Reflect:** Which of the 2021 tools would you still use today, and for what?
 ]
 
 ---
@@ -512,10 +572,8 @@ class: middle
 
 --
 
-.pull-left-wide[
-.small123[
-**Reflect:** Is LeCun closer to Chomsky or to the empiricists? Could you learn how the world works from reading alone?
-]
+.reflect[
+**Reflect:** Could you learn how the world works from reading alone?
 ]
 
 ---
@@ -533,13 +591,8 @@ class: middle
 
 --
 
-.pull-left-wide[
-.small123[
-**Reflect (2 min. with your neighbour):**
-- Is an editable map of the board a world model?
-- If a model trained on images and one trained on text end up with similar representations, what does "meaning" mean?
-- Does choosing the rhyme before writing the line count as planning?
-]
+.reflect[
+**Reflect:** What would a language model have to do to convince you it has a world model?
 ]
 
 ---
