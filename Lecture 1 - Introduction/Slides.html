@@ -131,7 +131,7 @@ class: center, inverse, middle
 
 
 # News and Market Sentiment Analytics
-## Lecture 1: Introduction
+## Lecture 1: Introduction and the state of NLP
 
 ### Christian Vedel,&lt;br&gt;Department of Economics, University of Southern Denmark
 
@@ -153,11 +153,12 @@ class: center, inverse, middle
 class: middle
 # Today's lecture
 .pull-left-wide[
-**What this course is, how we will work, and how we got to ChatGPT**
+**What this course is, and where NLP is right now: The context for the rest of the course**
 
 - **Course overview:** Content, tools, AI, exam
 - **Markets and information:** The Efficient Market Hypothesis
 - **History:** How did we get to ChatGPT? (And what are the implications)
+- **State of the art:** Do language models have a world model?
 - **Setup** and the first coding challenge
 ]
 
@@ -234,7 +235,8 @@ class: middle
 ]
 
 ---
-class: middle
+&lt;br&gt;
+&lt;br&gt;
 # Tools: Free by design
 
 .pull-left-wide[
@@ -468,7 +470,7 @@ class: middle
   + What we will focus on for the most part
 
 ---
-class: middle
+&lt;br&gt;
 # This course traces the field
 
 .small123[
@@ -496,8 +498,6 @@ class: middle
 - Should LLMs be allowed for exams?
   + (Please use it for this one!)
   + [SDU's guidance on generative AI](https://sdunet.dk/en/undervisning-og-eksamen/uddannelse/vejledning)
-
-**What do you think?**
 ]
 
 .pull-right[
@@ -509,7 +509,32 @@ class: middle
 ]
 
 ---
-class: middle
+&lt;br&gt;
+# Do language models need a world model?
+
+.pull-left-wide[
+- **Innateness (Chomsky):** Language needs structure built in
+- **Empiricism (the LLM bet):** Predict the next word on enough text, and structure emerges
+]
+
+--
+
+.pull-left-wide[
+- **Yann LeCun** (Turing Award 2018, Meta's chief AI scientist until 2025): Next-word prediction on text is not enough
+  + Intelligence needs a **world model**: An internal model of how the world works, learned by observing it, used to predict and plan (LeCun, 2022)
+  + 2025: Left Meta to found AMI Labs (Paris) to build world models. Seed round of about $1 billion
+]
+
+--
+
+.pull-left-wide[
+.small123[
+**Reflect:** Is LeCun closer to Chomsky or to the empiricists? Could you learn how the world works from reading alone?
+]
+]
+
+---
+&lt;br&gt;
 # Evidence of a world model?
 
 .pull-left-wide[
@@ -525,10 +550,34 @@ class: middle
 
 .pull-left-wide[
 .small123[
-- **But:** A model trained on New York taxi rides gives good directions, yet the street map implied by its answers is incoherent, and it breaks down when forced to take detours (Vafa et al., 2024)
+**Reflect (2 min. with your neighbour):**
+- Is an editable map of the board a world model?
+- If a model trained on images and one trained on text end up with similar representations, what does "meaning" mean?
+- Does choosing the rhyme before writing the line count as planning?
+]
 ]
 
-**What do you think?**
+---
+&lt;br&gt;
+&lt;br&gt;
+# So: Do language models think?
+
+.pull-left-wide[
+- **But:** A model trained on New York taxi rides gives good directions, yet the street map implied by its answers is incoherent, and it breaks down when forced to take detours (Vafa et al., 2024)
+- Passing a test `\(\neq\)` having the model of the world we think it has
+]
+
+--
+
+.pull-left-wide[
+- LeCun is betting a billion dollars that text alone is not enough
+- The LLM companies are betting far more that it is
+]
+
+--
+
+.pull-left-wide[
+.large123[**What do you think?**]
 ]
 
 ---
@@ -538,7 +587,7 @@ class: middle
 .small123[
 | Kolding    | Odense     | Topic                                 |
 | ---------- | ---------- | ------------------------------------- |
-| 2026-10-26 | 2026-10-28 | Introduction                          |
+| 2026-10-26 | 2026-10-28 | Introduction and the state of NLP     |
 | 2026-11-02 | 2026-11-06 | Data wrangling with text              |
 | 2026-11-09 | 2026-11-13 | Classification                        |
 | 2026-11-16 | 2026-11-20 | Tokenization and embeddings           |
@@ -721,6 +770,8 @@ Firth, J.R. (1957). "A synopsis of linguistic theory 1930–1955". Studies in Li
 Gurnee, W., &amp; Tegmark, M. (2023). Language Models Represent Space and Time. https://arxiv.org/abs/2310.02207
 
 Huh, M., Cheung, B., Wang, T., &amp; Isola, P. (2024). Position: The Platonic Representation Hypothesis. ICML 2024, PMLR 235:20617–20642. https://arxiv.org/abs/2405.07987
+
+LeCun, Y. (2022). A Path Towards Autonomous Machine Intelligence. Position paper, OpenReview.
 
 Li, K., Hopkins, A. K., Bau, D., Viégas, F., Pfister, H., &amp; Wattenberg, M. (2023). Emergent World Representations: Exploring a Sequence Model Trained on a Synthetic Task. ICLR 2023. https://arxiv.org/abs/2210.13382
 
