@@ -761,7 +761,6 @@ $^*$*Don't worry, you can opt out each time by writing me an email or just letti
 class: inverse, middle
 # Coding challenge:
 ## ['Skipping ahead to the end'](https://github.com/christianvedels/News_and_Market_Sentiment_Analytics/blob/main/Lecture%201%20-%20Introduction/Coding_challenge1.md)
-### We start together: I solve part 1 live with a coding agent
 
 ---
 # Before next time
