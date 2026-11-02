@@ -3,7 +3,7 @@ import spacy
 import matplotlib.pyplot as plt
 
 # import os
-# os.chdir(r"D:\Dropbox\Teaching\News_and_Market_Sentiment_Analytics\2025\News_and_Market_Sentiment_Analytics")
+# os.chdir(r"D:\Dropbox\Teaching\News_and_Market_Sentiment_Analytics\2026\News_and_Market_Sentiment_Analytics")
 
 # Define a function to calculate sentiment score using AFINN
 def afinn_sentiment(text):
@@ -20,7 +20,7 @@ if __name__ == "__main__":
     nlp = spacy.load("en_core_web_sm")
 
     # Load the AFINN lexicon
-    afinn = pd.read_csv("https://raw.githubusercontent.com/fnielsen/afinn/master/afinn/data/AFINN-111.txt", sep="\t", header=None, names=["word", "score"])
+    afinn = pd.read_csv("https://raw.githubusercontent.com/fnielsen/afinn/master/afinn/data/AFINN-en-165.txt", sep="\t", header=None, names=["word", "score"])
     afinn_dict = dict(zip(afinn["word"], afinn["score"]))
     
     # Load the news data

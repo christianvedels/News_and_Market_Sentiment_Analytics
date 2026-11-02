@@ -15,8 +15,9 @@ def get_word_frequencies(text):
     Counter: A Counter object containing word frequencies.
     """
     doc = nlp(text)
-    # Extract words, convert to lowercase, and filter out punctuation and stop words
-    words = [token.text.lower() for token in doc if token.is_alpha and not token.is_stop]
+    # Extract words and convert to lowercase. Stopwords are kept: they are the
+    # most frequent words, so removing them cuts off the top of the Zipf curve
+    words = [token.text.lower() for token in doc if token.is_alpha]
     return Counter(words)
 
 # Function to get Alice in Wonderland
