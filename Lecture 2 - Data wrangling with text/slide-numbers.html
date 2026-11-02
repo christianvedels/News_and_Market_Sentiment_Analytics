@@ -1,0 +1,28 @@
+<script>
+// Main slides: "n / (slides before the appendix)". Appendix: roman numerals.
+// The appendix divider slide is marked with `class: appendix`.
+(function () {
+  function roman(n) {
+    var map = [[1000, 'm'], [900, 'cm'], [500, 'd'], [400, 'cd'], [100, 'c'], [90, 'xc'],
+               [50, 'l'], [40, 'xl'], [10, 'x'], [9, 'ix'], [5, 'v'], [4, 'iv'], [1, 'i']];
+    var out = '';
+    map.forEach(function (p) { while (n >= p[0]) { out += p[1]; n -= p[0]; } });
+    return out;
+  }
+  var numbers = Array.prototype.slice.call(document.querySelectorAll('.remark-slide-number'));
+  var appendixAt = null;
+  numbers.forEach(function (el) {
+    var content = el.closest('.remark-slide').querySelector('.remark-slide-content');
+    if (appendixAt === null && content.classList.contains('appendix')) {
+      appendixAt = parseInt(el.textContent, 10);
+    }
+  });
+  if (appendixAt === null) return;
+  numbers.forEach(function (el) {
+    var n = parseInt(el.textContent, 10);
+    if (n < appendixAt) el.textContent = n + ' / ' + (appendixAt - 1);
+    else if (n === appendixAt) el.textContent = '';
+    else el.textContent = roman(n - appendixAt);
+  });
+})();
+</script>

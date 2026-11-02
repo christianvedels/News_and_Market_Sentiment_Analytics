@@ -25,6 +25,21 @@ library(reticulate)
 use_condaenv("sentimentF23")
 ```
 
+<!--
+PLANNING NOTE (2026-11-01, decided by Christian; content not yet moved, nothing deleted)
+Agentic coding gets its own lecture right after RAG. The old exam workshop slot
+(Kolding 12-14 / Odense 12-18) falls in exam week (exam 13-20 Dec), so it is dropped.
+New plan:
+| Lecture                                              | Kolding | Odense |
+| L3 Classification                                    | 11-09   | 11-13  |
+| L4 Tokenization & embeddings                         | 11-16   | 11-20  |
+| L5 Causality + AI productivity                       | 11-23   | 11-27  |
+| L6 Linking, extraction & RAG (old L6 + old L7 RAG)   | 11-30   | 12-04  |
+| L7 Agentic coding + exam text/Q&A                    | 12-07   | 12-11  |
+What this deck becomes: L6 absorbs the RAG material from "Lecture 7 - RAGs"
+(RAG basics, retrieval, augmentation, generation, simple RAG example + Code/Data).
+-->
+
 ```{r xaringan-panelset, echo=FALSE}
 xaringanExtra::use_panelset()
 ```
