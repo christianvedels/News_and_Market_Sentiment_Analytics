@@ -12,3 +12,6 @@ Coding_challenge/Week 7/Solution/fine_tuned_sentiment_model/pytorch_model.bin
 
 misc_gitignored/
 .vscode/
+
+# Student names for drawing presenters (local only)
+random_person.py
