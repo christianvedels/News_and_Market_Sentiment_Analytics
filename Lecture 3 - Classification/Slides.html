@@ -4,9 +4,11 @@
     <title>News and Market Sentiment Analytics</title>
     <meta charset="utf-8" />
     <meta name="author" content="Christian Vedel,  Department of Economics   Email: christian-vs@sam.sdu.dk" />
-    <script src="libs/header-attrs-2.28/header-attrs.js"></script>
+    <script src="libs/header-attrs-2.25/header-attrs.js"></script>
     <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
     <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+    <link href="libs/panelset-0.2.6/panelset.css" rel="stylesheet" />
+    <script src="libs/panelset-0.2.6/panelset.js"></script>
   </head>
   <body>
     <textarea id="source">
@@ -22,10 +24,12 @@ class: center, middle, inverse, title-slide
 ### Christian Vedel,<br> Department of Economics<br><br> Email: <a href="mailto:christian-vs@sam.sdu.dk" class="email">christian-vs@sam.sdu.dk</a>
 ]
 .date[
-### Updated 2025-11-25
+### Updated 2026-11-08
 ]
 
 ---
+
+
 
 
 
@@ -81,8 +85,10 @@ class: center, middle, inverse, title-slide
 
 # Last time
 .pull-left[
-- Tools for data wrangling
-- A coding challenge with text wrangling
+- Cleaning strings: lowercasing, punctuation, Unicode normalization, ASCII folding
+- spaCy: lemmas, stopwords, part of speech
+- Lexical resources (AFINN) and a first sentiment score
+- Zipf's law, and the Zipf mystery coding challenge
 ]
 
 .pull-right-narrow[
@@ -93,8 +99,8 @@ class: center, middle, inverse, title-slide
 # Today's lecture
 .pull-left[
 - Simple text classification
-- SoTA text classification in news and market sentiments analytics
-- Off-the shelf models
+- SoTA text classification in news and market sentiment analytics
+- Off-the-shelf models
 - Transfer learning
 ]
 
@@ -111,7 +117,7 @@ class: middle
 - Word type 
 - Count vectorizer 
 - Transformers:
-  + ZeroShot classifcations (next time)
+  + Zero-shot classification (later today)
   + Sentiments
   + Embeddings
 - ...All the relevant things we will learn about in the course 
@@ -126,11 +132,11 @@ class: middle
 # The Naïve Bayes classifier (1/2)
 .pull-left-wide[
 .small123[
-- We can infer `\(P(Class|X)\)` via `\(P(Class|X)\)`
+- We can infer `\(P(Class|X)\)` via `\(P(X|Class)\)`
 - In the Naïve Bayes classifier, we assume features are conditionally independent given the class, simplifying the calculation: `\(P(X|Class) = P(x_1|Class) \cdot P(x_2|Class) \cdot \ldots\)`
 - Simple and very widely used classifier 
 - `\(X\)` is the features 
-  + `\(P(Class|x_i) = P(x|Class)P(Class)/P(x_i)\)` (Bayes" law)
+  + `\(P(Class|x_i) = P(x_i|Class)P(Class)/P(x_i)\)` (Bayes' law)
   + `\(P(x_i|Class)=\frac{1}{n}\sum_{j\in Class} 1[x_j]\)`
   + `\(P(Class)\)` can be assumed or estimated; `\(P(x_i)\)` can also be estimated
   
@@ -149,8 +155,8 @@ class: middle
 
 .footnote[
 .small[
-1. [See 3Blue1Brown explaination of Bayes theorem](https://youtu.be/U_85TaXbeIo)
-2. You can use libraries for this, but often this is makes more sense to implement manually 
+1. [See 3Blue1Brown's explanation of Bayes' theorem](https://youtu.be/U_85TaXbeIo)
+2. You can use libraries for this, but often it makes more sense to implement it manually
 ]
 ]
 
@@ -164,8 +170,8 @@ class: middle
   + We want to know the *kinds of errors* more rather than *minimizing the errors*
   + Sometimes works really well
 - Two examples: 
-  + Bentzen &amp; Andersen (2022): More religious names are associated with less technological development
-  + Bentzen, Boberg-Fazlic, Sharp, Skovsgaard, Vedel (2024): Certain Danish religious movements is associated with less integration into the US in 1800s. But this seemingly has little consequences for occupational outcomes.
+  + [Andersen &amp; Bentzen (2022)](https://ideas.repec.org/p/cpr/ceprdp/16938.html): More religious names are associated with less technological development
+  + [Bentzen, Boberg-Fazlic, Sharp, Skovsgaard, Vedel (2024)](https://ideas.repec.org/p/hes/wpaper/0253.html): Certain Danish religious movements are associated with less integration into the US in the 1800s. But this seemingly has little consequence for occupational outcomes.
   
 - Always start with NB when dealing with textual data
 - But do use other models as well :-)
@@ -188,7 +194,7 @@ class: middle
 - Say we observe 20000 names - 10000 for each gender
 - **What we observe:** The frequency of names among genders
   + "Carl" might appear 1023/10000 times as male and 3/10000 times as female in our data
-  + "Carla" has a might appear 2148/10000 times as male and 5/10000 times as female in our data
+  + "Carla" might appear 5/10000 times as male and 2148/10000 times as female in our data
   + Etc.
   
 - **We can derive** an estimate of `\(Pr(Gender | Name)\)`:
@@ -208,7 +214,7 @@ class: middle
 - **What we have:** An estimate of `\(Pr(Name | Gender)\)`
 - **What we want:** An estimate of `\(Pr(Gender | Name)\)`
 
-- **Solution:** Bayes" law: `\(Pr(Gender | Name) = \frac{Pr(Name | Gender) Pr(Gender)}{Pr(Name)}\)`
+- **Solution:** Bayes' law: `\(Pr(Gender | Name) = \frac{Pr(Name | Gender) Pr(Gender)}{Pr(Name)}\)`
 ]
 
 ---
@@ -289,7 +295,7 @@ class: middle
 
 ---
 # Simple Naïve Bayes to identify gender
-[Lecture 3 - Classification pt 1/Code/Gender_classification_all_Danish_names.py](https://github.com/christianvedels/News_and_Market_Sentiment_Analytics/blob/main/Lecture%203%20-%20Classification/Code/Gender_classification_all_Danish_names.py)
+[Lecture 3 - Classification/Code/Gender_classification_all_Danish_names.py](https://github.com/christianvedels/News_and_Market_Sentiment_Analytics/blob/main/Lecture%203%20-%20Classification/Code/Gender_classification_all_Danish_names.py)
 
 - Using modern name/gender data to build a classifier that works in 1787
 
@@ -298,7 +304,7 @@ class: middle
 
 ### 1. Word type
 
-``` python
+```python
 import spacy
 
 # Load the spaCy model
@@ -323,7 +329,7 @@ print(word_type_feature("dog"))
 
 ### 2. Count vectorizer
 
-``` python
+```python
 import spacy
 from collections import Counter
 
@@ -349,7 +355,7 @@ print(count_vectorizer_feature(corpus))
 # Feature extraction
 ### 3. Simple bag of words sentiment
 
-``` python
+```python
 # ... code from last time
 ```
 
@@ -357,7 +363,7 @@ print(count_vectorizer_feature(corpus))
 # Feature extraction
 ### 4. Length of the Text
 
-``` python
+```python
 # Function to extract text length as a feature
 def text_length_feature(text):
     return {"text_length": len(text)}
@@ -374,7 +380,7 @@ print(text_length_feature("This is a short text."))
 # Feature extraction
 ### 5: Number of Words
 
-``` python
+```python
 import spacy
 
 # Load the spaCy model
@@ -397,7 +403,7 @@ print(word_count_feature("This is an example sentence."))
 # Feature extraction
 ### 6: Average Word Length
 
-``` python
+```python
 import spacy
 
 # Load the spaCy model
@@ -422,7 +428,7 @@ print(avg_word_length_feature("This is a demonstration of average word length.")
 # Feature extraction
 ### 7: Presence of Specific Words
 
-``` python
+```python
 import spacy
 
 # Load the spaCy model
@@ -448,9 +454,9 @@ print(specific_word_feature(text, target_words))
 
 ---
 # Feature extraction
-### 8: Zipf"s law features
+### 8: Zipf's law features
 
-``` python
+```python
 # ... Zipf coefficient from coding challenge 2
 ```
 
@@ -475,18 +481,35 @@ print(zero_shot_classification(text, labels))
 ```
 
 ```
-## {'exciting': 0.9633232951164246, 'intellectual': 0.03195451945066452, 'dull': 0.00472218869253993}
+## {'exciting': 0.9633234143257141, 'intellectual': 0.031954385340213776, 'dull': 0.00472219055518508}
 ```
 
 ---
+# A cautionary sidenote: Accuracy is not everything
+
+.small123[[Johansen, Koschnick &amp; Vedel (2026), *How to deal with machine learning bias in economic history*](https://arxiv.org/abs/2606.28063)]
+
+.panelset[
+.panel[.panel-name[The problem]
+.center[&lt;img src="Figures/ml_bias_abstract.png" width="44%"/&gt;]
+]
+
+.panel[.panel-name[Example: The gender wage gap]
+.center[&lt;img src="Figures/ml_bias_wage_gap.png" width="52%"/&gt;]
+
+Gender predicted from names (as in the Naïve Bayes example) gives a smaller gender wage gap than the true gender does
+]
+]
+
+---
 class: inverse, middle
-## [Breaking the HISCO Barrier: Automatic Occupational Standardization with OccCANINE*](https://raw.githack.com/christianvedels/OccCANINE/refs/heads/update_paper/Project_dissemination/HISCO%20Slides/Slides.html#1) 
+## [Breaking the HISCO Barrier: Automatic Occupational Standardization with OccCANINE*](https://christianvedels.github.io/Presentations/HISCO%20Slides/Slides.html#1)
 ### *Conference presentation: An example of the kind of research I do with things you learn about in this course*
 
 .footnote[
-\* *it"s a link, that you can click!*
+\* *it's a link that you can click!* The paper: [arXiv 2402.13604](https://arxiv.org/abs/2402.13604)
 .small123[
-[More details](https://raw.githack.com/christianvedels/Guest_Lectures_and_misc_talks/main/HISCO/Slides.html)
+[More details](https://christianvedels.github.io/Presentations/HISCO/Slides.html)
 ]
 ]
 
@@ -516,7 +539,7 @@ class: middle
 .pull-left-wide[
 ### Exercise
 - Try navigating to [HuggingFace.co](https://huggingface.co/)
-- Look for a model for one of the following tasks: Image Classification, Text Classification, Zero-Shot Classificaiton, Translation, Sentence Similarity
+- Look for a model for one of the following tasks: Image Classification, Text Classification, Zero-Shot Classification, Translation, Sentence Similarity
 - Take a picture of yourself (or some on the internet) and try this tool: [huggingface.co/spaces/schibsted-presplit/facial_expression_classifier](https://huggingface.co/spaces/schibsted-presplit/facial_expression_classifier)
 ]
 
@@ -526,7 +549,7 @@ class: middle
 
 ## `pipeline`
 - You can interact with many of these models using the `pipeline` interface of the `transformers` library
-- You make an *instance* of a model buy calling `pipeline(task = "...")`
+- You make an *instance* of a model by calling `pipeline(task = "...")`
 - You can find an overview of tasks here: [huggingface.co/docs/transformers/main/en/quicktour#pipeline](https://huggingface.co/docs/transformers/main/en/quicktour#pipeline)
 
 ---
@@ -541,7 +564,7 @@ class: middle
 .pull-right-narrow[
 ![Huang_Jensen](Figures/Jensen_Huang_20231109.jpg)
 .small123[
-Jensen Huang (CEO, NVIDIA) [picture from wikidmedia](https://upload.wikimedia.org/wikipedia/commons/3/36/Jensen_Huang_20231109_%28cropped2%29.jpg)
+Jensen Huang (CEO, NVIDIA) [picture from wikimedia](https://upload.wikimedia.org/wikipedia/commons/3/36/Jensen_Huang_20231109_%28cropped2%29.jpg)
 ]
 ]
 
@@ -551,36 +574,38 @@ class: middle
 # Demo 1: Auto caption
 
 .pull-left-wide[
+.small123[
 
-``` python
-from transformers import pipeline
-model = pipeline(
-    task="image-to-text",
-    model = "Salesforce/blip-image-captioning-base"
-)
+```python
+from PIL import Image
+from transformers import BlipProcessor
+from transformers import BlipForConditionalGeneration as Blip
 
-results = model("Figures/Jensen_Huang_20231109.jpg")
+name = "Salesforce/blip-image-captioning-base"
+processor = BlipProcessor.from_pretrained(name)
+model = Blip.from_pretrained(name)
+
+path = "Figures/Jensen_Huang_20231109.jpg"
+image = Image.open(path).convert("RGB")
+inputs = processor(images=image, return_tensors="pt")
+out = model.generate(**inputs, max_new_tokens=30)
+```
+]
+
+
+```python
+print(processor.decode(out[0], skip_special_tokens=True))
 ```
 
 ```
-## C:\PROGRA~3\ANACON~1\envs\SENTIM~2\Lib\site-packages\transformers\generation\utils.py:1375: UserWarning: Using the model-agnostic default `max_length` (=20) to control the generation length. We recommend setting `max_new_tokens` to control the maximum length of the generation.
-##   warnings.warn(
-```
-
-
-``` python
-print(results)
-```
-
-```
-## [{'generated_text': 'a man in a black jacket and glasses holding a microphone'}]
+## a man in a black jacket and glasses holding a microphone
 ```
 ]
 
 .pull-right-narrow[
 ![Huang_Jensen](Figures/Jensen_Huang_20231109.jpg)
 .small123[
-Jensen Huang (CEO, NVIDIA) [picture from wikidmedia](https://upload.wikimedia.org/wikipedia/commons/3/36/Jensen_Huang_20231109_%28cropped2%29.jpg)
+Jensen Huang (CEO, NVIDIA) [picture from wikimedia](https://upload.wikimedia.org/wikipedia/commons/3/36/Jensen_Huang_20231109_%28cropped2%29.jpg)
 ]
 ]
 
@@ -589,7 +614,7 @@ class: middle
 # Demo 2: Sentiment analysis
 
 
-``` python
+```python
 from transformers import pipeline
 classifier = pipeline(
     task = "sentiment-analysis", 
@@ -599,7 +624,7 @@ result = classifier("It is a lot of fun to learn advanced ML stuff.")
 ```
 
 
-``` python
+```python
 print(result)
 ```
 
@@ -612,18 +637,9 @@ class: middle
 # Demo 3: Named Entity Recognition
 
 
-``` python
+```python
 from transformers import pipeline
 model = pipeline(task = "ner", model = "dslim/bert-base-NER")
-```
-
-```
-## C:\PROGRA~3\ANACON~1\envs\SENTIM~2\Lib\site-packages\huggingface_hub\file_download.py:139: UserWarning: `huggingface_hub` cache-system uses symlinks by default to efficiently store duplicated files but your machine does not support them in C:\Users\christian-vs\.cache\huggingface\hub\models--dslim--bert-base-NER. Caching files will still work but in a degraded version that might require more space on your disk. This warning can be disabled by setting the `HF_HUB_DISABLE_SYMLINKS_WARNING` environment variable. For more details, see https://huggingface.co/docs/huggingface_hub/how-to-cache#limitations.
-## To support symlinks on Windows, you either need to activate Developer Mode or to run Python as an administrator. In order to activate developer mode, see this article: https://docs.microsoft.com/en-us/windows/apps/get-started/enable-your-device-for-development
-##   warnings.warn(message)
-```
-
-``` python
 result = model(
     """
     Mr. Edward Jameson, born on October 15, 1867, in Concord, Massachusetts, 
@@ -636,12 +652,12 @@ result = model(
 ```
 
 
-``` python
+```python
 print(result)
 ```
 
 ```
-## [{'entity': 'B-PER', 'score': 0.9980565, 'index': 3, 'word': 'Edward', 'start': 9, 'end': 15}, {'entity': 'I-PER', 'score': 0.9978859, 'index': 4, 'word': 'Jameson', 'start': 16, 'end': 23}, {'entity': 'B-LOC', 'score': 0.9909105, 'index': 14, 'word': 'Concord', 'start': 54, 'end': 61}, {'entity': 'B-LOC', 'score': 0.9989054, 'index': 16, 'word': 'Massachusetts', 'start': 63, 'end': 76}, {'entity': 'B-ORG', 'score': 0.99780613, 'index': 39, 'word': 'Harvard', 'start': 215, 'end': 222}, {'entity': 'I-ORG', 'score': 0.996807, 'index': 40, 'word': 'College', 'start': 228, 'end': 235}]
+## [{'entity': 'B-PER', 'score': np.float32(0.9980565), 'index': 3, 'word': 'Edward', 'start': 9, 'end': 15}, {'entity': 'I-PER', 'score': np.float32(0.9978859), 'index': 4, 'word': 'Jameson', 'start': 16, 'end': 23}, {'entity': 'B-LOC', 'score': np.float32(0.9909105), 'index': 14, 'word': 'Concord', 'start': 54, 'end': 61}, {'entity': 'B-LOC', 'score': np.float32(0.9989054), 'index': 16, 'word': 'Massachusetts', 'start': 63, 'end': 76}, {'entity': 'B-ORG', 'score': np.float32(0.99780613), 'index': 39, 'word': 'Harvard', 'start': 215, 'end': 222}, {'entity': 'I-ORG', 'score': np.float32(0.996807), 'index': 40, 'word': 'College', 'start': 228, 'end': 235}]
 ```
 
 ---
@@ -649,7 +665,7 @@ class: middle
 # Demo 4: Text generation from LLM
 
 
-``` python
+```python
 from transformers import pipeline
 import torch
 
@@ -667,7 +683,7 @@ result = model(
 ```
 
 
-``` python
+```python
 print(result)
 ```
 
@@ -677,7 +693,7 @@ class: middle
 
 **Example from last time**
 
-``` python
+```python
 from transformers import pipeline
 
 # Function for zero-shot classification
@@ -693,7 +709,7 @@ print(zero_shot_classification(text, labels))
 ```
 
 ```
-## {'exciting': 0.9633234143257141, 'intellectual': 0.03195439651608467, 'dull': 0.004722184501588345}
+## {'exciting': 0.9633234143257141, 'intellectual': 0.031954385340213776, 'dull': 0.00472219055518508}
 ```
 
 ---
@@ -714,25 +730,25 @@ class: middle
 ]
 
 .pull-right[
-## Transferlearning
-- *We can adapt models to out needs*
+## Transfer learning
+- *We can adapt models to our needs*
 
 #### Advantages
-- Still relativly fast
+- Still relatively fast
 - Can work surprisingly well
 
 #### Drawback
 - More code, more problems
 - More fudging needed to get a solution to work
-- Training can be expsensive (time/server/etc)
+- Training can be expensive (time/server/etc)
 ]
 
 ---
-# Transferlearning
+# Transfer learning
 
 - The idea
 - The transformer solution to finetuning
-- Bulding a PyTorch model with BERT inside 
+- Building a PyTorch model with BERT inside
 - To freeze or not to freeze? 
 
 ---
@@ -769,7 +785,7 @@ class: middle
 
 
 
-``` python
+```python
 from transformers import BertForSequenceClassification, BertTokenizer
 import torch
 from torch.utils.data import DataLoader
@@ -796,7 +812,7 @@ outputs = model(**inputs)
 
 .small123[
 
-``` python
+```python
 import torch
 import torch.nn as nn
 from transformers import BertModel, BertConfig
@@ -825,7 +841,7 @@ class: middle
 
 .small123[
 
-``` python
+```python
     # Forward propagation method
     def forward(self, input_ids, attention_mask):
         # Pass input through BERT model
@@ -872,14 +888,14 @@ class: middle
 ---
 # Freezing and unfreezing
 
-``` python
+```python
 # First, freeze all layers
 for param in model.basemodel.parameters():
     param.requires_grad = False
 ```
 
 
-``` python
+```python
 # Gradually unfreeze layers in stages (e.g., unfreeze the last n layers)
 def unfreeze_layers(model, num_layers_to_unfreeze=1):
     # Unfreeze the last `num_layers_to_unfreeze` layers of BERT
@@ -892,31 +908,11 @@ def unfreeze_layers(model, num_layers_to_unfreeze=1):
 ```
 
 
-``` python
+```python
 # Example: Unfreeze the last 2 layers
 unfreeze_layers(model, num_layers_to_unfreeze=2)
 ```
 
-
----
-# [Exam info](https://github.com/christianvedels/News_and_Market_Sentiment_Analytics/blob/main/Exam/Format_of_the_exam.md)
-
-.pull-left[
-- The exam will cover *skills* from the course
-- Very open form
-- 3-4 datasets with relevant data
-- 2-4 example questions for each (but you can also do something else with the data)
-- You pick *one* dataset to work with
-- Usually fun stuff
-- Exams are a game: You show me (in a way that can be trusted by outsiders) that you have learned something in this course
-]
-
-.pull-right[
-### Example question
-- Given this source of data [link to data] do one of the following:
-  a. Build a sentiment classifier for financial news and validate appropriately 
-  b. How much context is needed? Can we build faster models with similar performance?
-]
 
 ---
 class: inverse, middle
@@ -927,6 +923,9 @@ class: inverse, middle
 # Next time
 .pull-left[
 - Nuts and bolts: Tokenization and embeddings
+- Reading: PA2021 Ch. 4 and 5, and [3Blue1Brown: Attention in transformers, visually explained](https://youtu.be/eMlx5fFNoYc?si=HtfNuNlO4Y0e3olH)
+
+**Exam:** Take-home exam 13–20 Dec; full details in Lecture 7
 ]
 
 .pull-right[
