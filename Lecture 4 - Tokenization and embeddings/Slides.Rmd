@@ -74,6 +74,9 @@ def print_it(x):
 .small123 {
   font-size: 0.80em;
 }
+.small123 .remark-code {
+  font-size: 80%;
+}
 
 .large123 {
   font-size: 2em;
@@ -161,7 +164,7 @@ nlp = spacy.load("en_core_web_sm") # Small Eng. model
 
 ```{python}
 
-print_it(nlp.pipeline) # Contains the basic pipeline
+print_it(nlp.pipe_names) # Contains the basic pipeline
 ```
 
 ---
@@ -186,18 +189,32 @@ else:
 class: middle
 # Tangent: Nanmed Entity Recognition (NER)
 .pull-left[
-*Fisher Asset Management LLC lessened its holdings in Novo Nordisk A/S (NYSE:NVO - Free Report) by 0.5% during the third quarter, according to the company in its most recent Form 13F filing with the Securities & Exchange Commission. The institutional investor owned 13,305,474 shares of the company's stock after selling 65,153 shares during the quarter. Fisher Asset Management LLC owned 0.30% of Novo Nordisk A/S worth $1,584,283,000 as of its most recent SEC filing.*
-
+.small123[
 ```{python, eval=FALSE}
-text = """
-    Fisher Asset Management LLC lessened its holdings in Novo Nordisk A/S (NYSE:NVO - Free Report) by 0.5% during the third quarter, according to the company in its most recent Form 13F filing with the Securities & Exchange Commission. The institutional investor owned 13,305,474 shares of the company's stock after selling 65,153 shares during the quarter. Fisher Asset Management LLC owned 0.30% of Novo Nordisk A/S worth $1,584,283,000 as of its most recent SEC filing.
-  """
-# Source: https://www.marketbeat.com/instant-alerts/fisher-asset-management-llc-sells-65153-shares-of-novo-nordisk-as-nysenvo-2024-11-25/
 import spacy
 nlp = spacy.load("en_core_web_sm")
+
+text = (
+    "Fisher Asset Management LLC lessened its "
+    "holdings in Novo Nordisk A/S (NYSE:NVO - "
+    "Free Report) by 0.5% during the third "
+    "quarter, according to the company in its "
+    "most recent Form 13F filing with the "
+    "Securities & Exchange Commission. The "
+    "institutional investor owned 13,305,474 "
+    "shares of the company's stock after selling "
+    "65,153 shares during the quarter. Fisher "
+    "Asset Management LLC owned 0.30% of Novo "
+    "Nordisk A/S worth $1,584,283,000 as of its "
+    "most recent SEC filing."
+)
+
 doc = nlp(text)
-spacy.displacy.render(doc, style ='ent')
+spacy.displacy.render(doc, style="ent")
 ```
+
+Source: [MarketBeat, 25 November 2024](https://www.marketbeat.com/instant-alerts/fisher-asset-management-llc-sells-65153-shares-of-novo-nordisk-as-nysenvo-2024-11-25/)
+]
 ]
 
 --
@@ -243,18 +260,13 @@ class: middle
 ```{python spelling-correction}
 from nltk.metrics import edit_distance
 
-# Original text
 text = "The cat sat on the met."
-
-# Misspelled word
 misspelled_word = "met"
+candidates = ["mat", "mete", "meet", "meat"]
 
-# Candidate correct words
-correct_words = ["mat", "mete", "meet", "meat"]
-
-# Select the word with the minimum Levenshtein Distance as the correction
-closest_word = min(correct_words, key=lambda word: edit_distance(misspelled_word, word))
-
+# Pick the candidate with the smallest Levenshtein distance
+closest_word = min(candidates,
+                   key=lambda w: edit_distance(misspelled_word, w))
 print(f"Closest Correct Spelling: {closest_word}")
 
 ```
@@ -392,7 +404,7 @@ $v_1 = [1, 1, 1, 0],\: v_2 =[0,1,1,1]$
 ]
 
 .pull-right[
-![Vector Arithmetic](Figures/manwomanqueenking.png)
+![Vector Arithmetic](Figures/kingqueen.png)
 ]
 
 ---
@@ -446,94 +458,59 @@ word_pairs = [
 .small123[
 .pull-right[
 ```{python, eval=FALSE}
-# Compute cosine distances for each pair
-results = []
-for word1, word2 in word_pairs:
-    vector1 = nlp(word1.lower()).vector.get()
-    vector2 = nlp(word2.lower()).vector.get()
-    similarity = cosine(vector1, vector2)
-    results.append((word1, word2, similarity))
-    
-# Display results
-for word1, word2, distance in results:
-    print(f"{word1} ↔ {word2}: {distance:.4f}")
+from thinc.api import to_numpy  # GPU -> numpy
 
+# Cosine distance for each pair
+for w1, w2 in word_pairs:
+    a = to_numpy(nlp(w1.lower()).vector)
+    b = to_numpy(nlp(w2.lower()).vector)
+    d = cosine(a, b)
+    print(f"{w1} ↔ {w2}: {d:.4f}")
 ```
-Silent ↔ Quiet: 0.3710
-Wealthy ↔ Affluent: 0.2438
-Start ↔ Commence: 0.5251
-Help ↔ Assist: 0.2856
-Angry ↔ Furious: 0.2560
-Happy ↔ Joyful: 0.4107
-Big ↔ Enormous: 0.3416
-Small ↔ Tiny: 0.2006
-Tired ↔ Exhausted: 0.2935
-Friend ↔ Companion: 0.5322
+```
+## Silent ↔ Quiet: 0.3710
+## Wealthy ↔ Affluent: 0.2438
+## Start ↔ Commence: 0.5251
+## Help ↔ Assist: 0.2856
+## Angry ↔ Furious: 0.2560
+## Happy ↔ Joyful: 0.4107
+## Big ↔ Enormous: 0.3416
+## Small ↔ Tiny: 0.2006
+## Tired ↔ Exhausted: 0.2935
+## Friend ↔ Companion: 0.5322
+```
 ]
 ]
 
 ---
-# Looking in the top 10 (see notebook version of slides)
+class: middle
+# Looking in the top 10
 ```{python}
-import spacy
-import numpy as np
-
-nlp = spacy.load("en_core_web_lg")
-
-word_pairs = [
-    ("Silent", "Quiet"),
-    ("Wealthy", "Affluent"),
-    ("Start", "Commence"),
-    ("Help", "Assist"),
-    ("Angry", "Furious"),
-    ("Happy", "Joyful"),
-    ("Big", "Enormous"),
-    ("Small", "Tiny"),
-    ("Tired", "Exhausted"),
-    ("Friend", "Companion")
-]
-
 def top_similar_words(word, topn=10):
-    """Return topn most similar words to `word` from spaCy's vocab."""
+    """The topn nearest neighbours of `word` in spaCy's vocabulary"""
     vectors = nlp.vocab.vectors
-
-    # Get the key for the word and its vector
     key = nlp.vocab.strings[word.lower()]
-    if key not in vectors.key2row:
-        return []
-
-    vec = vectors[key]
-
-    # Decide whether to use numpy or cupy based on the underlying storage
-    try:
-        import cupy as cp
-        xp = cp if isinstance(vectors.data, cp.ndarray) else np
-    except ImportError:
-        xp = np
-
-    # Build a (1, dim) query array in the right backend (np or cp)
-    query = xp.asarray([vec])
-
-    # Ask spaCy for the most similar vectors
-    # returns (keys, rows, scores); first result is the word itself (similarity ~1.0)
+    query = vectors[key].reshape(1, -1)   # shape (1, 300)
     keys, rows, scores = vectors.most_similar(query, n=topn + 1)
-
-    similar = []
-    for k, s in zip(keys[0][1:], scores[0][1:]):  # skip the word itself
-        similar_word = nlp.vocab.strings[int(k)]
-        similar.append((similar_word, float(s)))
-
-    return similar
-
-
-# Print top-10 neighbours for each LEFT word in your pairs
-for left, right in word_pairs:
-    sims = top_similar_words(left, topn=10)
-    print(f"\nTop 10 neighbours for '{left}':")
-    for w, score in sims:
-        print(f"  {w:<20} {score:.4f}")
-
+    neighbours = [nlp.vocab.strings[int(k)].lower() for k in keys[0]]
+    return neighbours[1:]                 # the first hit is the word itself
 ```
+
+- Same `nlp` (`en_core_web_lg`) and `word_pairs` as on the previous slide
+- `most_similar` ranks the whole vocabulary by cosine similarity to the query
+- Results on the next slide
+
+---
+class: middle
+# Looking in the top 10: Results
+.small123[
+```{python}
+for left, right in word_pairs:
+    neighbours = top_similar_words(left)
+    found = "yes" if right.lower() in neighbours else "no"
+    print(f"{left:<8} {right + '? ' + found:<16} {', '.join(neighbours[:6])}")
+```
+]
 
 
 ---
