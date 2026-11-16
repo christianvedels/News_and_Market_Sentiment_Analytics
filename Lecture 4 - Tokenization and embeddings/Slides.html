@@ -4,11 +4,11 @@
     <title>News and Market Sentiment Analytics</title>
     <meta charset="utf-8" />
     <meta name="author" content="Christian Vedel,  Department of Economics   Email: christian-vs@sam.sdu.dk" />
-    <script src="libs/header-attrs-2.25/header-attrs.js"></script>
+    <script src="libs/header-attrs-2.30/header-attrs.js"></script>
     <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
     <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
-    <link href="libs/panelset-0.2.6/panelset.css" rel="stylesheet" />
-    <script src="libs/panelset-0.2.6/panelset.js"></script>
+    <link href="libs/panelset-0.3.0/panelset.css" rel="stylesheet" />
+    <script src="libs/panelset-0.3.0/panelset.js"></script>
   </head>
   <body>
     <textarea id="source">
@@ -75,6 +75,9 @@ class: center, middle, inverse, title-slide
 
 .small123 {
   font-size: 0.80em;
+}
+.small123 .remark-code {
+  font-size: 80%;
 }
 
 .large123 {
@@ -149,23 +152,23 @@ class: middle
 # Tokenization in practice
 
 
-```python
+``` python
 import spacy
 nlp = spacy.load("en_core_web_sm") # Small Eng. model
 ```
 
 
-```python
-print_it(nlp.pipeline) # Contains the basic pipeline
+``` python
+print_it(nlp.pipe_names) # Contains the basic pipeline
 ```
 
 ```
-## ('tok2vec', &lt;spacy.pipeline.tok2vec.Tok2Vec object at 0x000002C3CA76D490&gt;)
-## ('tagger', &lt;spacy.pipeline.tagger.Tagger object at 0x000002C3CA76D370&gt;)
-## ('parser', &lt;spacy.pipeline.dep_parser.DependencyParser object at 0x000002C3CA7A0350&gt;)
-## ('attribute_ruler', &lt;spacy.pipeline.attributeruler.AttributeRuler object at 0x000002C3CA924F90&gt;)
-## ('lemmatizer', &lt;spacy.lang.en.lemmatizer.EnglishLemmatizer object at 0x000002C3CA9259D0&gt;)
-## ('ner', &lt;spacy.pipeline.ner.EntityRecognizer object at 0x000002C3CA7A0510&gt;)
+## tok2vec
+## tagger
+## parser
+## attribute_ruler
+## lemmatizer
+## ner
 ```
 
 ---
@@ -173,14 +176,14 @@ class: middle
 # Working with very large data
 
 
-```python
+``` python
 # The pipeline can be heavy for very large data
 # We can disable things we don't need
 nlp = spacy.load("en_core_web_sm", disable=["parser","ner"])
 ```
 
 
-```python
+``` python
 # GPU can also help speeding up things
 if spacy.prefer_gpu():
   print("Working on GPU")
@@ -189,26 +192,40 @@ else:
 ```
 
 ```
-## No GPU found, working on CPU
+## Working on GPU
 ```
 
 ---
 class: middle
 # Tangent: Nanmed Entity Recognition (NER)
 .pull-left[
-*Fisher Asset Management LLC lessened its holdings in Novo Nordisk A/S (NYSE:NVO - Free Report) by 0.5% during the third quarter, according to the company in its most recent Form 13F filing with the Securities &amp; Exchange Commission. The institutional investor owned 13,305,474 shares of the company's stock after selling 65,153 shares during the quarter. Fisher Asset Management LLC owned 0.30% of Novo Nordisk A/S worth $1,584,283,000 as of its most recent SEC filing.*
+.small123[
 
-
-```python
-text = """
-    Fisher Asset Management LLC lessened its holdings in Novo Nordisk A/S (NYSE:NVO - Free Report) by 0.5% during the third quarter, according to the company in its most recent Form 13F filing with the Securities &amp; Exchange Commission. The institutional investor owned 13,305,474 shares of the company's stock after selling 65,153 shares during the quarter. Fisher Asset Management LLC owned 0.30% of Novo Nordisk A/S worth $1,584,283,000 as of its most recent SEC filing.
-  """
-# Source: https://www.marketbeat.com/instant-alerts/fisher-asset-management-llc-sells-65153-shares-of-novo-nordisk-as-nysenvo-2024-11-25/
+``` python
 import spacy
 nlp = spacy.load("en_core_web_sm")
+
+text = (
+    "Fisher Asset Management LLC lessened its "
+    "holdings in Novo Nordisk A/S (NYSE:NVO - "
+    "Free Report) by 0.5% during the third "
+    "quarter, according to the company in its "
+    "most recent Form 13F filing with the "
+    "Securities &amp; Exchange Commission. The "
+    "institutional investor owned 13,305,474 "
+    "shares of the company's stock after selling "
+    "65,153 shares during the quarter. Fisher "
+    "Asset Management LLC owned 0.30% of Novo "
+    "Nordisk A/S worth $1,584,283,000 as of its "
+    "most recent SEC filing."
+)
+
 doc = nlp(text)
-spacy.displacy.render(doc, style ='ent')
+spacy.displacy.render(doc, style="ent")
 ```
+
+Source: [MarketBeat, 25 November 2024](https://www.marketbeat.com/instant-alerts/fisher-asset-management-llc-sells-65153-shares-of-novo-nordisk-as-nysenvo-2024-11-25/)
+]
 ]
 
 --
@@ -252,21 +269,16 @@ class: middle
 .pull-right-wide[
 .small123[
 
-```python
+``` python
 from nltk.metrics import edit_distance
 
-# Original text
 text = "The cat sat on the met."
-
-# Misspelled word
 misspelled_word = "met"
+candidates = ["mat", "mete", "meet", "meat"]
 
-# Candidate correct words
-correct_words = ["mat", "mete", "meet", "meat"]
-
-# Select the word with the minimum Levenshtein Distance as the correction
-closest_word = min(correct_words, key=lambda word: edit_distance(misspelled_word, word))
-
+# Pick the candidate with the smallest Levenshtein distance
+closest_word = min(candidates,
+                   key=lambda w: edit_distance(misspelled_word, w))
 print(f"Closest Correct Spelling: {closest_word}")
 ```
 
@@ -398,7 +410,7 @@ $$
 ]
 
 .pull-right[
-![Vector Arithmetic](Figures/manwomanqueenking.png)
+![Vector Arithmetic](Figures/kingqueen.png)
 ]
 
 ---
@@ -418,7 +430,7 @@ class: middle
 .small123[
 .pull-left[
 
-```python
+``` python
 import spacy
 from scipy.spatial.distance import cosine
 
@@ -445,217 +457,75 @@ word_pairs = [
 .small123[
 .pull-right[
 
-```python
-# Compute cosine distances for each pair
-results = []
-for word1, word2 in word_pairs:
-    vector1 = nlp(word1.lower()).vector.get()
-    vector2 = nlp(word2.lower()).vector.get()
-    similarity = cosine(vector1, vector2)
-    results.append((word1, word2, similarity))
-    
-# Display results
-for word1, word2, distance in results:
-    print(f"{word1} ↔ {word2}: {distance:.4f}")
+``` python
+from thinc.api import to_numpy  # GPU -&gt; numpy
+
+# Cosine distance for each pair
+for w1, w2 in word_pairs:
+    a = to_numpy(nlp(w1.lower()).vector)
+    b = to_numpy(nlp(w2.lower()).vector)
+    d = cosine(a, b)
+    print(f"{w1} ↔ {w2}: {d:.4f}")
 ```
-Silent ↔ Quiet: 0.3710
-Wealthy ↔ Affluent: 0.2438
-Start ↔ Commence: 0.5251
-Help ↔ Assist: 0.2856
-Angry ↔ Furious: 0.2560
-Happy ↔ Joyful: 0.4107
-Big ↔ Enormous: 0.3416
-Small ↔ Tiny: 0.2006
-Tired ↔ Exhausted: 0.2935
-Friend ↔ Companion: 0.5322
+```
+## Silent ↔ Quiet: 0.3710
+## Wealthy ↔ Affluent: 0.2438
+## Start ↔ Commence: 0.5251
+## Help ↔ Assist: 0.2856
+## Angry ↔ Furious: 0.2560
+## Happy ↔ Joyful: 0.4107
+## Big ↔ Enormous: 0.3416
+## Small ↔ Tiny: 0.2006
+## Tired ↔ Exhausted: 0.2935
+## Friend ↔ Companion: 0.5322
+```
 ]
 ]
 
 ---
-# Looking in the top 10 (see notebook version of slides)
+class: middle
+# Looking in the top 10
 
-```python
-import spacy
-import numpy as np
-
-nlp = spacy.load("en_core_web_lg")
-
-word_pairs = [
-    ("Silent", "Quiet"),
-    ("Wealthy", "Affluent"),
-    ("Start", "Commence"),
-    ("Help", "Assist"),
-    ("Angry", "Furious"),
-    ("Happy", "Joyful"),
-    ("Big", "Enormous"),
-    ("Small", "Tiny"),
-    ("Tired", "Exhausted"),
-    ("Friend", "Companion")
-]
-
+``` python
 def top_similar_words(word, topn=10):
-    """Return topn most similar words to `word` from spaCy's vocab."""
+    """The topn nearest neighbours of `word` in spaCy's vocabulary"""
     vectors = nlp.vocab.vectors
-
-    # Get the key for the word and its vector
     key = nlp.vocab.strings[word.lower()]
-    if key not in vectors.key2row:
-        return []
-
-    vec = vectors[key]
-
-    # Decide whether to use numpy or cupy based on the underlying storage
-    try:
-        import cupy as cp
-        xp = cp if isinstance(vectors.data, cp.ndarray) else np
-    except ImportError:
-        xp = np
-
-    # Build a (1, dim) query array in the right backend (np or cp)
-    query = xp.asarray([vec])
-
-    # Ask spaCy for the most similar vectors
-    # returns (keys, rows, scores); first result is the word itself (similarity ~1.0)
+    query = vectors[key].reshape(1, -1)   # shape (1, 300)
     keys, rows, scores = vectors.most_similar(query, n=topn + 1)
+    neighbours = [nlp.vocab.strings[int(k)].lower() for k in keys[0]]
+    return neighbours[1:]                 # the first hit is the word itself
+```
 
-    similar = []
-    for k, s in zip(keys[0][1:], scores[0][1:]):  # skip the word itself
-        similar_word = nlp.vocab.strings[int(k)]
-        similar.append((similar_word, float(s)))
+- Same `nlp` (`en_core_web_lg`) and `word_pairs` as on the previous slide
+- `most_similar` ranks the whole vocabulary by cosine similarity to the query
+- Results on the next slide
 
-    return similar
+---
+class: middle
+# Looking in the top 10: Results
+.small123[
 
-
-# Print top-10 neighbours for each LEFT word in your pairs
+``` python
 for left, right in word_pairs:
-    sims = top_similar_words(left, topn=10)
-    print(f"\nTop 10 neighbours for '{left}':")
-    for w, score in sims:
-        print(f"  {w:&lt;20} {score:.4f}")
+    neighbours = top_similar_words(left)
+    found = "yes" if right.lower() in neighbours else "no"
+    print(f"{left:&lt;8} {right + '? ' + found:&lt;16} {', '.join(neighbours[:6])}")
 ```
 
 ```
-## 
-## Top 10 neighbours for 'Silent':
-##   SILENCE              0.7312
-##   QUIET                0.6290
-##   SILENTLY             0.5982
-##   WHISPER              0.5959
-##   HUSHED               0.5775
-##   QUIETLY              0.5730
-##   MUTE                 0.5679
-##   LOUD                 0.5289
-##   MOTIONLESS           0.5169
-##   SOLEMN               0.5168
-## 
-## Top 10 neighbours for 'Wealthy':
-##   Well-To-Do           0.7834
-##   AFFLUENT             0.7562
-##   Well-Off             0.7376
-##   WEALTHIEST           0.7030
-##   WEALTHIER            0.6992
-##   Middle-class         0.6733
-##   MILLIONAIRE          0.6730
-##   WELL-HEELED          0.6502
-##   super-rich           0.6473
-##   RICH                 0.6342
-## 
-## Top 10 neighbours for 'Start':
-##   STARTING             0.8558
-##   BEGIN                0.7967
-##   STARTS               0.7596
-##   STARTED              0.7302
-##   GOing                0.7276
-##   BEGINNING            0.6733
-##   TRYING               0.6707
-##   TRy                  0.6693
-##   TiME                 0.6541
-##   gO                   0.6516
-## 
-## Top 10 neighbours for 'Help':
-##   HELPING              0.8422
-##   HELPS                0.8082
-##   HELPED               0.7326
-##   NEED                 0.7205
-##   ASSIST               0.7144
-##   GIve                 0.7033
-##   ABLE                 0.6945
-##   NEEDED               0.6845
-##   CaN                  0.6773
-##   IMPROVE              0.6754
-## 
-## Top 10 neighbours for 'Angry':
-##   ENRAGED              0.7829
-##   IRATE                0.7698
-##   ANNOYED              0.7570
-##   FURIOUS              0.7440
-##   FRUSTRATED           0.7378
-##   PISSED               0.7327
-##   Outraged             0.7064
-##   UNHAPPY              0.7056
-##   INDIGNANT            0.7039
-##   ANGERED              0.6967
-## 
-## Top 10 neighbours for 'Happy':
-##   GLaD                 0.7702
-##   HOpe                 0.7318
-##   EVeryone             0.7278
-##   THANKFUL             0.6912
-##   EXCITED              0.6901
-##   lOve                 0.6869
-##   WIsh                 0.6854
-##   GRATEFUL             0.6848
-##   alwAys               0.6795
-##   LUCKY                0.6789
-## 
-## Top 10 neighbours for 'Big':
-##   Huge                 0.8695
-##   BIGGER               0.7370
-##   BIGGEST              0.7144
-##   MASSIVE              0.6992
-##   LARGE                0.6614
-##   Enormous             0.6584
-##   LIttle               0.6570
-##   GIGANTIC             0.6413
-##   HArd                 0.6410
-##   GIANT                0.6343
-## 
-## Top 10 neighbours for 'Small':
-##   LARGE                0.8344
-##   TINY                 0.7994
-##   SMALLER              0.7731
-##   LIttle               0.7017
-##   LARGER               0.6962
-##   SIZED                0.6698
-##   BIg                  0.6340
-##   Medium-Sized         0.6322
-##   SMALLISH             0.6274
-##   FEW                  0.6175
-## 
-## Top 10 neighbours for 'Tired':
-##   EXHAUSTED            0.7065
-##   BORED                0.7058
-##   FEELING              0.7040
-##   WEARY                0.6920
-##   LAZY                 0.6809
-##   FRUSTRATED           0.6764
-##   TIRING               0.6716
-##   COMPLAINING          0.6713
-##   SICK                 0.6697
-##   BOTHERED             0.6646
-## 
-## Top 10 neighbours for 'Friend':
-##   FRIENDS              0.7896
-##   HUSBAND              0.7447
-##   BUDDY                0.7275
-##   BROTHER              0.7267
-##   COUSIN               0.7255
-##   DaD                  0.7239
-##   BOYFRIEND            0.7220
-##   SISTER               0.7096
-##   GirlFriend           0.7058
-##   WIFE                 0.7019
+## Silent   Quiet? yes       silence, quiet, silently, whisper, hushed, quietly
+## Wealthy  Affluent? yes    well-to-do, affluent, well-off, wealthiest, wealthier, middle-class
+## Start    Commence? no     starting, begin, starts, started, going, beginning
+## Help     Assist? yes      helping, helps, helped, need, assist, give
+## Angry    Furious? yes     enraged, irate, annoyed, furious, frustrated, pissed
+## Happy    Joyful? no       glad, hope, everyone, thankful, excited, love
+## Big      Enormous? yes    huge, bigger, biggest, massive, large, enormous
+## Small    Tiny? yes        large, tiny, smaller, little, larger, sized
+## Tired    Exhausted? yes   exhausted, bored, feeling, weary, lazy, frustrated
+## Friend   Companion? no    friends, husband, buddy, brother, cousin, dad
 ```
+]
 
 
 ---
@@ -663,7 +533,7 @@ class: middle
 # Example: Farther - Man + Woman = Mother?
 .small-123[
 
-```python
+``` python
 import spacy
 
 # Load the SpaCy language model
@@ -692,7 +562,7 @@ class: middle
 # Example: Farther - Man + Woman = Mother?
 ### Result
 
-```python
+``` python
 mother: 0.8018
 father: 0.7496
 grandmother: 0.7310
@@ -705,7 +575,7 @@ class: middle
 # Example: Paris - France + Italy = Rome?
 .small-123[
 
-```python
+``` python
 import spacy
 
 # Load the SpaCy language model
@@ -734,7 +604,7 @@ class: middle
 # Example: Paris - France + Italy = Rome?
 ### Result:
 
-```python
+``` python
 Paris: 0.7084
 Milan: 0.6993
 Bologna: 0.6938
@@ -747,7 +617,7 @@ class: middle
 # Example: King - Man + woman = Queen?
 .small-123[
 
-```python
+``` python
 import spacy
 
 # Load the SpaCy language model
@@ -777,7 +647,7 @@ class: middle
 ### Result:
 .pull-left[.small123[
 
-```python
+``` python
 1. king: 0.8490
 2. kings: 0.7189
 3. princes: 0.7097
@@ -793,7 +663,7 @@ class: middle
 ]
 .pull-right[.small123[
 
-```python
+``` python
 11. princess: 0.6481
 12. ruler: 0.6450
 13. consorts: 0.6377
@@ -945,7 +815,7 @@ class: middle
 
 .small123[
 
-```python
+``` python
 import torch
 from transformers import AutoTokenizer, AutoModel
 name = "sentence-transformers/all-MiniLM-L6-v2"
