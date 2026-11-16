@@ -15,3 +15,8 @@ misc_gitignored/
 
 # Student names for drawing presenters (local only)
 random_person.py
+
+# Derived from CNBC articles (third-party copyright): regenerate with the scripts in Code/
+Lecture 4 - Tokenization and embeddings/Code/innovation_news_results.csv
+Lecture 4 - Tokenization and embeddings/Code/article_meta.csv
+Lecture 4 - Tokenization and embeddings/Code/article_embeddings.npy
