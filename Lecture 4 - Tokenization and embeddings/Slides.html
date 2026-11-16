@@ -4,9 +4,11 @@
     <title>News and Market Sentiment Analytics</title>
     <meta charset="utf-8" />
     <meta name="author" content="Christian Vedel,  Department of Economics   Email: christian-vs@sam.sdu.dk" />
-    <script src="libs/header-attrs-2.28/header-attrs.js"></script>
+    <script src="libs/header-attrs-2.25/header-attrs.js"></script>
     <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
     <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+    <link href="libs/panelset-0.2.6/panelset.css" rel="stylesheet" />
+    <script src="libs/panelset-0.2.6/panelset.js"></script>
   </head>
   <body>
     <textarea id="source">
@@ -16,16 +18,18 @@ class: center, middle, inverse, title-slide
 # News and Market Sentiment Analytics
 ]
 .subtitle[
-## Lecture 4: Tokenization and Embedding
+## Lecture 4: Tokenization and Embedding<br><br><em>Today is all about text as numbers</em>
 ]
 .author[
 ### Christian Vedel,<br> Department of Economics<br><br> Email: <a href="mailto:christian-vs@sam.sdu.dk" class="email">christian-vs@sam.sdu.dk</a>
 ]
 .date[
-### Updated 2025-12-02
+### Updated 2026-11-16
 ]
 
 ---
+
+
 
 
 
@@ -128,26 +132,40 @@ Some options:
 
 ---
 class: middle
+# .red[Practice 1: Tokenize a headline]
+
+.pull-left-wide[
+**"Novo Nordisk's Wegovy sales beat expectations"**
+
+1. How many tokens does a character-level tokenizer give? And a word-level tokenizer?
+2. A word-level vocabulary built from news up to 2015 has never seen "Wegovy" (approved in 2021). What happens to it? How does subword tokenization help?
+3. Why could tickers such as "NVO" or "$TSLA" cause problems for a tokenizer?
+]
+
+
+
+---
+class: middle
 # Tokenization in practice
 
 
-``` python
+```python
 import spacy
 nlp = spacy.load("en_core_web_sm") # Small Eng. model
 ```
 
 
-``` python
+```python
 print_it(nlp.pipeline) # Contains the basic pipeline
 ```
 
 ```
-## ('tok2vec', &lt;spacy.pipeline.tok2vec.Tok2Vec object at 0x0000018549FA3830&gt;)
-## ('tagger', &lt;spacy.pipeline.tagger.Tagger object at 0x0000018549FA3B30&gt;)
-## ('parser', &lt;spacy.pipeline.dep_parser.DependencyParser object at 0x0000018549F1BF40&gt;)
-## ('attribute_ruler', &lt;spacy.pipeline.attributeruler.AttributeRuler object at 0x000001854B149DD0&gt;)
-## ('lemmatizer', &lt;spacy.lang.en.lemmatizer.EnglishLemmatizer object at 0x00000185492340D0&gt;)
-## ('ner', &lt;spacy.pipeline.ner.EntityRecognizer object at 0x0000018549F1BED0&gt;)
+## ('tok2vec', &lt;spacy.pipeline.tok2vec.Tok2Vec object at 0x000002C3CA76D490&gt;)
+## ('tagger', &lt;spacy.pipeline.tagger.Tagger object at 0x000002C3CA76D370&gt;)
+## ('parser', &lt;spacy.pipeline.dep_parser.DependencyParser object at 0x000002C3CA7A0350&gt;)
+## ('attribute_ruler', &lt;spacy.pipeline.attributeruler.AttributeRuler object at 0x000002C3CA924F90&gt;)
+## ('lemmatizer', &lt;spacy.lang.en.lemmatizer.EnglishLemmatizer object at 0x000002C3CA9259D0&gt;)
+## ('ner', &lt;spacy.pipeline.ner.EntityRecognizer object at 0x000002C3CA7A0510&gt;)
 ```
 
 ---
@@ -155,14 +173,14 @@ class: middle
 # Working with very large data
 
 
-``` python
+```python
 # The pipeline can be heavy for very large data
 # We can disable things we don't need
 nlp = spacy.load("en_core_web_sm", disable=["parser","ner"])
 ```
 
 
-``` python
+```python
 # GPU can also help speeding up things
 if spacy.prefer_gpu():
   print("Working on GPU")
@@ -171,7 +189,7 @@ else:
 ```
 
 ```
-## Working on GPU
+## No GPU found, working on CPU
 ```
 
 ---
@@ -181,7 +199,7 @@ class: middle
 *Fisher Asset Management LLC lessened its holdings in Novo Nordisk A/S (NYSE:NVO - Free Report) by 0.5% during the third quarter, according to the company in its most recent Form 13F filing with the Securities &amp; Exchange Commission. The institutional investor owned 13,305,474 shares of the company's stock after selling 65,153 shares during the quarter. Fisher Asset Management LLC owned 0.30% of Novo Nordisk A/S worth $1,584,283,000 as of its most recent SEC filing.*
 
 
-``` python
+```python
 text = """
     Fisher Asset Management LLC lessened its holdings in Novo Nordisk A/S (NYSE:NVO - Free Report) by 0.5% during the third quarter, according to the company in its most recent Form 13F filing with the Securities &amp; Exchange Commission. The institutional investor owned 13,305,474 shares of the company's stock after selling 65,153 shares during the quarter. Fisher Asset Management LLC owned 0.30% of Novo Nordisk A/S worth $1,584,283,000 as of its most recent SEC filing.
   """
@@ -234,7 +252,7 @@ class: middle
 .pull-right-wide[
 .small123[
 
-``` python
+```python
 from nltk.metrics import edit_distance
 
 # Original text
@@ -357,8 +375,9 @@ $$
 ### Embedding space
 
 - `\(f(text)\)` which outputs the semantic 'meaning' of the sentece
-- Turns out language models do this already. 
+- Turns out language models do this already.
 ]
+
 
 ---
 # Language Models has embeddings emergently
@@ -383,12 +402,23 @@ $$
 ]
 
 ---
+class: middle
+# .red[Practice 2: Cosine similarity by hand]
+
+.pull-left-wide[
+1. Compute the cosine similarity of "the stock rose" and "the stock fell" with a document term matrix. What is the problem?
+2. Would an embedding model solve the problem? Hint: in which contexts do "rose" and "fell" appear?
+]
+
+
+
+---
 # Example: 10 problems (from earlier)
 
 .small123[
 .pull-left[
 
-``` python
+```python
 import spacy
 from scipy.spatial.distance import cosine
 
@@ -415,7 +445,7 @@ word_pairs = [
 .small123[
 .pull-right[
 
-``` python
+```python
 # Compute cosine distances for each pair
 results = []
 for word1, word2 in word_pairs:
@@ -444,7 +474,7 @@ Friend ↔ Companion: 0.5322
 ---
 # Looking in the top 10 (see notebook version of slides)
 
-``` python
+```python
 import spacy
 import numpy as np
 
@@ -633,7 +663,7 @@ class: middle
 # Example: Farther - Man + Woman = Mother?
 .small-123[
 
-``` python
+```python
 import spacy
 
 # Load the SpaCy language model
@@ -662,7 +692,7 @@ class: middle
 # Example: Farther - Man + Woman = Mother?
 ### Result
 
-``` python
+```python
 mother: 0.8018
 father: 0.7496
 grandmother: 0.7310
@@ -675,7 +705,7 @@ class: middle
 # Example: Paris - France + Italy = Rome?
 .small-123[
 
-``` python
+```python
 import spacy
 
 # Load the SpaCy language model
@@ -704,7 +734,7 @@ class: middle
 # Example: Paris - France + Italy = Rome?
 ### Result:
 
-``` python
+```python
 Paris: 0.7084
 Milan: 0.6993
 Bologna: 0.6938
@@ -717,7 +747,7 @@ class: middle
 # Example: King - Man + woman = Queen?
 .small-123[
 
-``` python
+```python
 import spacy
 
 # Load the SpaCy language model
@@ -747,7 +777,7 @@ class: middle
 ### Result:
 .pull-left[.small123[
 
-``` python
+```python
 1. king: 0.8490
 2. kings: 0.7189
 3. princes: 0.7097
@@ -763,7 +793,7 @@ class: middle
 ]
 .pull-right[.small123[
 
-``` python
+```python
 11. princess: 0.6481
 12. ruler: 0.6450
 13. consorts: 0.6377
@@ -779,6 +809,68 @@ class: middle
 ]
 
 
+
+---
+class: middle
+# Why does the arithmetic work? Meaning lives in directions
+
+.pull-left-wide[
+- King `\(-\)` Man `\(+\)` Woman works because "gender" is (roughly) one **direction** in the space
+- [Gurnee &amp; Tegmark (2023)](https://arxiv.org/abs/2310.02207) look for directions for *space* and *time* inside Llama-2
+  + Inputs: names of places, historical figures, artworks and **news headlines**
+  + A **linear probe** (a plain linear regression on the model's activations) predicts latitude, longitude and *year*
+  + Larger models give more accurate maps and timelines
+- For us: an embedding of a news article "knows" roughly when it was written
+  + Useful: time is a feature you get for free
+  + Dangerous: a model can recognise the era of a text in a backtest
+]
+
+.pull-right-narrow[
+![GT2023_1](Figures/Gurnee_Tegmark_2023_1.PNG)
+.small123[
+*Figure 1 from [Gurnee &amp; Tegmark (2023)](https://arxiv.org/abs/2310.02207)*
+]
+]
+
+---
+class: middle
+# Different models, same map?
+
+.pull-left-wide[
+- **The Platonic Representation Hypothesis** ([Huh et al., 2024](https://arxiv.org/abs/2405.07987))
+- How to compare two models with different dimensions? Compare **neighbours**:
+  + Embed the same inputs in model A and model B
+  + For each input, find its `\(k\)` nearest neighbours in each model
+  + Alignment = overlap of the two neighbour sets
+- Findings
+  + Better (larger) models are more aligned with each other
+  + Language models align with *vision* models, and more so the better they are
+  + Interpretation: they converge on one statistical model of the same reality
+- For us: if this holds, measures built on nearest neighbours should not depend much on the choice of embedding model. (Testable!)
+]
+
+---
+class: middle
+# More concepts than dimensions: Superposition
+
+.pull-left-wide[
+- A 384-dimensional embedding has to represent far more than 384 concepts
+- **Toy Models of Superposition** ([Elhage et al., 2022](https://transformer-circuits.pub/2022/toy_model/index.html), Anthropic)
+  + Train a tiny network to squeeze `\(n\)` features through `\(m &lt; n\)` dimensions and reconstruct them
+  + If features are **sparse** (rarely active together), the model stores more features than dimensions, in almost orthogonal directions
+  + The price: **interference**. Activating one feature leaks a little into the others
+- Consequences
+  + A single dimension (or neuron) rarely means one thing ("polysemantic")
+  + Look for meaningful *directions*, not meaningful coordinates
+  + Led to sparse autoencoders, used to pull interpretable features out of LLMs
+]
+
+.pull-right-narrow[
+![Superposition](Figures/superposition_toy.png)
+.small123[
+*5 sparse features in 2 dimensions. My illustration of the idea in Elhage et al. (2022)*
+]
+]
 
 ---
 class: middle
@@ -800,22 +892,306 @@ class: middle
 
 ### Use cases
 - Compute measures of innovation 
-  + Obvious feature in sentiment stock prediction)
+  + Obvious feature in sentiment stock prediction
 - Drastically improve record linking ('John', 'Hans', 'Johannes')
 - Build zero-shot classifiers
 - Efficiently represent documents for RAG systems
+- Cluster documents into topics (Lecture 6)
 
 ]
 
+
+---
+class: inverse, middle, center
+# Application: Measuring innovation in the news
+
+---
+class: middle
+# Measuring innovation with embeddings
+
+.pull-left-wide[
+- [Koschnick (2025)](https://arxiv.org/abs/2512.16587) (SDU): Did science and applied knowledge feed each other in the run-up to the Industrial Revolution?
+  + About 286,000 English book titles 1600–1800, plus patents
+  + Embedded with SteamBERTh, a BERT model fine-tuned on historical texts
+- Idea: a text is **innovative** if it looks like the *future* of its field more than its *past*
+`$$\text{Innovation}_i = \frac{f_k(i,\ \text{next } \tau \text{ years})}{f_k(i,\ \text{previous } \tau \text{ years})}$$`
+  + `\(f_k\)`: mean cosine similarity to the `\(k\)` most similar texts in the window
+- Most innovative titles in applied physics include Bacon's *Great Instauration* (1620), Boyle on "the spring of the air" (1660) and Kepler's *Dioptrice*
+- Validated against patent citations and number of editions
+- Python package: [innovfromtext](https://github.com/juliuskoschnick/innovfromtext). On film plots, the top 1970s film is *Star Wars* (1977)
+]
+
+---
+class: middle
+# Innovation in financial news
+
+.pull-left-wide[
+- **Data:** 3,168 CNBC articles on S&amp;P 500 firms, 2017–2024 ([KrossKinetic on Hugging Face](https://huggingface.co/datasets/KrossKinetic/SP500-Financial-News-Articles-Time-Series))
+- **Embedding:** `all-MiniLM-L6-v2` on the title and the start of each article (no special package: 10 lines with `transformers`)
+- **Time unit:** quarters, `\(\tau = 4\)`, `\(k = 10\)`
+- **Two measures** for article `\(i\)` in quarter `\(t\)`:
+`$$\text{Innovation}_i = \frac{f_k(i,\ t+1, \dots, t+4)}{f_k(i,\ t-4, \dots, t-1)}$$`
+`$$\text{Novelty}_i = 1 - f_k(i,\ t-4, \dots, t-1)$$`
+- Detail: `\(f_k\)` rises with the size of the pool, so every quarter's pool has the same size (60 articles)
+]
+
+.footnote[
+Code: [Innovation_index_news.py](https://github.com/christianvedels/News_and_Market_Sentiment_Analytics/blob/main/Lecture%204%20-%20Tokenization%20and%20embeddings/Code/Innovation_index_news.py)
+]
+
+---
+class: middle
+# Implementation: the core in 15 lines
+
+.small123[
+
+```python
+import torch
+from transformers import AutoTokenizer, AutoModel
+name = "sentence-transformers/all-MiniLM-L6-v2"
+tok, model = AutoTokenizer.from_pretrained(name), AutoModel.from_pretrained(name)
+
+def embed(texts):
+    batch = tok(texts, padding=True, truncation=True, max_length=256, return_tensors="pt")
+    with torch.no_grad():
+        h = model(**batch).last_hidden_state            # one vector per token
+    mask = batch["attention_mask"].unsqueeze(-1)        # ignore padding tokens
+    v = (h * mask).sum(1) / mask.sum(1)                 # average over tokens
+    return torch.nn.functional.normalize(v, dim=1)      # length 1: dot product = cosine
+
+def f_k(Q, P, k=10):                                    # mean of the k highest similarities
+    return (Q @ P.T).topk(k, dim=1).values.mean(1)
+
+E_now, E_past, E_future = embed(texts_now), embed(texts_past), embed(texts_future)
+novelty    = 1 - f_k(E_now, E_past)
+innovation = f_k(E_now, E_future) / f_k(E_now, E_past)
+```
+]
+
+---
+class: middle
+# Worked example: Regeneron, 2020Q1
+
+.pull-left-wide[.small123[
+**"Regeneron CEO hopes to have coronavirus treatment ready for human testing possibly by this summer"**
+
+| Pool | Nearest articles (k = 3 for readability) | Cosine |
+|---|---|---|
+| Past | 2019Q1 Sanofi, Regeneron lose US patent challenge to Amgen's cholesterol drug | 0.47 |
+| Past | 2019Q2 Human lifespan could soon pass 100 years thanks to medical tech, says BofA | 0.42 |
+| Past | 2019Q1 Medtronic CEO pushes back on critics who claim ... | 0.39 |
+| Future | 2020Q2 Regeneron sees 'a lot of reason for hope' as human testing of its coronavirus drug begins | 0.80 |
+| Future | 2020Q4 Regeneron beats profit estimates as easing pandemic curbs lift eye drug sales | 0.74 |
+| Future | 2020Q4 Regeneron requests emergency use approval for antibody treatment taken by Trump | 0.73 |
+]]
+
+.pull-right-narrow[
+`\(f_3(\text{past}) = 0.43\)`
+
+`\(f_3(\text{future}) = 0.75\)`
+
+**Novelty** `\(= 1 - 0.43 = 0.57\)`
+
+**Innovation** `\(= 0.75 / 0.43 = 1.76\)`
+
+.small123[
+Code: [Innovation_worked_examples.py](https://github.com/christianvedels/News_and_Market_Sentiment_Analytics/blob/main/Lecture%204%20-%20Tokenization%20and%20embeddings/Code/Innovation_worked_examples.py)
+]
+]
+
+---
+class: middle
+# Early, odd one out, late
+
+.pull-left-wide[
+| Article | `\(f_3\)` past | `\(f_3\)` future | Novelty | Innovation |
+|---|---|---|---|---|
+| **Early:** Regeneron hopes for coronavirus treatment by summer (2020Q1) | 0.43 | 0.75 | 0.57 | **1.76** |
+| **Odd one out:** Queen Elizabeth's coffin reaches Windsor chapel (2022Q3) | 0.16 | 0.14 | **0.84** | 0.91 |
+| **Late:** Regeneron's antibody cocktail is effective in preventing Covid (2021Q1) | 0.83 | 0.50 | 0.17 | 0.60 |
+]
+
+.pull-right-narrow[
+- Early: unlike the past, like the future
+- Odd one out: unlike anything
+- Late: the story has peaked. The past is full of it, and the news moves on
+]
+
+---
+class: middle
+# .red[Practice 3: Back of the envelope]
+
+.pull-left-wide[
+Two articles from 2023Q1, with **made-up** cosine similarities to their 3 nearest articles:
+
+| Article | Past top 3 | Future top 3 |
+|---|---|---|
+| A: "ChatGPT reaches 100 million users" | 0.40, 0.35, 0.30 | 0.70, 0.65, 0.60 |
+| B: "Microsoft beats earnings estimates" | 0.80, 0.78, 0.76 | 0.80, 0.79, 0.75 |
+
+1. Compute novelty and innovation for A and B
+2. When could each of the four numbers have been computed?
+3. Can an article be novel but not innovative? Give an example from the news
+]
+
+
+
+---
+class: middle
+# Most innovative vs most novel articles
+
+.pull-left[.small123[
+### Highest innovation
+- **2020Q1** Regeneron CEO hopes to have coronavirus treatment ready for human testing possibly by this summer
+- **2020Q1** Trump says, 'Anybody who wants a test gets a test' after Pence says US can't meet coronavirus testing demand
+- **2018Q1** Lululemon CEO left in part because of relationship with female designer at the company
+- **2018Q3** Campbell Soup and Third Point urge shareholders to vote for two different boards
+- **2020Q2** Gilead to begin human trials for the inhaled version of coronavirus drug remdesivir
+]]
+
+.pull-right[.small123[
+### Highest novelty
+- **2022Q3** Queen Elizabeth's coffin reaches Windsor chapel ahead of burial
+- **2023Q1** What is full coverage auto insurance?
+- **2018Q3** What anyone can learn from Henry Winkler's 42-year wait for a primetime Emmy
+- **2023Q1** Hockey Hall of Famer Bobby Hull, the Golden Jet, dies at 84
+- **2018Q3** Pope shifts church teaching on the death penalty, says it's never acceptable
+]]
+
+---
+class: middle
+# Two different things
+
+.pull-left-wide[
+![Scatter](Figures/innovation_vs_novelty.png)
+]
+
+.pull-right-narrow[
+- Correlation: 0.14
+- Novel `\(\neq\)` innovative
+- Many novel articles are off-topic: one-offs that nothing follows up on
+]
+
+---
+&lt;br&gt;
+# Why look at stock returns? Step by step
+
+.pull-left-wide[
+**The question:** Does the text contain information that is not yet in the price?
+
+**Step 1. Returns, not prices:** `\(r = \log P_{\text{end}} - \log P_{\text{start}}\)` is comparable across firms
+]
+
+--
+
+.pull-left-wide[
+**Step 2. Abnormal returns:** `\(AR = r_{\text{firm}} - r_{\text{market}}\)` (S&amp;P 500). In March 2020 nearly every stock fell. We want what is specific to the firm
+]
+
+--
+
+.pull-left-wide[
+**Step 3. Timing:** Start the clock when the article is public. Earlier prices tell us about the news itself, not about what we could have predicted
+]
+
+--
+
+.pull-left-wide[
+**Step 4. Two targets:** `\(AR\)` is the direction (could we trade on it?). `\(|AR|\)` is the size (does the article matter for the firm?)
+
+**Step 5. Evaluation:** Rank correlation (IC) within each quarter, averaged over quarters. Compares articles from the same time, robust to outliers
+]
+
+---
+# Measures vs returns (next day)
+
+.panelset[
+.panel[.panel-name[All years]
+.pull-left-wide[
+&lt;img src="Figures/innovation_scatter_next_day_all.png" width="88%"&gt;
+]
+.pull-right-narrow[
+- Each dot: one article and firm
+- Black line: mean return within each decile of the measure
+- Left column: nothing on direction
+- Bottom right: the more novel the article, the smaller the move
+]
+]
+
+.panel[.panel-name[2018–2019]
+.pull-left-wide[
+&lt;img src="Figures/innovation_scatter_next_day_2018_2019.png" width="88%"&gt;
+]
+.pull-right-narrow[
+- Before Covid
+- The novelty pattern is strongest here: Spearman −0.10 for the size of the move
+]
+]
+
+.panel[.panel-name[2020–2021]
+.pull-left-wide[
+&lt;img src="Figures/innovation_scatter_next_day_2020_2021.png" width="88%"&gt;
+]
+.pull-right-narrow[
+- Covid
+- Novel articles come with slightly *higher* next-day returns (+0.06)
+]
+]
+
+.panel[.panel-name[2022–2024]
+.pull-left-wide[
+&lt;img src="Figures/innovation_scatter_next_day_2022_2024.png" width="88%"&gt;
+]
+.pull-right-narrow[
+- Rate hikes, AI boom
+- Innovative articles come with *bigger* moves (+0.08)
+- Innovation only runs to 2023Q1 here
+]
+]
+]
+
+---
+class: middle
+# Is there a predictive signal? Next day
+
+.pull-left-wide[
+![IC next day](Figures/innovation_predictive_ic_next_day.png)
+]
+
+.pull-right-narrow[.small123[
+- Return of the firm minus the S&amp;P 500 from the close on the publication day to the next close
+- **IC:** Spearman correlation between measure and return within each quarter
+- t = mean IC / sd × √quarters
+- No signal for the direction of returns
+- Novel articles are followed by *smaller* moves (t = −4.1)
+]]
+
+---
+class: middle
+# Is there a predictive signal? Next month
+
+.pull-left-wide[
+![IC next month](Figures/innovation_predictive_ic_next_month.png)
+]
+
+.pull-right-narrow[.small123[
+- Same, over 21 trading days, starting the day *after* publication
+- Still no signal for the direction
+- The novelty effect on the size of moves is weaker (t = −2.5)
+]]
+
+.footnote[
+Code: [Innovation_predictive.py](https://github.com/christianvedels/News_and_Market_Sentiment_Analytics/blob/main/Lecture%204%20-%20Tokenization%20and%20embeddings/Code/Innovation_predictive.py). Prices from Yahoo Finance; 21 of 469 tickers unavailable.
+]
 
 ---
 class: middle
 # Plan for the remaining lectures:
 
 ### Lecture 5: Causality
-### Lecture 6: Text similarity and record linking (and maybe topic models)
-### Lecture 7: RAG systems and course evaluation
-### Lecture 8: Exam workshop
+### Lecture 6: Record linking and information extraction
+### Lecture 7: RAG and tool use, exam launch and course evaluation
+### Lecture 8: Practical advice on agentic workflows
 
 
 ---

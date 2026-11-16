@@ -728,8 +728,30 @@ Can be estimated with Markov Chain Monte Carlo. E.g. Gibbs sampling
 
 .footnote[
 For more SoTA approaches see [Avrim & Haghtalab (2016)](https://arxiv.org/abs/1611.01259) and its papers that cite it (check e.g. [researchrabbit.ai/](https://www.researchrabbit.ai/))  
-Consider topic modelling as an encoder decoder task, where the encoder is forced to sample from a topic distribution. 
+Consider topic modelling as an encoder decoder task, where the encoder is forced to sample from a topic distribution.
 ]
+
+---
+class: middle
+# Aside: k-means, faster
+
+.pull-left-wide[
+- Classic (Lloyd) k-means recomputes every centroid from the *full* dataset each pass, which is slow for millions of news articles
+- **e-means** ([Bessa et al., 2026](https://arxiv.org/abs/2611.09501), Meta FAIR) updates centroids from mini-batches with exponential moving averages
+  + Reaches Lloyd's 25-epoch loss in about 1.5–2.5 epochs; reported 10–45× GPU speedups
+  + Batch size and step size come from fitted scaling laws, so only $k$ (and an epoch budget) is set by hand
+  + Ships in FAISS: `faiss.contrib.e_means`
+- Caveat: a recent preprint, not peer-reviewed. On small CPU jobs the gain may be modest
+]
+
+.pull-right-narrow[.small123[
+```{python eval=FALSE}
+from faiss.contrib.e_means import NumpyEmeans
+# x: (n, d) float32 array of embeddings
+em = NumpyEmeans(d, k)
+centroids, labels = em.train(x)
+```
+]]
 
 ---
 class: inverse, middle
