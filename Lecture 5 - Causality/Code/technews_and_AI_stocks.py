@@ -29,6 +29,7 @@ for t in tickers:
 plt.legend()
 plt.title("Sam Altman's AI Bubble Quote")
 plt.xlabel("Date")
+plt.xticks(rotation=45, ha="right")
 plt.ylabel("Close Price")
 plt.axvline(pd.to_datetime("2025-08-15"), color='red', linestyle='--', linewidth=2, label="AI Bubble Quote Date")
 plt.grid(True, alpha=0.3)

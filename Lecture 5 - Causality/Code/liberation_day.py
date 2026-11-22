@@ -9,12 +9,13 @@ import matplotlib.pyplot as plt
 tickers = ["^DJI", "^GSPC", "^IXIC"]
 
 # Trump's "Liberation Day" tariff announcement
-# Event window around the announcement (January 20, 2025)
-start = "2024-11-01"
+# Event window around the announcement (April 2, 2025)
+start = "2025-01-01"
+end = "2025-06-30"
 # Use yfinance Tickers class to handle multiple tickers
 tickers_yf = yf.Tickers(" ".join(tickers))
 # Retrieve history for each ticker
-history = tickers_yf.history(period = "6mo", interval = "1d", start=start)
+history = tickers_yf.history(interval="1d", start=start, end=end)
 
 # Extract closing prices
 df = history['Close']
@@ -31,8 +32,9 @@ for t in tickers:
 plt.legend()
 plt.title("Trump's 'Liberation Day' Tariff Announcement")
 plt.xlabel("Date")
+plt.xticks(rotation=45, ha="right")
 plt.ylabel("Close Price")
-plt.axvline(pd.to_datetime("2025-01-20"), color='red', linestyle='--', linewidth=2, label="Liberation Day")
+plt.axvline(pd.to_datetime("2025-04-02"), color='red', linestyle='--', linewidth=2, label="Liberation Day")
 plt.grid(True, alpha=0.3)
 plt.tight_layout()
 plt.savefig("Lecture 5 - Causality/Code/liberation_day_market_reaction.png")
