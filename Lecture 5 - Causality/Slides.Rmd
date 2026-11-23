@@ -198,6 +198,18 @@ for name, m in [("(1) No controls", m1), ("(2) Month FE", m2)]:
 ]
 ]
 
+.panel[.panel-name[Jensen Huang scandal]
+.pull-left-wide[
+<img src="Code/jensen_scandal_reaction.png" width="80%">
+]
+.pull-right-narrow[
+- **Oct–Nov 2026:** Reports link Nvidia CEO Jensen Huang to a suspected Chinese spy. He admits an affair (8 Nov) and resigns (11 Nov)
+- Nvidia falls 4.3% on 9 Nov while the S&P 500 rises 2.3%. But it also fell sharply on days with no scandal news
+
+.tiny123[Timeline: [TechCrunch](https://techcrunch.com/2026/11/13/nvidia-ceo-jensen-huangs-affair-with-alleged-chinese-spy-a-timeline/). Code: [jensen_scandal.py](https://github.com/christianvedels/News_and_Market_Sentiment_Analytics/blob/main/Lecture%205%20-%20Causality/Code/jensen_scandal.py)]
+]
+]
+
 .panel[.panel-name[Jensen on quantum]
 .pull-left-wide[
 <img src="Code/jensen_quantum_reaction.png" width="80%">
