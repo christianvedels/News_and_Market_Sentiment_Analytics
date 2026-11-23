@@ -32,6 +32,7 @@ for t in tickers:
 plt.legend()
 plt.title("AI/Tech Stock Prices Around DeepSeek 'Sputnik Moment'\n(NVDA lost record $590B in one day)")
 plt.xlabel("Date")
+plt.xticks(rotation=45, ha="right")
 plt.ylabel("Normalized Price (Jan 1, 2025 = 100)")
 plt.axvline(pd.to_datetime("2025-01-27"), color='red', linestyle='--', linewidth=2, label="DeepSeek Announcement")
 plt.grid(True, alpha=0.3)
