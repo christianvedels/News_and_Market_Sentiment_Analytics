@@ -37,7 +37,7 @@ Our lectures will generally follow this structure, which is roughly equally divi
 | 2026-12-14 | 2026-12-18 | Lecture 8 - Practical advice on agentic workflows | *Optional bonus session during the exam week.* It is not part of the exam and you do not need it for the exam. Both campuses get the same slides on 14 December | | |
 
 ## Exam
-One-week take-home project, 13–20 December. Exact times follow. The format will be similar to [last year's](https://github.com/christianvedels/News_and_Market_Sentiment_Analytics/blob/old2025/Exam/Format_of_the_exam.md).
+One-week take-home project, from 13 December, 12:00 to 20 December, 12:00. See the [format of the exam](https://github.com/christianvedels/News_and_Market_Sentiment_Analytics/blob/main/Exam/Format_of_the_exam.md).
 
 ## Reading for lecture 1
 For the first lecture you have three tasks to do beforehand:
